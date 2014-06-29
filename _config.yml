@@ -1,7 +1,8 @@
 markdown: rdiscount
 pygments: true
 permalink: /:year/:month/:day/:title.html
-name: "STbioinf"
+title: "STbioinf"
+name: "YellowTree"
 disqus: "gopherwood"
 author: "YellowTree"
 atom-baseurl: "http://stbioinf.com"
