@@ -1,45 +1,40 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="author" content="{{ site.author }}" />
-    {% if page.title %}
-    <title>{{ page.title }}</title>
-    {% else %}
-    <title>{{ site.name }}</title>
-    {% endif %}
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link href="/atom.xml" rel="alternate" title="{{ site.name }}" type="application/atom+xml" />
-    <link rel="stylesheet" href="/media/css/style.css">
-    <link rel="stylesheet" href="/media/css/github.css">
-    <link rel="stylesheet" href="/media/css/fontawesome.css">
-    <script src="/media/js/jquery-1.7.1.min.js" type="text/javascript" charset="utf-8"></script> 
-    <script type="text/javascript" src="/media/js/highlight.pack.js"></script>
-    <script type="text/javascript">
-      hljs.initHighlightingOnLoad();
-    </script>
-  </head>
-  <body>
-      <div id="main" role="main">
-        <header>
-          <div id="header">
-            <h1><a title="{{ site.name }}" class="" href="/">{{ site.name }}</a></h1>
-          </div>
-          <nav>
-            {% for nav in site.navigations %}
-            <span><a title="{{ nav.title }}" href="{{ nav.href }}"><i class="{{ nav.class }}"></i></a></span>
-            {% endfor %}
-          </nav>
-        </header>
-        <div id="content">
-        {{ content }}
-        </div>
-        <footer>
-          <div>
-            {% assign first_post = site.posts | last %}
-            &copy; {{ first_post.date | date: "%Y" }} ~ {{ site.time | date: "%Y" }} {{ site.author }} | powered by jekyll | themed by <a href="http://stbioinf.com" title="sext vi">sext vi</a> | fork <a href="https://github.com/ShujiaHuang/shujiahuang.github.io" title="fork me">me</a>
-          </div>
-        </footer>
-      </div> <!-- main -->
-  </body>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ site.theme.name }} - {{ page.title }}</title>
+  <meta name="author" content="{{ site.theme.name }}" />
+  <meta name="description" content="The blog of {{ site.theme.name }}" />
+  <link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html','' }}" />
+
+  <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet" type="text/css">
+
+  <link rel="shortcut icon" href="/assets/images/favicon.png">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.theme.name }}" href="{{site.url}}/atom.xml" />
+
+  <link rel="stylesheet" href="/assets/css/all.css">
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="four columns sidebar">
+      {% include sidebar.html %}
+    </div>
+
+    <div class="eleven columns content">
+      {{ content }}
+
+      <div class="footer">
+        {% include footer.html %}
+      </div>
+    </div>
+  </div>
+
+{% include analytics.html %}
+{% include javascript.html %}
+</body>
 </html>
