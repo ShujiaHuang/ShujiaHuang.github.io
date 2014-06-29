@@ -1,5 +1,0 @@
-Sitemap: http://lenage.github.com/sitemap.xml
-
-User-agent: *
-Disallow: /assets/images/
-Disallow: /images/
