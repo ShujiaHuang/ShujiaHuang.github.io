@@ -47,5 +47,5 @@ A图为生成数据的概率分布, B, C二图为分别从该分布中生成了4
 [1]. Clustering by fast search and find of density peak. Alex Rodriguez, Alessandro Laio
 
 
-本文转载自：[Kemaswill's Blog](http://www.kemaswill.com/machine-learning/science%E5%8F%91%E8%A1%A8%E7%9A%84%E8%B6%85%E8%B5%9E%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/）
+本文转载自[Kemaswill's Blog](http://www.kemaswill.com/machine-learning/science%E5%8F%91%E8%A1%A8%E7%9A%84%E8%B6%85%E8%B5%9E%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/)
 
