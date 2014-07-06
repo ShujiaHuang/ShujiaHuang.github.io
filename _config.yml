@@ -1,4 +1,5 @@
-markdown: rdiscount
+markdown: kramdown
+#markdown: rdiscount
 pygments: true
 permalink: /:year/:month/:day/:title.html
 name: "STbioinf"
