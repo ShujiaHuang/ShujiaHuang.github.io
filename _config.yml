@@ -3,7 +3,7 @@ pygments: true
 permalink: /:year/:month/:day/:title.html
 name: "STbioinf"
 disqus: "gopherwood"
-author: "Shujia Huang"
+author: "Zhuming Huang"
 atom-baseurl: "http://stbioinf.com"
 
 navigations:
