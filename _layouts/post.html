@@ -7,35 +7,24 @@ layout: default
     <h2>{{ page.title }} </h2>
   </section>
   <section class="meta">
+
   <span class="time">
     <time datetime="{{ page.date | date:"%Y-%m-%d" }}">{{ page.date | date:"%Y-%m-%d" }}</time>
   </span>
+
   {% if page.tags %}
   <span class="tags">
     {% for tag in page.tags %}
     <a href="/tags.html#{{ tag }}" title="{{ tag }}">#{{ tag }}</a>
     {% endfor %}
   </span>
-  <!-- BEGIN this would not work on any other domain -->
-  <span id="like-wrapper"></span>
-  <script type="text/javascript">
-    var like_shortname      = '{{ site.disqus }}';
-    var like_identifier     = '{{ page.guid }}';
-    var like_name           = '{{ page.title }}';
-    var like_like_btn       = '&#xf087;';
-    var like_unlike_btn     = '&#xf087;';
-    var like_disable_unlike = true;
-
-    var l = document.createElement('script'); l.type = 'text/javascript'; l.async = true;
-    l.src = 'https://like-waynezhang.rhcloud.com/javascript/widget.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(l);
-  </script>
-  <!-- END this would not work on any other domain -->
   {% endif %}
+
   </section>
   <section class="post">
   {{ content }}
   </section>
+
   {% if page.guid %}
   <div class="divider">
     <span>
@@ -45,10 +34,6 @@ layout: default
     <i class="fa fa-circle"></i>
     {% endif %}
     </span>
-    <!-- BEGIN comment icon
-    <span><a href="javascript:leave_comment();" id="leave_comment_link"><i class="fa fa-comment-o"></i></a></span>
-    <span><a href="javascript:collapse_comment();" id="collapse_comment_link" style="display:none;"><i class="fa fa-chevron-up"></i></a></span>
-      END comment icon -->
 
     <span>
     {% if page.next %}
@@ -59,32 +44,35 @@ layout: default
     </span>
   </div>
 
-  <!-- BEGIN comment
-  <section class="comment">
   <div id="disqus_thread"></div>
   <script type="text/javascript">
-      var disqus_shortname = '{{ site.disqus }}';
-      var disqus_identifier = '{{ page.guid }}';
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */       
+      var disqus_shortname = 'stbioinfcom'; // required: replace example with your forum shortname
 
-      function leave_comment() {
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
           var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
           (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-          $("#leave_comment_link").css("display", "none");
-          $("#collapse_comment_link").css("display", "");
-      };
-      function collapse_comment() {
-          // document.getElementById("disqus_thread").innerHTML = '';
-          $("#disqus_thread").slideUp(400, function() {
-              $("#disqus_thread").empty();
-              $("#leave_comment_link").css("display", "");
-              $("#collapse_comment_link").css("display", "none");
-              $("#disqus_thread").css("display", "");
-          });
-      };
+      })();
   </script>
   <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  </section>
-  END comment -->
+  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  <script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  var disqus_shortname = 'stbioinfcom'; // required: replace example with your forum shortname
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function () {
+      var s = document.createElement('script'); s.async = true;
+      s.type = 'text/javascript';
+      s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+      (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  }());
+  </script>
+    
+
   {% endif %}
 </article>
