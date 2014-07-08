@@ -4,7 +4,6 @@ layout: post
 tags:
     - cluster
     - machine learning
-    - 转载
 ---
 
 作者(Alex Rodriguez, Alessandro Laio)提出了一种很简洁优美的聚类算法, 可以识别各种形状的类簇, 并且其超参数很容易确定.
