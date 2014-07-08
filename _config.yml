@@ -3,7 +3,8 @@ markdown: kramdown
 pygments: true
 permalink: /:year/:month/:day/:title.html
 name: "STbioinf"
-disqus: "gopherwood"
+#disqus: "gopherwood"
+disqus: "stbioinfcom"
 author: "YellowTree"
 atom-baseurl: "http://stbioinf.com"
 
