@@ -7,5 +7,4 @@ tags:
     - BIC
     - AIC
     - ESL
-    - 转载
 ---
