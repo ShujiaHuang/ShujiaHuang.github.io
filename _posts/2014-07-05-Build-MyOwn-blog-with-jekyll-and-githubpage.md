@@ -21,4 +21,6 @@ tags:
 
 其他的一些则如[一步步构建Jekyll网站](http://yanping.me/cn/blog/2011/12/15/building-static-sites-with-jekyll/),[Jekyll建站之旅](http://calefy.org/2012/03/03/my-process-of-building-jekyll-blog.html)等等之类的，也都不错。就不一一列出了！
 
+OK，暂时先这样了！
+
 
