@@ -1,14 +1,12 @@
 ---
-title: 基因组变异检测概述
+title: '基因组变异检测概述'
 layout: post
 date: 2013-09-28 16:09
-comments: true
 author: YellowTree
-categories: NGS
 tags:
-	- NGS
-	- 变异检测
-	- genome
+    - NGS
+    - 变异检测
+    - genome
 ---
 <p>首先，在开始之前我觉得有必要稍微科普缓冲一下，以便不使得不熟悉生物信息或基因组的客官们疑惑。O(&cap;_&cap;)O！</p>
 <p>1.基因组：每个人都有一个基因组，这里的&ldquo;<a href="http://zh.wikipedia.org/wiki/%E5%9F%BA%E5%9B%A0%E7%B5%84" target="_blank">基因组</a>&rdquo;并不只是&ldquo;<a href="http://zh.wikipedia.org/wiki/%E5%9F%BA%E5%9B%A0" target="_blank">基因</a>&rdquo;的集合，基因是控制性状的遗传单元（什么是性状呢？性状也可以狭义的理解为个体的各种外在和内在特征，比如头发和眼睛颜色，高矮胖瘦，抵抗力强等），但是基因组所指的其实是我们的所有遗传信息，而不单单只是一些外在和内在特征，也包含很多目前而言不明其功能性（或者被认为无功能）的DNA序列。 其实说白了就是整一个的DNA序列！因而，基因也只是基因组的一个子集。此外，需要特别指出的是，我们虽都为&ldquo;人&rdquo;，但人与人之间的基因组是不一样的（即是多态的），彼此之间都存在着一些差异，即使是和父母或是兄弟姐妹之间去比较。这些差异也是造成我们彼此之间为何如此这般不同的一个重要原因。而这些差异也是基因组多态性的来源。</p>
@@ -38,7 +36,8 @@ tags:
 <p>&nbsp; &nbsp; &nbsp; 4. 基于De novo assembly&nbsp;</p>
 <p>&nbsp; &nbsp; &nbsp; 理论上来讲，de novo assembly 的方法应该要算是基因组变异检测上最有效的方法了。就目前来说，它能够提供（特别是）对于long insertion和复杂结构性变异的最好检测方法。现在虽然研究人员开发了很多基于第二代测序技术数据来进行组装的软件，但是组装却仍然是一件棘手的事情，特别是脊椎动物的组装则更是如此。其中最主要的原因在于，脊椎动物基因组上所存在的重复性序列和序列的杂合会严重影响组装的质量，除去资金成本，这也在很大程度上阻碍了利用组装的方法在基因组变异检测方面的应用。</p>
 <p><strong>&nbsp; &nbsp; &nbsp; 小结：</strong></p>
-<p>&nbsp; &nbsp; &nbsp; 通过对上面四种不同的变异检测策略的比较可以发现，小长度范围内的变异以及较长的deletion，目前都能够较好地检测出来，但对于大多数的long insertion和更复杂的结构性变异情况，当前的检测软件基本都没法还解决。Assembly应是当前全面获得基因组上各种变异的最好方法，但是目前的局限却也发生在Assembly本身，若是基因组没能装得好，后面的变异检测就更是无从说起。从目前的情况看，de novo assembly的方法并不能很快进入实际的应用。因此，暂且不提assembly，其余的三种策略都各有各的优势，从目前的结果看，并没有哪一款软件能够一次性地将基因组上的各种不同情况变异类型都获得。因此就目前短reads高通量测序技术来说，最合适的方案应是结合多个不同的策略，将结果合并在一起，这样可以最大限度地将FP降低。HugeSeq pipeline<sup>13</sup>在这方面做了一个比较好的总结，这个软件整合了BreakDancer, CNVnator, Pindel，BreakSeq以及GATK的结果。能够给出一个相对比较准确的变异检测结果。最后这句怎么看起来像是在帮别人卖广告o(╯□╰)o。</p>
+<p>&nbsp; &nbsp; &nbsp; 通过对上面四种不同的变异检测策略的比较可以发现，小长度范围内的变异以及较长的deletion，目前都能够较好地检测出来，但对于大多数的long insertion和更复杂的结构性变异情况，当前的检测软件基本都没法还解决。Assembly应是当前全面获得基因组上各种变异的最好方法，但是目前的局限却也发生在Assembly本身，若是基因组没能装得好，后面的变异检测就更是无从说起。从目前的情况看，de novo assembly的方法并不能很快进入实际的应用。因此，暂且不提assembly，其余的三种策略都各有各的优势，从目前的结果看，并没有哪一款软件能够一次性地将基因组上的各种不同情况变异类型都获得。因此就目前短reads高通量测序技术来说，最合适的方案应是结合多个不同的策略，将结果合并在一起，这样可以最大限度地将FP降低。HugeSeq pipeline<sup>13</sup>在这方面做了一个比较好的总结，这个软件整合了BreakDancer, CNVnator, Pindel，BreakSeq以及GATK的结果。能够给出一个相对比较准确的变异检测结果。最后这句怎么看起来像是在帮别人卖广告o(╯□╰)o。
+</p>
 <blockquote>
 <p>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DePristo, M. a <em>et al.</em> A framework for variation discovery and genotyping using next-generation DNA sequencing data. <em>Nature genetics</em><strong>43</strong>, 491&ndash;8 (2011).</p>
 <p>2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Albers, C. a <em>et al.</em> Dindel: accurate indel calls from short-read data. <em>Genome research</em><strong>21</strong>, 961&ndash;73 (2011).</p>
