@@ -1,0 +1,8 @@
+---
+title: '配置MathJax解决Markdown中数学公式输入问题'
+layout: post
+tags:
+    - 
+---
+
+其实也得益于这个[博客](http://www.pkuwwt.tk/linux/2013-12-03-jekyll-using-mathjax/)的帮忙，在此千恩万谢！！其实说来也不难，只是一开始并不知道，好了，以下进入主题。
