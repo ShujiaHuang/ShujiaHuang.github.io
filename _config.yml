@@ -1,28 +1,9 @@
 markdown: kramdown
 #markdown: rdiscount
-pygments: true
 permalink: /:year/:month/:day/:title.html
-name: "STbioinf"
-disqus: "stbioinfcom"
+url: http://stbioinf.com
 author: "YellowTree(Shujia Huang)"
-atom-baseurl: "http://stbioinf.com"
-
-navigations:
-  - title: Archive
-    class: fa fa-list-ul
-    href: /archive.html
-  - title: Tags
-    class: fa fa-tags
-    href: /tags.html
-  - title: About
-    class: fa fa-user
-    href: /about.html
-  - title: Gallery
-    class: fa fa-film
-  - title: Blogroll
-    class: fa fa-link
-    href: /links.html
-  - title: Subscribe
-    class: fa fa-rss
-    href: /atom.xml
-
+pygments: true
+safe: true
+paginate: 16
+auto: true
