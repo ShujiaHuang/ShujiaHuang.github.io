@@ -423,7 +423,7 @@ tags:
 
 <p align="center"><a href="http://omicsmaps.com/">图10. 测序仪全球分布</a></p>
 
-参考文献
+*参考文献*
 <blockquote>
 <p>1. Sanger, F. &amp; Nicklen, S. DNA sequencing with chain-terminating. <strong>74</strong>, 5463&ndash;5467 (1977).</p>
 <p>2. Mardis, E. R. Next-generation DNA sequencing methods. <em>Annual review of genomics and human genetics</em> <strong>9</strong>, 387&ndash;402 (2008).</p>
