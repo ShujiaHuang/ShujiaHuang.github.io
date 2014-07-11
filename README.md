@@ -1,2 +1,2 @@
-##[stbioinf.com](stbioinf.com)
+##STbioinf.com
 Personal website for blog and techniques.
