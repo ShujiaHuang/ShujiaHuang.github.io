@@ -6,6 +6,8 @@ tags:
     - jekyll
 ---
 
+![Figure1](http://m3.img.srcdd.com/farm5/d/2014/0712/06/7EF2461D96BD30ABB890C3846C08DCAE_LARGE_1900_800.png)
+
 这该如何说起。。。 
 
 关于搭建自己的网站，其实早有此心，只是。。。。。。
