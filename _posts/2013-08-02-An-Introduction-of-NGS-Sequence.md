@@ -15,9 +15,9 @@ tags:
 
 <p align="center"><a href="http://images.cnitblog.com/blog/346148/201308/02214339-89514ce8dd50409392c389f35bb9be01.png">图1：测序技术的发展历程</a></p>
 
-<p>生命体遗传信息的快速获得对于生命科学的研究有着十分重要的意义。以上图1（右键打开可查看大图，下同）所描述的是自沃森和克里克在1953年建立DNA双螺旋结构以来，整个测序技术的发展历程。</p>
-<p style="margin-left: 30px;"><strong><span style="color: #ff0000;">第一代测序技术</span></strong></p>
-<p>第一代DNA测序技术用的是1975年由桑格（Sanger）和考尔森（Coulson）开创的链终止法或者是1976-1977年由马克西姆（Maxam）和吉尔伯特（Gilbert）发明的化学法（链降解）. 并在1977年，桑格测定了第一个基因组序列，是噬菌体X174的，全长5375个碱基<sup>1</sup>。自此，人类获得了窥探生命遗传差异本质的能力，并以此为开端步入基因组学时代。研究人员在Sanger法的多年实践之中不断对其进行改进。在2001年，完成的首个人类基因组图谱就是以改进了的Sanger法为其测序基础，Sanger法核心原理是：由于ddNTP的2&rsquo;和3&rsquo;都不含羟基，其在DNA的合成过程中不能形成磷酸二酯键，因此可以用来中断DNA合成反应，在4个DNA合成反应体系中分别加入一定比例带有放射性同位素标记的ddNTP（分为：ddATP,ddCTP,ddGTP和ddTTP），通过凝胶电泳和放射自显影后可以根据电泳带的位置确定待测分子的DNA序列（图2）。这个<a href="http://smcg.cifn.unam.mx/enp-unam/03-EstructuraDelGenoma/animaciones/secuencia.swf" target="_blank">网址</a>为sanger测序法制作了一个小短片，形象而生动。</p>
+<p>生命体遗传信息的快速获得对于生命科学的研究有着十分重要的意义。以上图1（右键打开图片可查看大图，下同）所描述的是自沃森和克里克在1953年建立DNA双螺旋结构以来，整个测序技术的发展历程。</p>
+<p><strong><span style="color: #ff0000;">第一代测序技术</span></strong></p>
+第一代DNA测序技术用的是1975年由桑格（Sanger）和考尔森（Coulson）开创的链终止法或者是1976-1977年由马克西姆（Maxam）和吉尔伯特（Gilbert）发明的化学法（链降解）. 并在1977年，桑格测定了第一个基因组序列，是噬菌体X174的，全长5375个碱基<sup>1</sup>。自此，人类获得了窥探生命遗传差异本质的能力，并以此为开端步入基因组学时代。研究人员在Sanger法的多年实践之中不断对其进行改进。在2001年，完成的首个人类基因组图谱就是以改进了的Sanger法为其测序基础，Sanger法核心原理是：由于ddNTP的2&rsquo;和3&rsquo;都不含羟基，其在DNA的合成过程中不能形成磷酸二酯键，因此可以用来中断DNA合成反应，在4个DNA合成反应体系中分别加入一定比例带有放射性同位素标记的ddNTP（分为：ddATP,ddCTP,ddGTP和ddTTP），通过凝胶电泳和放射自显影后可以根据电泳带的位置确定待测分子的DNA序列（图2）。这个[网址](http://smcg.cifn.unam.mx/enp-unam/03-EstructuraDelGenoma/animaciones/secuencia.swf)为sanger测序法制作了一个小短片，形象而生动。
 <p>值得注意的是，就在测序技术起步发展的这一时期中，除了Sanger法之外还出现了一些其他的测序技术，如焦磷酸测序法、链接酶法等。其中，焦磷酸测序法是后来Roche公司454技术所使用的测序方法<sup>2&ndash;4</sup>，而连接酶测序法是后来ABI公司SOLID技术使用的测序方法<sup>2,4</sup>，但他们的共同核心手段都是利用了Sanger<sup>1</sup>中的可中断DNA合成反应的dNTP。</p>
 
 ![Figure2](http://images.cnitblog.com/blog/346148/201308/02215416-9a87f1e5ab1048a8bbc62cb7605f1bcf.png)
