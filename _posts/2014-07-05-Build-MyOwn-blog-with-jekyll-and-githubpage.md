@@ -1,5 +1,5 @@
 ---
-title: 'Jekyll建站'
+title: 'GithubPage+Jekyll建站'
 layout: post
 categories:
     - Blog
