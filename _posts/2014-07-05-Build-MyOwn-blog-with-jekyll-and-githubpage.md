@@ -1,6 +1,8 @@
 ---
 title: 'Jekyll建站'
 layout: post
+categories:
+    - Blog
 tags:
     - github
     - jekyll

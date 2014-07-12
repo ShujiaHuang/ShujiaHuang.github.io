@@ -1,6 +1,9 @@
 ---
 title: 'Science上发表的一个超赞聚类算法'
 layout: post
+categories:
+    - Machine Learning
+    - Cluster
 tags:
     - cluster
     - machine learning
