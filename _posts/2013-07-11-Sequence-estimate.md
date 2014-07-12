@@ -1,8 +1,9 @@
 ---
 title: '测序量估计'
 layout: post
-date: 2013-07-11 17:07
-author: YellowTree
+categories:
+    - 生物信息学
+    - 测序技术
 tags:
     - NGS
     - 测序技术

@@ -1,8 +1,10 @@
 ---
 title: '基因组变异检测概述'
 layout: post
-date: 2013-09-28 16:09
-author: YellowTree
+categories:
+    - 生物信息学
+    - 基因组
+    - 基因组变异检测
 tags:
     - NGS
     - 变异检测

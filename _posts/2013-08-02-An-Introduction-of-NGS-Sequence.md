@@ -1,8 +1,9 @@
 ---
 title: '三代基因组测序技术原理简介'
 layout: post
-date: 2013-08-02 14:08
-author: YellowTree
+categories:
+    - 基因组
+    - 测序技术
 tags:
     - NGS
     - genome
