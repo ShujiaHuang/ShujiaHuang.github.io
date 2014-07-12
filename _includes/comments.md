@@ -1,4 +1,5 @@
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<!--
 <div class="ds-thread"></div>
 <script type="text/javascript">
 var duoshuoQuery = {short_name:"stbioinf"};
@@ -11,7 +12,26 @@ var duoshuoQuery = {short_name:"stbioinf"};
 		 || document.getElementsByTagName('body')[0]).appendChild(ds);
 	})();
 </script>
+-->
 <!-- 多说公共JS代码 end -->
+
+<!-- 多说最新评论 start -->
+<div class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-title="1" data-show-admin="1" data-excerpt-length="70"></div>
+<!-- 多说最新评论 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"stbioinf"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- 多说公共JS代码 end -->
+
 
 <!-- Add Disqus Comment (Not Use now 2014-07-11 01:13:09!) -->
 <!--
