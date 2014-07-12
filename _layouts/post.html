@@ -6,10 +6,17 @@ layout: default
 <span class="time">
   <time datetime="{{ page.date | date:"%Y-%m-%d" }}">{{ page.date | date:"%Y-%m-%d" }}</time>
 </span>
+
+<span class="author">
+  /
+  <a href="{{ site.url }}">{{ site.author }}</a>
+</span>
+
 {% if page.tags %}
 <span class="tags">
+  /
   {% for tag in page.tags %}
-<a href="/tags.html#{{ tag }}" title="{{ tag }}">#{{ tag }}</a>
+  <a href="/tags/#{{ tag }}" title="{{ tag }}">#{{ tag }}</a>
   {% endfor %}
 </span>
 {% endif %}

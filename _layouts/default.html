@@ -73,6 +73,7 @@
       </div>
 
       <footer>
+		{% assign first_post = site.posts | last %}
         <p><small>Powered by <a href="https://github.com/mojombo/jekyll">Jekyll</a> & <a href="http://pages.github.com">GitHub</a> | Copyright {{ first_post.date | date: "%Y" }} ~ {{ site.time | date: "%Y" }} by <a href="/about/">{{ site.author }}</a> | <span class="label label-info" id="timeSpan"></span></small></p>
       </footer>
     </div>
