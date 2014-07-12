@@ -24,13 +24,14 @@ var duoshuoQuery = {short_name:"stbioinf"};
 	(function() {
 		var ds = document.createElement('script');
 		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
 		ds.charset = 'UTF-8';
 		(document.getElementsByTagName('head')[0] 
 		 || document.getElementsByTagName('body')[0]).appendChild(ds);
 	})();
 </script>
 <!-- 多说公共JS代码 end -->
+
 
 
 <!-- Add Disqus Comment (Not Use now 2014-07-11 01:13:09!) -->
