@@ -2,7 +2,7 @@ markdown: kramdown
 #markdown: rdiscount
 permalink: /:year/:month/:day/:title.html
 url: http://stbioinf.com
-author: "YellowTree"
+author: "YellowTree(Shujia Huang)"
 pygments: true
 safe: true
 paginate: 16
