@@ -2,6 +2,7 @@ markdown: kramdown
 #markdown: rdiscount
 permalink: /:year/:month/:day/:title.html
 url: http://stbioinf.com
+name: "STbioinf"
 author: "YellowTree"
 pygments: true
 safe: true

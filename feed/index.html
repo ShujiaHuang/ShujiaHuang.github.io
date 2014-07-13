@@ -5,11 +5,11 @@
         xmlns:atom="http://www.w3.org/2005/Atom"
   >
   <channel>
-    <title>{{ site.author }}</title>
+    <title>{{ site.name }}</title>
     <link href="{{ site.url }}/feed/" rel="self" />
     <link href="{{ site.url }}" />
     <lastBuildDate>{{ site.time | date_to_xmlschema }}</lastBuildDate>
-    <webMaster>ccf.developer@gmail.com</webMaster>
+    <webMaster>huangshujia9@gmail.com</webMaster>
     {% for post in site.posts limit:10 %}
     <item>
       <title>{{ post.title | xml_escape }}</title>
