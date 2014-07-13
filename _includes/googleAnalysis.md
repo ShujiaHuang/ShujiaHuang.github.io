@@ -6,6 +6,7 @@
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-52659904-1', 'auto');
+  ga('require', 'displayfeatures'); 
   ga('send', 'pageview');
 </script> 
 <!-- Google Analysis end -->
