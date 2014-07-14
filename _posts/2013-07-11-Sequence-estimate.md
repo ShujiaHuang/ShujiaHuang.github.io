@@ -17,4 +17,4 @@ tags:
 <p>　　以上计算都是以正态分布为基础而做出的估计。当然了，如果一定要用泊松分布去推算也可以，只是运算起来会麻烦很多。此外，如果是不同系列或是不同公司的测序仪，&sigma;就不一定是10了。</p>
 <p>&nbsp;</p>
 
-<p align="center"><img src="http://m2.img.srcdd.com/farm5/d/2014/0715/04/C5D0E50115DF07672B2A9A79773871FD_LARGE_144_144.png">>（传送门）</p>
+<p align="center"><img src="http://m2.img.srcdd.com/farm5/d/2014/0715/04/C5D0E50115DF07672B2A9A79773871FD_LARGE_144_144.png">（传送门）</p>
