@@ -1,5 +1,5 @@
 ---
-title: 'GithubPage+Jekyll建站'
+title: 'Github+Jekyll建站'
 layout: post
 categories:
     - Blog
@@ -26,5 +26,8 @@ tags:
 其他的一些则如[一步步构建Jekyll网站](http://yanping.me/cn/blog/2011/12/15/building-static-sites-with-jekyll/),[Jekyll建站之旅](http://calefy.org/2012/03/03/my-process-of-building-jekyll-blog.html)等等之类的，也都不错。就不一一列出了！
 
 OK，暂时先这样了！
+
+
+<p align="center"><img src="http://m1.img.srcdd.com/farm5/d/2014/0715/04/89A41B60AEEE4DACBA2CFB0C5D3C1738_LARGE_144_144.png">（传送门）</p>
 
 

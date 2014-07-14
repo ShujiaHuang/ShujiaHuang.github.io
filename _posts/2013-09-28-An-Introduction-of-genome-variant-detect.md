@@ -57,3 +57,5 @@ tags:
 <p>13.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lam, H. Y. K. <em>et al.</em> Detecting and annotating genetic variations using the HugeSeq pipeline. <em>Nature biotechnology</em><strong>30</strong>, 226&ndash;9 (2012).</p>
 </blockquote>
 <p>&nbsp;</p>
+
+<p align="center"><img src="http://m1.img.srcdd.com/farm5/d/2014/0715/04/AF5BD110FD2DE8F83B9749C2B2A327A4_LARGE_144_144.png">（传送门）</p>
