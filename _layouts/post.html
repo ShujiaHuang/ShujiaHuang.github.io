@@ -7,6 +7,7 @@ layout: default
   <time datetime="{{ page.date | date:"%Y-%m-%d" }}">{{ page.date | date:"%Y-%m-%d" }}</time>
 </span>
 
+
 <span class="author">
   /
   <a href="{{ site.url }}">{{ site.author }}</a>
@@ -20,6 +21,13 @@ layout: default
   {% endfor %}
 </span>
 {% endif %}
+
+<!-- 开头提示文章末尾有二维码 -->
+<section class="meta">
+<span>
+<p align="left">【注：想穿越至移动设备？请拉至文章末尾】</p>
+</span>
+</section>
 
 <section class="post">
 {{ content }}
