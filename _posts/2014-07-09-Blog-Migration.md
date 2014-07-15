@@ -11,5 +11,3 @@ categories:
 虽然碰到了不少困难，但也还是七手八手把个人网站搭起来了。现在算是有了块自己的地，接着自然也就是要配置一些“行当”了，一些旧的“家当”也是不能扔的。所以就趁热打铁，把以前发在cnblog上的[几篇文章](http://www.cnblogs.com/huangshujia/)也一起给搬过来了。这搬的过程倒也不难（但比较遗憾的事评论貌似不好搬过来），这要感谢这位[RichardUSTC](https://github.com/RichardUSTC/cnblogs-extractor)写的一个格式转换程序，虽然如[ta自己所言](http://richardustc.github.io/blog/2013/05/migration/)，格式转换有些瑕疵，但我觉得已经很好了！也就只是瑕疵，自己再稍微调整一下也就OK了！关键的目的还是在于能节省下不少时间，就这样顺利搬家了！多谢多谢！不过话也说回来，转换过程中有些图表和段落的问题还没解决好，在[三代基因组测序技术原理简介](http://stbioinf.com/2013/08/02/An-Introduction-of-NGS-Sequence.html)这篇博文中尤为明显！算了等后面有时间再一一来解决吧！
 
 补充一下，以前我在cnblog上的网名是T&S，后来想想还是换成YellowTree好了。
-
-<p align="center"><img src="http://m2.img.srcdd.com/farm4/d/2014/0715/04/6A47FA3E4DACAB9854C23F93463A62EA_B1280_1280_144_144.png">（传送门）</p>

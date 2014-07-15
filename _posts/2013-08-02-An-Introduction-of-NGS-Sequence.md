@@ -433,5 +433,3 @@ tags:
 <p>5. Niedringhaus, T. P., Milanova, D., Kerby, M. B., Snyder, M. P. &amp; Barron, A. E. Landscape of Next-Generation Sequencing Technologies. 4327&ndash;4341 (2011).</p>
 <p>6. Rothberg, J. M. <em>et al.</em> An integrated semiconductor device enabling non-optical genome sequencing. <em>Nature</em> <strong>475</strong>, 348&ndash;52 (2011).&nbsp;</p>
 </blockquote>
-
-<p align="center"><img src="http://m3.img.srcdd.com/farm5/d/2014/0715/03/78EA6BF050BF5700D3A1BC00B278BA24_B1280_1280_144_144.png">（传送门）</p>

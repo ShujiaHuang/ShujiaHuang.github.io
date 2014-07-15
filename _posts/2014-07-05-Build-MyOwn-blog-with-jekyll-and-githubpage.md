@@ -27,7 +27,3 @@ tags:
 
 OK，暂时先这样了！
 
-
-<p align="center"><img src="http://m1.img.srcdd.com/farm5/d/2014/0715/04/89A41B60AEEE4DACBA2CFB0C5D3C1738_LARGE_144_144.png">（传送门）</p>
-
-
