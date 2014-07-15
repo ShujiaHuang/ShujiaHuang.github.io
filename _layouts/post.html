@@ -24,14 +24,16 @@ layout: default
 
 <!-- 开头提示文章末尾有二维码 -->
 <section class="meta">
-<span>
-<p align="left">【注：想穿越至移动设备？请拉至文章末尾】</p>
-</span>
+  <span><p align="left">【注：想穿越至移动设备？请拉至文章末尾】</p></span>
 </section>
 
 <section class="post">
 {{ content }}
 </section>
+
+<!-- Add MathJax For math formula -->
+{% include mathJax.md %}
+<!-- Add MathJax End -->
 
 <!-- Add Auto QR Code Generator -->
 {% include qrCodeGenerate.md %}
