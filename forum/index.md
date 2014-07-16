@@ -10,7 +10,7 @@ comments: yes
 2. Have you ever do anything that really cool？！  
 3. It’s not who has the best algorithm that wins. It’s who has the most data.  
 4. 练就一手技术，混足一行经验，能自己走出一条路。  
-5. 为了解决这一“大问题”，这一领域做过什么努力？之前的工作有什么局限？在作者看来，下一步需要做什么？你得先能够简洁地解释为什么要进行这项研究，才能够理解它. 引自[生物淘][]
+5. 为了解决这一“大问题”，这一领域做过什么努力？之前的工作有什么局限？在作者看来，下一步需要做什么？你得先能够简洁地解释为什么要进行这项研究，才能够理解它。 引自[生物淘][]。
 
 
 
