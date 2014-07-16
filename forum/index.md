@@ -4,7 +4,7 @@ title: 言论
 comments: yes
 ---
 
-![Forum](http://m1.img.srcdd.com/farm4/d/2014/0716/17/48E7F641D4274937492057F764FEB6DB_LARGE_448_269.jpeg)
+![Forum](http://m3.img.srcdd.com/farm5/d/2014/0717/00/20DA0EB9D470E6A9B56A47B95C13E296_LARGE_913_439.png)
 
 1. 芝兰生于空谷，不以无人而不芳。君子修身养道，不以穷困而改志。引自[酷壳][]。  
 2. Have you ever do anything that really cool？！  
