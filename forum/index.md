@@ -4,11 +4,14 @@ title: 言论
 comments: yes
 ---
 
+![Forum](http://m1.img.srcdd.com/farm4/d/2014/0716/17/48E7F641D4274937492057F764FEB6DB_LARGE_448_269.jpeg)
+
 1. 芝兰生于空谷，不以无人而不芳。君子修身养道，不以穷困而改志。引自[酷壳][]。  
 2. Have you ever do anything that really cool？！  
 3. It’s not who has the best algorithm that wins. It’s who has the most data.  
 4. 练就一手技术，混足一行经验，能自己走出一条路。  
 5. 为了解决这一“大问题”，这一领域做过什么努力？之前的工作有什么局限？在作者看来，下一步需要做什么？你得先能够简洁地解释为什么要进行这项研究，才能够理解它. 引自[生物淘][]
+
 
 
 [酷壳]: http://coolshell.cn/haoel "酷壳"
