@@ -3,10 +3,8 @@ title: 'Science上发表的一个超赞聚类算法'
 layout: post
 categories:
     - Machine Learning
-    - Cluster
 tags:
     - cluster
-    - machine learning
 ---
 
 作者(Alex Rodriguez, Alessandro Laio)提出了一种很简洁优美的聚类算法, 可以识别各种形状的类簇, 并且其超参数很容易确定.
