@@ -30,7 +30,7 @@
   };
 
   $.fn.tagcloud.defaults = {
-    size: {start: 14, end: 18, unit: "pt"}
+    size: {start: 14, end: 20, unit: "pt"}
   };
 
   // Converts hex to an RGB array
