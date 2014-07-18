@@ -1,0 +1,175 @@
+---
+layout: post
+title: '博客改版'
+categories:
+    - Blog
+tags:
+    - 网站插件
+---
+
+### 目录
+----
+&nbsp;&nbsp;&nbsp;&nbsp;[**概述**](#introduce)     
+&nbsp;&nbsp;&nbsp;&nbsp;[**评论系统由Disqus改成了多说**](#1)    
+&nbsp;&nbsp;&nbsp;&nbsp;[**添加google analytics**](#2)     
+&nbsp;&nbsp;&nbsp;&nbsp;[**如何搞定数学公式显示问题**](#3)       
+&nbsp;&nbsp;&nbsp;&nbsp;[**如何让每个页面自动生成二维码**](#4)   
+&nbsp;&nbsp;&nbsp;&nbsp;[**如何添加“返回顶部”按钮“**](#5)   
+&nbsp;&nbsp;&nbsp;&nbsp;[**其他**](#6)   
+&nbsp;&nbsp;&nbsp;&nbsp;[**最后**](#7)   
+
+<a id='introduce' name='introduce'> </a>
+
+### 概述
+----
+前几天把博客改版了，在[Jekyll wiki](https://github.com/jekyll/jekyll/wiki/Sites)上爬主题来回爬了好几遍，先是偷了[Linghua Zhang](http://lhzhang.com/),而后又直接偷了[yihui](http://yihui.name/)和[Carl Chen](http://webfrogs.me/)，不过我知道第一个把版面做成我所用的这个样子的是[yihui](http://yihui.name/)，这位可是一牛人，[统计之都](http://cos.name/)和[COS](http://cos.name/cn/)论坛，以及中国R会议（从第一届开始）都是他弄的，且最近已经出了两本和R相关的书在亚马逊上了，恐怕国内（+很多国外）用过R的基本都知道！感兴趣的可以去他的[主页](http://yihui.name/)扒扒。。。扯远了，说回我自己，虽然我也想改得更加不同一些，但一方面暂时还没啥时间，其次，此前未碰过任何与网页制作相关之事，HTML勉强能看，css和js就停留在听说过这两词的地步；然，最重要的是，我实在喜欢这个版面！所以门面修改一事先缓一缓吧，先在这里对各位作者大人千恩万谢了！但是话也说回来，以上只要有任意一位作者介意，我也只能作罢，重新到wiki上扒过%>_<%。
+
+OK，既然现在外在的部分还无力去动，那接下来，我说一下自己所做的一些内在改变。
+
+<a id='1' name='1'> </a>
+
+### 1. 评论系统由Disqus改成了多说
+----
+
+![多说](http://www.lagou.com/upload/webproduct/ff80808142c5ed7f0142c6bb08cc12fe.png)
+
+我倒不是排斥Disqus，一开始我用的就是它，Disqus，国际化，版面简洁，管理容易，主页也生动，cool，我很喜欢！一个账号说遍天下，当然这一点上多说也一样。换掉它根本的原因还是在于伟大的‘墙’，Disqus只具有分享到Facebook和Twitter的功能，而这两货正常途径咱是上不了的。也罢，在中国特色的GFW面前，常觉感叹自己的渺小啊，所以这次改版就重新选择了和国内社交网络联系在一起的多说。
+
+这里我说一下自己是如何添加的。
+
+（1）如果还没有绑定多说，那第一步需要做的就是到[多说](http://duoshuo.com/)上绑定。多说是不需要做任何注册的，只要有QQ，微博，百度等账号就行，这一点相当方便，不然我又得增加一个账号，我都已经记不得自己在网络上到底注册过多少个账号了，恐怕各型各色几百个都有了！ 
+
+（2）尔后，登陆多说主页点击“我要安装”，按提示走就行了。在`站点地址`这一栏填入自己的域名，再填上其他信息，按"创建"
+
+（3）创建了之后，在侧边框找到选择`工具`，选择`通用代码`，会看到多说提供了一段相关的代码，我们要做的事情很简单，直接把它复制并贴到你自己网页的代码中，然后，就没有然后了。。。诶诶，慢着呀！那应该贴进哪一个的网页里头啊？我这简单说明一下，比如，`_layout`（生成网站页面的相关网页绝大数都放这，jekyll会自己来加载）目录下我们一般都会创建`defualt.html`, `page.html`, `post.html`等这么几个文件。我假设`post.html`就是你用于博客的，而你也只想博客的页面才加多说评论框，那么代码就应该贴进`post.html`。虽然你可以放在<body>与</body>之间的任何位置，但考虑到页面主要内容的加载速度，最好还是把它靠后放，评论模块要那么急着加载干嘛，最好就只是在</body>之前，下面我给了个示意。
+
+添加多说的代码结构。
+
+{% highlight html %}
+<html>
+<head>
+<title></title>
+</head>
+<body>
+...
+<!—多说代码-->
+</body>
+</html>
+{% endhighlight %}
+
+如果除了post.html，你还打算将它添加到其他的页面中，也没问题，操作和上面类似。但整块整块的代码复制来复制去的，总觉得很麻烦，一旦想修改还得一个个去改，太吃力了！！我自己更喜欢的一种方式就是直接把多说的代码写到一个单独的文件中，比如就叫`duoshuo.md`，并放在`_include`目录下（这个目录按照jekyll的建议，就是让我们用来存放模块插件的），然后在需要多说的页面中直接调用`{ % include duoshuo.md % }`就行(本文为了显示的原因在`{`和`%`之间加了一个空格，正式使用的时候注意去掉，下同)，这就犹如一个函数一般，修改也只需要改duoshuo.md这个文件，相当方便。
+
+<a id='2' name='2'> </a>  
+
+### 2. 添加google analytics
+----
+
+![GA](http://www.proyectosbds.com/blog/wp-content/uploads/2012/11/google-analytics-impementation.jpg)
+对于自己的网站，一个关心的事情就是网站的浏览量如何？是通过什么途径以什么方式流入流出的？别的先不多说，光是能时刻知道自己的网站在哪里、被用什么操作系统、多少人浏览、网页之间的流入流出是怎么样的等状态信息的本身就是一个很cool的事情，这跟玩游戏一样，相信没多少人会愿意把自己角色的血条和蓝条隐藏掉，然后在那瞎玩，🐧。所以我就开始琢磨着应该怎么搞定这样一个事情。后来知道了可以用[google-analytics](http://www.google.com/analytics/)帮助记录和分析，同样需要登陆google账号，填入网站域名，获得对应该域名的google analytics网络跟踪代码，然后又是复制粘贴。改过一次评论系统之后，我就发现，这东西都是大同小异的，就那么几下板斧。当然了我还是把它单独写成一个模块放在`_include`下供调用。这一次我希望全站跟踪，`default.html`是我所有页面都会添加的网页，所以这个代码就放在`default.html`中了。关于GA代码应该放在文件中的哪个位置比较适合，我还是做了一下考虑的，参考了[这篇文章](http://bluewhale.cc/2010-07-19/google-analytics-add-tracking-code.html),按照异步跟踪的方式添加：
+
+{% highlight html %}
+<html>
+<head>
+<title></title>
+...
+<!—GA异步追踪代码-->
+</head>
+<body>
+</body>
+</html>
+{% endhighlight %}
+
+<a id='3' name='3'> </a>
+
+### 3. 如何搞定数学公式显示问题
+----
+
+![mathJax](http://media.journals.elsevier.com/content/images/main/elsevier-continues-as-mathjax-12092220.jpg)
+
+makrdown是个好东西，jekyll+markdown做网站很容易！但麻烦的是，markdown不能支持LaTeX，我写个数学公式在那上面，它解析不了，只是原封不动的显示在那。。这一点真让人捉急！咋办？又是一番的google，后来还是找到了个好办法——[MathJax](http://www.mathjax.org/)，它是一个数学公式显示引擎，能够把LaTeX编辑的公式在网页上显示出来，不过它是在线解析的，公式如果比较多的话，显示速度会稍慢。要用MathJax，需要先把`_config.yml`中的makrdown解析器换成`kramdown`，不然用不了。我同样也是写成模块`mathJax.md`，然后由post.html调用(估计我也不会在除了博客之外的地方用到它)，为了加载速度，也放的靠后一些，刚好在多说模块上面，下面是我用的mathJax.md模块的代码，当然了，若有需要你也可以使用：
+
+{% highlight html %}
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} });
+</script>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+{% endhighlight %}
+
+成功添加了之后只需在公式前后用\$\$围起来，就可方便的编写公式了。如：
+
+{% highlight html %}
+$$
+\rho_i=\sum_j\chi(d_{ij}-d_c)
+$$
+{% endhighlight %}  
+
+显示的结果就是：
+$$
+\rho_i=\sum_j\chi(d_{ij}-d_c)
+$$
+
+<a id='4' name='4'> </a>
+
+### 4. 如何让每个页面自动生成二维码
+----
+![QR](http://www.5lian.cn/uploadfile/2012/1017/20121017122154345.jpg)
+
+二维码的作用其实也不必做多解释，最重要的就是方便。我之前并不知道Google API可以为网站自动生成二维码一事，直到我成功了之后才恍然一悟，真是隔行如隔山。一开始我都是暴力解决：找个能生成二维码的网站，把自己每一篇博客的网址贴进去，点击生成二维码，然后再把这个生成的二维码图片下载下来，最后再添加到每篇博客的最后，而且一旦网站发生调整，就得重来一遍，这实在是。。。过程说起来都很费事。。。不过我也一直在琢磨，在寻找着怎么样才能让网页自己产生二维码，后来终于注意到了这个[QR生成器](https://www.the-qrcode-generator.com/)，并且受到它`share`按钮中内容的启发，当时就在想为什么它这样的一段代码（如下）在插入到网页中之后就能出来一个二维码呢（当然这个二维码是指向它自己的网站的）
+
+{% highlight html %}
+<!--QR生成器的share代码-->
+<a href="https://www.the-qrcode-generator.com/"><img src="http://chart.apis.google.com/chart?chs=200x200&amp;cht=qr&amp;chld=|1&amp;chl=" alt="QR Code" /></a>
+{% endhighlight %}
+
+在仔细观察后发现代码中url地址中后面的`chs=200x200&amp;cht=qr&amp;chld=|1&amp;chl=`看起来很像某些参数，貌似是可以自己设置的，若真如此的话，又该怎么做呢？这次得感谢[DIVCSS5](http://www.divcss5.com/template/m504.shtml)这篇博文中的那一段代码结构，它完全让我明白了自己该如何改装上面的QR生成器代码让它能为我的所用，给每一个网页都自动根据自己的网址产生正确的二维码，改了的代码如下：
+
+{% highlight html %}
+<!-- 网页自动生成二维码的代码 -->
+<script type="text/javascript">  
+  thisURL  = document.URL;  
+  strwrite = "<p align='center'><img src='http://chart.apis.google.com/chart?chs=120x120&amp;cht=qr&amp;chld=|1&amp;chl=" + thisURL + "' width='120' height='120' alt='QR Code'/>（传送门）</p>";
+  document.write( strwrite ); 
+</script>
+{% endhighlight %}
+
+这一段代码本身是独立的，不依赖于任何特定的网站拥有者，所以如果有需要，也欢迎大家直接复制粘贴到自己的页面代码中。当然了，我还是把它独立写在了一个文件中放在`_include`目录下，然后再调用，就跟上面添加多说和google跟踪代码一个思路，不过这个倒没什么位置限制，就看各自喜欢放哪就放哪，只要是在<body>与</body>之间就行，但我还是建议放在博文内容加载模块之后，这样可以确保博文内容先加载。
+
+<a id='5' name='5'> </a>
+
+### 5. 如何添加“返回顶部”按钮
+----
+
+![Backtop](http://85ryan.com/wp-content/uploads/2013/09/simple-jquery-back-to-top-button.jpg)
+
+"返回顶部"按钮（本博客右下角）的添加完全参照[这个教程](http://liberize.me/tech/jekyll-add-back-to-top-button.html)，作者写的相当详细！按照文章的信息我把'二'中的代码写入backtop.js，'三'中的信息写入backtop.css。然后将它们放在defualt.html中的<head>与</head>之间调用，示意如下：
+
+{% highlight html %}
+<html>
+<head>
+...
+<link rel="stylesheet" href="/media/css/backtop.css">  <!-- Back Top -->
+<script type="text/javascript" src="/media/js/backtop.js"></script>  <!-- Back Top -->
+...
+</head>
+<body>
+</body>
+</html>
+{% endhighlight %}
+
+<a id='6' name='6'> </a>
+
+### 6. 其他
+----
+
+（1）关于主页上的“[FORUM](http://stbioinf.com/forum/)”，本来有打算做成类似于论坛形式可以让大家就某个话题来进行讨论，但是发现要实现这个功能工作量不小啊！限于我自己能力有限，这个也得慢慢来，暂时将就变成了贴“鸡汤文”的板子了，o(╯□╰)o！
+
+（2）google网站站长工具，上传了一份google提供的验证网页（它仅是验证之用），成功之后是可以将它删掉的。
+
+<a id='7' name='7'> </a>
+
+### 7. 最后
+----
+OK！唠叨了不少总算把这篇文章写完了。接下来与博客搭建相关的内容先暂放一边了，我要回归主业的更新了。
+
