@@ -15,6 +15,6 @@ tags:
 
 ![正文](http://m2.img.srcdd.com/farm4/d/2014/0720/03/286501A2CE15697A06EC0750D79555EA_LARGE_600_3097.jpeg)
 
-来源：[科学公园--RhettZhang](http://www.scipark.net/archives/18372)
+原文出处：[sufuns](http://sufuns.com/wp-content/uploads/2012/06/infographic.png)
 
-源头：[sufuns](http://sufuns.com/wp-content/uploads/2012/06/infographic.png)
+译文出处：[科学公园--RhettZhang](http://www.scipark.net/archives/18372)
