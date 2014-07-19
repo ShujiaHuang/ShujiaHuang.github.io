@@ -3,7 +3,7 @@ title: '基因组变异检测概述'
 layout: post
 categories:
     - 生物信息
-    - 基因组
+    - 基因组学
 tags:
     - NGS
     - 变异检测
