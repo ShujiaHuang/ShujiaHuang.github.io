@@ -2,7 +2,7 @@
 title: '人类不是从猴子进化而来'
 layout: post
 categories:
-    - 生物进化与迁徙
+    - 物种进化与迁徙
 tags:
     - 自然选择
 ---
