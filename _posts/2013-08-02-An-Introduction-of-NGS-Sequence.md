@@ -2,6 +2,7 @@
 title: '三代基因组测序技术原理简介'
 layout: post
 categories:
+    - 生物信息
     - 基因组学
 tags:
     - NGS
