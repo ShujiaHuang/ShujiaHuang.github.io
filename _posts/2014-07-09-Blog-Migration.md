@@ -2,9 +2,10 @@
 title: '博客搬家'
 layout: post
 categories:
-    - Blog
-    
+    - Blog 
 ---
+
+![](http://hlebchel.ru/uploads/posts/2013-03/1363512452_905359_1277293907218_o.jpg)
 
 以前在[cnblog](http://www.cnblogs.com/huangshujia/)上还遗留了几篇文章。当时还准备就在那上面安家的呢。不过，发了几篇博文之后，大伙多评论说，“哥们是不是发错地方了”之类的云云，还有一次惊讶了我一下的是，博文直接被管理员丢出了cnblog的首页，o(╯□╰)o。也罢了，毕竟博客园面向的是IT开发人员，发BT(Biology Technical)相关的东西也确实不好意思，既然门不当户不对，那就另觅出路呗。后来搞了搞，要整个独立博客还真有点费事，主机要花钱，IP要花钱。。。那会我还没听说过Jekyll，再加上自己平时比较忙也没什么时间，所以就一直搁着了，直到最近用了github，才在无意间发现了Jekyll+github的原来可以方便的搭建起独立博客来！这个中的具体情况我在[上次的博文](http://stbioinf.com/2014/07/05/Build-MyOwn-blog-with-jekyll-and-githubpage.html)中提到了。
 
