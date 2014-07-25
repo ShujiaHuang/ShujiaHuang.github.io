@@ -53,6 +53,7 @@ OK，既然现在外在的部分还无力去动，那接下来，我说一下自
 <body>
 ...
 <!—多说代码-->
+{% include duoshuo.md %}
 </body>
 </html>
 {% endhighlight %}
@@ -65,7 +66,24 @@ OK，既然现在外在的部分还无力去动，那接下来，我说一下自
 ----
 
 ![GA](http://www.proyectosbds.com/blog/wp-content/uploads/2012/11/google-analytics-impementation.jpg)
-对于自己的网站，一个关心的事情就是网站的浏览量如何？是通过什么途径以什么方式流入流出的？别的先不多说，光是能时刻知道自己的网站在哪里、被用什么操作系统、多少人浏览、网页之间的流入流出是怎么样的等状态信息的本身就是一个很cool的事情，这跟玩游戏一样，相信没多少人会愿意把自己角色的血条和蓝条隐藏掉，然后在那瞎玩，🐧。所以我就开始琢磨着应该怎么搞定这样一个事情。后来知道了可以用[google-analytics](http://www.google.com/analytics/)帮助记录和分析，同样需要登陆google账号，填入网站域名，获得对应该域名的google analytics网络跟踪代码，然后又是复制粘贴。改过一次评论系统之后，我就发现，这东西都是大同小异的，就那么几下板斧。当然了我还是把它单独写成一个模块放在`_include`下供调用。这一次我希望全站跟踪，`default.html`是我所有页面都会添加的网页，所以这个代码就放在`default.html`中了。关于GA代码应该放在文件中的哪个位置比较适合，我还是做了一下考虑的，参考了[这篇文章](http://bluewhale.cc/2010-07-19/google-analytics-add-tracking-code.html),按照异步跟踪的方式添加：
+对于自己的网站，一个关心的事情就是网站的浏览量如何？是通过什么途径以什么方式流入流出的？别的先不多说，光是能时刻知道自己的网站在哪里、被用什么操作系统、多少人浏览、网页之间的流入流出是怎么样的等状态信息的本身就是一个很cool的事情，这跟玩游戏一样，相信没多少人会愿意把自己角色的血条和蓝条隐藏掉，然后在那瞎玩。所以我就开始琢磨着应该怎么搞定这样一个事情。后来知道了可以用[google-analytics](http://www.google.com/analytics/)帮助记录和分析，同样需要登陆google账号，填入网站域名，获得对应该域名的google analytics网络跟踪代码，然后又是复制粘贴。改过一次评论系统之后，我就发现，这东西都是大同小异的，就那么几下板斧。当然了我还是把它单独写成一个模块放在`_include`下供调用。代码如下：
+
+{% highlight html %}
+<!-- Google Analysis For website tracking -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52659904-1', 'auto');
+  ga('require', 'displayfeatures'); 
+  ga('send', 'pageview');
+</script> 
+<!-- Google Analysis end -->
+{% endhightlight %}
+
+这一次我希望全站跟踪，`default.html`是我所有页面都会添加的网页，所以这个代码就放在`default.html`中了。关于GA代码应该放在文件中的哪个位置比较适合，我还是做了一下考虑的，参考了[这篇文章](http://bluewhale.cc/2010-07-19/google-analytics-add-tracking-code.html),按照异步跟踪的方式添加：
 
 {% highlight html %}
 <html>
@@ -73,6 +91,8 @@ OK，既然现在外在的部分还无力去动，那接下来，我说一下自
 <title></title>
 ...
 <!—GA异步追踪代码-->
+{% include googleAnalysis.md %}
+...
 </head>
 <body>
 </body>
