@@ -44,6 +44,6 @@ comments: yes
 ## 全站二维码
 ----
 
-<p style="text-align: center;"><img src="/images/STbioinf_QR.png" alt="" />（扫码打开）</p>
-<p style="text-align: center;"><img src="/images/STbioinf_RSS_QR.png" alt="" />（扫码订阅）</p>
+<p style="text-align: center;"><img src="/img/STbioinf_QR.png" alt="" />（扫码打开）</p>
+<p style="text-align: center;"><img src="/img/STbioinf_RSS_QR.png" alt="" />（扫码订阅）</p>
 
