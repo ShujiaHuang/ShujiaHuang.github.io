@@ -60,7 +60,6 @@ Lander-Waterman模型是基因组组装的一个基本数学模型，它，
 （1）数据过滤
 （2）kmer 频率分析
 	1）什么是kmer，为什么kmer只能是奇数
-	2）
 （3）k-mer纠错的算法
 （4）组装的kmer是什么
 （4）pregraph
