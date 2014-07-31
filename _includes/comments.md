@@ -1,7 +1,6 @@
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-<div class="ds-thread"></div>
 <script type="text/javascript">
-var duoshuoQuery = {short_name:"stbioinf"};
+var duoshuoQuery = {short_name:"blogfungenomics"};
 	(function() {
 		var ds = document.createElement('script');
 		ds.type = 'text/javascript';ds.async = true;
@@ -10,11 +9,11 @@ var duoshuoQuery = {short_name:"stbioinf"};
 		(document.getElementsByTagName('head')[0] 
 		 || document.getElementsByTagName('body')[0]).appendChild(ds);
 	})();
-</script>
+	</script>
 <!-- 多说公共JS代码 end -->
 
 <!-- Add Disqus Comment (Not Use now 2014-07-11 01:13:09!) -->
-<!--
+<!-- 换网址就必须重新设置一遍
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */       
