@@ -60,6 +60,8 @@ OK，既然现在外在的部分还无力去动，那接下来，我说一下自
 
 如果除了post.html，你还打算将它添加到其他的页面中，也没问题，操作和上面类似。但整块整块的代码复制来复制去的，总觉得很麻烦，一旦想修改还得一个个去改，太吃力了！！我自己更喜欢的一种方式就是直接把多说的代码写到一个单独的文件中，比如就叫`duoshuo.md`，并放在`_include`目录下（这个目录按照jekyll的建议，就是让我们用来存放模块插件的），然后在需要多说的页面中直接调用`{ % include duoshuo.md % }`就行(本文为了显示的原因在`{`和`%`以及`%`和`}`之间加了一个空格，正式使用的时候注意去掉，下同)，这就犹如一个函数一般，修改也只需要改duoshuo.md这个文件，相当方便。
 
+在设置`<div class="ds-thread" data-thread-key="请将此处替换成文章在你的站点中的ID" data-title="请替换成文章的标题" data-url="请替换成文章的网址"></div>`，这几个值的时候，我参考了这篇[博文](http://www.leejianyang.com/2014/05/25/duoshuo_tutorial/)，它讲的很清楚，不过里面写成data-thread-key=”<%= page.path %>”，data-title=”<%= page.title %>”和data-url=”<%= page.permalink %>”的形式在我这并不能成功，不知道是否与我用markdown格式编辑有关。所以后来我改成`<div class="ds-thread" data-thread-key="{{ page.path }}" data-title="{{ page.title }}" data-url="{{ page.permalink }}"></div>`就成功了。
+
 <a id='2' name='2'> </a>  
 
 ### 2. 添加google analytics
