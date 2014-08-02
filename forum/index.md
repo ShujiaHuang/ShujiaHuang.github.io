@@ -6,7 +6,7 @@ comments: yes
 
 ![Forum](http://m3.img.srcdd.com/farm5/d/2014/0717/00/20DA0EB9D470E6A9B56A47B95C13E296_LARGE_913_439.png)
 
-我所深深认同的观点与言论：
+我所深深认同的观点与言论，**注意**有鸡汤也有勺子，客官慢用：
 0. 社会是一个不等式，所以这个社会才如此精彩！—— 我的一个高中数学老师  
 1. Have you ever do anything that really cool？！ [在下](/about)   
 2. It’s not who has the best algorithm that wins. It’s who has the most data.  
