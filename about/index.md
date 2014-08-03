@@ -47,4 +47,4 @@ comments: yes
 <p style="text-align: center;"><img src="/img/STbioinf_QR.png" alt="" />（扫码打开）</p>
 <p style="text-align: center;"><img src="/img/STbioinf_RSS_QR.png" alt="" />（扫码订阅）</p>
 -->
-<p align="right">2014-08-01</p>
+<p align="right">YellowTree / 2014-08-01</p>
