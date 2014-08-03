@@ -78,7 +78,7 @@ OK，既然现在外在的部分还无力去动，那接下来，我说一下自
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-52659904-1', 'auto');
+  ga('create', 'UA-52659904-2', 'auto');
   ga('require', 'displayfeatures'); 
   ga('send', 'pageview');
 </script> 
