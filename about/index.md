@@ -22,7 +22,7 @@ comments: yes
 ## 关于本站
 ----
 
-<blog.fungenomics.com> 主题：Life Science and Technology in Bioinformatic 是YellowTree的个人网站。
+主题：Life Science and Technology in Bioinformatic 是YellowTree的个人网站。
 
 基于[Github+Jekyll搭建](/2014/07/05/Build-MyOwn-blog-with-jekyll-and-githubpage.html)，主要用于记录和分享工作，学习与生活的点滴收获，偏向但不限于基因组学和生物信息学领域。
 
