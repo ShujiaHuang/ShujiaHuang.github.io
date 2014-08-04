@@ -41,10 +41,8 @@ comments: yes
 
 <br/>
 
-## 全站二维码 （暂未补充）
+## 全站二维码
 ----
-<!--
-<p style="text-align: center;"><img src="/img/STbioinf_QR.png" alt="" />（扫码打开）</p>
-<p style="text-align: center;"><img src="/img/STbioinf_RSS_QR.png" alt="" />（扫码订阅）</p>
--->
+<p style="text-align: center;"><img src="/img/Fungenomics_QR.png" alt="" />（扫码打开）<img src="/img/Fungenomics_RSS_QR.png" alt="" />（扫码订阅）</p>
+
 <p align="right">YellowTree / 2014-08-01</p>
