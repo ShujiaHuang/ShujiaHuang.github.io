@@ -68,6 +68,10 @@
 
       <footer>
 		{% assign first_post = site.posts | last %}
+       <!-- 
+        <p><small>Powered by <a href="https://github.com/mojombo/jekyll">Jekyll</a> & <a href="http://pages.github.com">GitHub</a> | Copyright &copy; {{ first_post.date | date: "%Y" }} ~ {{ site.time | date: "%Y" }} by <a href="/about/">{{ site.author }}</a> | <span class="label label-info" id="timeSpan"></span></small></p>
+        -->
+        <!-- 去掉footer中的时间的显示，看看能否加快页面的加载 -->
         <p><small>Powered by <a href="https://github.com/mojombo/jekyll">Jekyll</a> & <a href="http://pages.github.com">GitHub</a> | Copyright &copy; {{ first_post.date | date: "%Y" }} ~ {{ site.time | date: "%Y" }} by <a href="/about/">{{ site.author }}</a> | <span class="label label-info" id="timeSpan"></span></small></p>
       </footer>
     </div>
