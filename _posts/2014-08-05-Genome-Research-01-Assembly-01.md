@@ -111,7 +111,7 @@ $$
 
 *参考文献*
 
->1. [Genomic mapping by fingerprinting random clones: a mathematical analysis](http://www.ncbi.nlm.nih.gov/pubmed/3294162)
+> 1. [Genomic mapping by fingerprinting random clones: a mathematical analysis](http://www.ncbi.nlm.nih.gov/pubmed/3294162)
 
 {% highlight python %}
 print "Hello world!"
