@@ -17,7 +17,7 @@ tags:
 
 #新建SSH key(若有需求，注意不要误删其他的id_rsa key)：
 $ cd ~/.ssh # 切换到~/.ssh
-ssh-keygen -t rsa -C "mywork@email.com"  # 新建SSH key
+ssh-keygen -t rsa -C mywork@email.com  # 新建SSH key
 # 设置名称为id_rsa_hshujia (设置别的名字，防止因名字冲突而误删其他的id_rsa)
 Enter filein which to save the key (~/.ssh/id_rsa): id_rsa_hshujia
 {% endhighlight %}
@@ -34,7 +34,7 @@ ssh-add  ~/.ssh/id_rsa_hshujia
 如果出现Could not open a connection to your authentication agent的错误，就试着用以下命令：
 
 {% highlight bash %}
-ssh-agent bash && ssh-add~/.ssh/id_rsa_hshujia
+ssh-agent bash && ssh-add ~/.ssh/id_rsa_hshujia
 {% endhighlight %}
 
 **3、修改config文件**
