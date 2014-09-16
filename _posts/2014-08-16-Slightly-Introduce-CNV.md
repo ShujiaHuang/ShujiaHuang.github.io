@@ -1,6 +1,6 @@
 ---
 layout: post
-title : '浅述CNV——我为何是我'
+title : '浅述CNV——我怎么会是我'
 categories:
     - 生物信息
 tags:
