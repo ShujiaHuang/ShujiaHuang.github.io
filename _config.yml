@@ -1,8 +1,8 @@
 markdown: kramdown
 #markdown: rdiscount
 permalink: /:year/:month/:day/:title.html
-url: http://blog.fungenomics.com
-name: "Fungenomics"
+url: http://www.stbioinf.com
+name: "STbioinf"
 author: "YellowTree"
 highlighter: pygments
 safe: true
