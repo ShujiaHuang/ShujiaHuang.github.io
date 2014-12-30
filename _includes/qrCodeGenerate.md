@@ -1,8 +1,12 @@
 <div class="page-content qrcode">
- <img src="http://qr.liantu.com/api.php?w=150&m=0&text=<?php the_permalink(); ?>" alt="<?php the_title(); ?>" title="扫描二维码分享到朋友圈" />
+
+	thisURL  = document.URL;
+	thisTitle= document.title;
+ 	<img src="http://qr.liantu.com/api.php?w=120&m=0&text=" + thisURL alt=thisTitle title="扫描二维码分享到朋友圈" />
  <p class="qrcode-desc">扫描二维码分享到朋友圈</p>
  <hr>
 </div>
+
 <!--
 <script type="text/javascript">  
   thisURL  = document.URL;  
@@ -10,4 +14,5 @@
    document.write( strwrite ); 
 </script>
 -->
+
 
