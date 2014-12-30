@@ -6,5 +6,5 @@ comments: yes
 
 有朋自远方来，不亦乐乎，说出你的建议，留下你的足迹吧。。
 
-![Logo](/img/welcome_guest.jpeg)
+![Logo](http://blog-fungenomics-com.qiniudn.com/fg.home.guestbook_logo.jpg)
 
