@@ -5,6 +5,7 @@ categories:
     - Blog
 tags:
     - 网站插件
+    - google
 ---
 
 ![QR](http://blog-fungenomics-com.qiniudn.com/fg.post.qrcode.png)
