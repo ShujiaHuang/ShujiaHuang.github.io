@@ -3,7 +3,7 @@ title: links
 layout: page
 comments: yes
 ---
-![link](http://m1.img.srcdd.com/farm5/d/2014/0712/20/3779CC27E7DD9D8F0F39B3FBC35C0AC6_B1280_1280_660_180.jpeg)
+![link](http://blog-fungenomics-com.qiniudn.com/st.post.link-logo.jpeg)
 
 
 * [我的百度图片][]
