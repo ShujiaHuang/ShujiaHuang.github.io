@@ -1,5 +1,5 @@
-markdown: kramdown
 #markdown: rdiscount
+markdown: kramdown
 permalink: /:year/:month/:day/:title.html
 url: http://www.stbioinf.com
 name: "STbioinf"
