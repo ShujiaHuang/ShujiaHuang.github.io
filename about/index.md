@@ -40,10 +40,7 @@ comments: yes
 如果您觉得博文内容不错，对您也有一点点的帮助，那将是博主最大的荣幸，欢迎使用文章下方的社交网络分享工具转发文章。
 
 ![logo me](http://blog-fungenomics-com.qiniudn.com/fg.home.about.png)
-<br/>
 
-## 全站二维码
-----
-<p style="text-align: center;"><img src="/img/website_QR.png.png" alt="" />（扫码打开）<img src="/img/website_RSS_QR.png.png" alt="" />（扫码订阅）</p>
+<br/>
 
 <p align="right">YellowTree / 2014-08-01</p>
