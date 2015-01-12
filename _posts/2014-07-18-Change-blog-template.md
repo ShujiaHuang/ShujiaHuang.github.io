@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '博客改版'
+title: '博客大改版：添加评论，二维码生成，数学公式的显示，添加分析代码等'
 categories:
     - Blog
 tags:
