@@ -82,10 +82,9 @@ b.有些barcode已经被其他样本占用，导致可选的余地受限制，�
 
 Illumina推荐的12个样本barcode组合如下。 
 
-|编号|序列|
-|:---:|:---:|
-|01|ATC ACG|
-
+编号|序列
+:---:|:---:
+01|ATC ACG
 02|CGA TGT
 03|TTA GGC
 04|TGA CCA
@@ -146,7 +145,7 @@ b. 排除QV值低的barcode碱基后，其余质量好的barcode碱基仍然足�
 
 2个样本：
 
-:----:|:-----:
+:---:|:----:
 #6|GCC AAT
 #12|CTT GTA
 
