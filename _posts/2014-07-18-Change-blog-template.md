@@ -22,7 +22,7 @@ tags:
 
 ### 概述
 ----
-前几天把博客改版了，在[Jekyll wiki](https://github.com/jekyll/jekyll/wiki/Sites)上爬主题来回爬了好几遍，先是偷了[Linghua Zhang](http://lhzhang.com/),而后又直接偷了[yihui](http://yihui.name/)和[Carl Chen](http://webfrogs.me/)，不过我知道第一个把版面做成我所用的这个样子的是[yihui](http://yihui.name/)，这位可是一牛人，[统计之都](http://cos.name/)和[COS](http://cos.name/cn/)论坛，以及中国R会议（从第一届开始）都是他弄的，年纪轻轻且最近已经出了两本和R相关的书在亚马逊上卖了，恐怕国内（+很多国外）用过R的基本都知道！感兴趣的可以去他的[主页](http://yihui.name/)扒扒。。。扯远了，说回我自己，虽然我也想改得更加不同一些，但一方面暂时还没啥时间，其次，此前未碰过任何与网页制作相关之事，HTML勉强能看，css和js就停留在听说过这两词的地步；然，最重要的是，我实在喜欢这个版面！所以门面修改一事先缓一缓吧，先在这里对各位作者大人千恩万谢了！但是话也说回来，以上只要有任意一位作者介意，我也只能作罢，重新到wiki上扒过%>_<%。
+前几天把博客改版了，在[Jekyll wiki](https://github.com/jekyll/jekyll/wiki/Sites)上爬主题来回爬了好几遍，先是偷了[Linghua Zhang](http://lhzhang.com/),而后又直接偷了[yihui](http://yihui.name/)和[Carl Chen](http://webfrogs.me/)，不过我知道第一个把版面做成我所用的这个样子的是[yihui](http://yihui.name/)，这位可是一牛人，[统计之都](http://cos.name/)和[COS](http://cos.name/cn/)论坛，以及中国R会议（从第一届开始）都是他弄的，年纪轻轻且最近已经出了两本和R相关的书在亚马逊上卖了，恐怕国内（+很多国外）用过R的基本都知道！感兴趣的可以去他的[主页](http://yihui.name/)扒扒。。。扯远了，说回我自己，虽然我也想改得更加不同一些，但一方面暂时还没啥时间，其次，此前未碰过任何与网页制作相关之事，HTML勉强能看，css和js就停留在听说过这两词的地步；然，最重要的是，我也实在喜欢这个版面！所以门面修改一事先缓一缓吧，先在这里谢过各位作者大人！但是话也说回来，以上只要有任意一位作者介意，我也只能作罢，重新扒过。
 
 OK，既然现在外在的部分还无力去动，那接下来，我说一下自己所做的一些内在改变。
 
