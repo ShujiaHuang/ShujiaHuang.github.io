@@ -10,7 +10,7 @@ tags:
 ---
 
 
-在Python中成功实现了对原来C++代码模块的复用！方法很简单，以至于我能够用一张截图记录下整个过程！
+在Python中成功实现了对原来C++代码模块的复用！方法很简单，以至于我能够用一张截图记录下整个过程（点击图片看大图）！
 
 [![Python-call-C++-Module](http://blog-fungenomics-com.qiniudn.com/st.post.2015-04-03-Python-call-Cpp-Module.png)](http://blog-fungenomics-com.qiniudn.com/st.post.2015-04-03-Python-call-Cpp-Module.png)
 
