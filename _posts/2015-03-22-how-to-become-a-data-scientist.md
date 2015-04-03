@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '如何成为数据科学家'
+title: '何不争当数据科学家？'
 categories:
     - 信息图
 tags:
