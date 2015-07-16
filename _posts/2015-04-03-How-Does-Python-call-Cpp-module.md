@@ -14,7 +14,7 @@ tags:
 
 [![Python-call-C++-Module](http://blog-fungenomics-com.qiniudn.com/st.post.2015-04-03-Python-call-Cpp-Module.png)](http://blog-fungenomics-com.qiniudn.com/st.post.2015-04-03-Python-call-Cpp-Module.png)
 
-其实，注意到，必须在原来的C++代码后面添加extern "C"来辅助（C则不需要，这也是与复用C代码时最大的不同点），不然Python在调用这个构建后的动态链接库时是找不到原来的方法或者函数的，说到底还都是因为当前Python的设定中只能调用C函数，而不能直接调用C++的方法。
+其实，注意到，必须在原来的C++代码后面添加extern "C"来辅助（C则不需要，这也是与复用C代码时最大的不同点），不然Python在调用这个构建后的动态链接库时是找不到原来的方法或者函数的，说到底还都是因为当前Python的设定中只能调用C函数，而不能直接调用C++的方法，因此extern "C"封装的函数必须是C风格的，也即就是说，函数中的所有参数（输入参数和返回参数）都不能包含任何非C定义的类型（包括不能包含只属于C++的类型）。
 
 
 
