@@ -96,7 +96,7 @@ plt.show()
 
 ![manhantan1](http://7u2had.com1.z0.glb.clouddn.com/post.man-0.png)
 
-只需这样的一句代码就能创建一个漂亮的曼哈顿图，有必要再次指出的是，geneview是以matplotlib为基础开发出来的，所创建的图形对象实际上仍属于matplotlib，geneview内部自定义了很多图形风格，同时封装了大量只属于基因组数据的图表类型，但图形的输出格式以及界面显示都仍和matplotlib一样，因此在这里我们使用matplotlib.pyplot的show()函数(上例中：plt.show())将所绘制出来的曼哈顿图显示出来。如果要讲图形保存下来，则只需执行`plt.savefig("man.png")`，这样就会在该目录下生成一个名为『man.png』png格式的曼哈顿图，若是要存为pdf格式，则只需将所要保存的文件名后缀改成『.pdf』（plt.savefig("man.pdf")）就可以了。下面这些格式：emf, eps, pdf, png, jpg, ps, raw, rgba, svg, svgz等都是支持的，至于最新的还有多少种，还请参照matplotlib文档中说明。
+只需这样的一句代码就能创建一个漂亮的曼哈顿图，有必要再次指出的是，geneview是以matplotlib为基础开发出来的，所创建的图形对象实际上仍属于matplotlib，geneview内部自定义了很多图形风格，同时封装了大量只属于基因组数据的图表类型，但图形的输出格式以及界面显示都仍和matplotlib一样，因此在这里我们使用matplotlib.pyplot的show()函数(上例中：plt.show())将所绘制出来的曼哈顿图显示出来。如果要将图形保存下来，则只需执行`plt.savefig("man.png")`，这样就会在该目录下生成一个名为『man.png』png格式的曼哈顿图，若是要存为pdf格式，则只需将所要保存的文件名后缀改成『.pdf』（plt.savefig("man.pdf")）就可以了。下面这些格式：emf, eps, pdf, png, jpg, ps, raw, rgba, svg, svgz等都是支持的，至于最新的还有多少种，还请参照matplotlib文档中说明。
 
 此外，geneview中的每个画图函数都有着足够的灵活性，我们也可以根据自己的需要做一些调整，比如：
 
@@ -152,8 +152,11 @@ plt.show()
 {% endhighlight %}
 
 ![QQ图](http://7u2had.com1.z0.glb.clouddn.com/post.qq-1.png)
+同样，也可以根据自己的需要对改图进行相关的调整。
 
 以上，便是如何使用Python来制作Manhattan图和QQ图的方法，geneview的集成函数简化了这样的一个过程。
+
+另外，如果你也看过丹麦人的这个GOYA研究，就会发现实际以上的两个图和其文章中的基本是一致的，当然我自己做了些数据清洗的操作，结果上仍然会有些许的不同。虽然此刻下结论还有点为时尚早，但总的来讲，我应该也可以通过这个数据集比较顺利的将其结果重复出来了。
 
 最后，附上利用geneview画曼哈顿图和QQ图的代码：
 
