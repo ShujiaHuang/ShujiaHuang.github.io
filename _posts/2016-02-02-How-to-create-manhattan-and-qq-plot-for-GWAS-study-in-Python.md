@@ -10,7 +10,7 @@ tags:
     - manhattan plot
     - Q-Q plot
 ---
-[GWAS-ARRAY](http://7lrw1m.com1.z0.glb.clouddn.com/fg.post.2015-02-08.cover.jpg)
+![GWAS-ARRAY](http://7lrw1m.com1.z0.glb.clouddn.com/fg.post.2015-02-08.cover.jpg)
 
 【前言】其实这篇文章是为了简单介绍一下[geneview](https://github.com/ShujiaHuang/geneview)的用法，它是一个Python高级库，建立在matplotlib的基础之上，专门用于基因组数据的可视化，目的是为了使创建**高大上（精致）**的基因组数据图表变得简单。目前该发布的Python包中已经内置多个优美的调色板和风格（默认情况下就能创建赏心悦目的图形），同时已经集成了曼哈顿图和Q-Q图的绘制函数。作为该Python包的主要开发者，只是如此是远远不够的，在未来的日子里，我希望它能在功能不断完善的同时也变得更加易用。
 
@@ -99,7 +99,7 @@ plt.show()
 
 {% highlight python %}
 xtick = ['1', '2','3','4','5','6','7','8','9','10','11','12','13','14','16','18', '20','22']
-manhattanplot(data，
+manhattanplot(data,
               xlabel="Chromosome", # 设置x轴名字
               ylabel="-Log10(P-value)", # 设置y轴名字
               xtick_label_set = set(xtick), # 限定横坐标轴上的刻度显示
