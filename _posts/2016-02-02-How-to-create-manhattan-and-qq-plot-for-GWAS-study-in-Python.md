@@ -21,7 +21,8 @@ tags:
 
 我这里用来展现的数据是2011年丹麦人所做过的一个关于年轻人过度肥胖的GWAS研究——[GOYA](http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0024303)，数据也是从他们所发表的结果中获得，总共有5,373个样本，其中超重的个体（case）有2,633个，正常的个体（control）是2,740个，从样本量上看还算可以。为了方便使用，我对其做了相关的处理，包括从PED和MAP文件到GEN文件的生成，并重复了一次case-control的关联性分析，计算出了芯片上所研究的各个SNP位点与肥胖相关的显著性程度（即p-value），最后又将结果数据抽取出来做成数据集——放在[这里供下载（15.6Mb，csv格式）](https://github.com/ShujiaHuang/geneview-data/blob/master/GOYA.csv)。
 
-	**【注】以上内容虽提及到了一些领域内术语和相关文件格式，但若不懂也请不必纠结，因为后续处理都是基于这个最终的数据集来完成的。**
+> 【注】以上内容虽提及到了一些领域内术语和相关文件格式，但若不懂也请不必纠结，因为后续处理都是基于这个最终的数据集来完成的。
+
 
 接着，需要将geneview软件包加入到你的Python中，有多种不同的方式，但推荐直接使用pip，以下是安装比较稳定的发布版，直接在终端命令行下(Linux or Mac)输入：
 
@@ -36,7 +37,9 @@ pip install git+git://github.com/ShujiaHuang/geneview.git#egg=geneview
 ```
 第三种办法就是直接下载源码，然后自行编译，虽然不推荐这种做法（因为还有依赖包必须自行下载安装，过程会比较麻烦低效），但对于某些不能连接外网的集群也只能如此，这三种方式都是可行的。
 
-## 曼哈顿图
+
+曼哈顿图
+-------
 
 将示例数据下载下来：
 
@@ -129,7 +132,9 @@ manhattanplot(data，
 
 其它方面的调整请查看geneview文档中的相关说明。
 
-## Q-Q图
+Q-Q图
+-----
+
 qq图只需用到上例中的pvalue那一列：
 {% highlight python %}
 import csv
