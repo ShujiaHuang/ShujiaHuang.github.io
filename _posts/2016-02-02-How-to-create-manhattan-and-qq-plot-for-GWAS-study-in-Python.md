@@ -167,8 +167,7 @@ import sys
 import csv
 import matplotlib.pyplot as plt
 
-sys.path.append('..')
-from geneview.gwas import qqplot
+from geneview.gwas import manhattanplot
 
 with open("data/GOYA.csv") as f:
     f_csv = csv.reader(f)
