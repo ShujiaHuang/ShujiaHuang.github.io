@@ -4,7 +4,8 @@ permalink: /:year/:month/:day/:title.html
 url: http://www.stbioinf.com
 name: "STbioinf"
 author: "YellowTree"
-highlighter: pygments
+#highlighter: pygments
+highlighter: rouge
 safe: true
 paginate: 16
 auto: true
