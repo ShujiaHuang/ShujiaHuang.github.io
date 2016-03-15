@@ -51,7 +51,7 @@ time java -Xmx8g -jar GenomeAnalysisTK.jar -T VariantsToBinaryPed \
 
 {% endhighlight %}
 
-这个执行命令的最后多加了一小步，将原来输出的.bim文件中第一列的chr22换成了22，这是因为如果不做这个小操作，接下来的plink步骤中，会直接报`ERROR: Problem reading BIM file, line 1`退出，原因就是它不允许chr的开头，至于具体的原因我也没去细查。
+这个执行命令的最后多加了一小步：将原来输出的.bim文件中第一列的chr22换成了22。之所以要费这个小周折，是因为如果不做这个小操作，接下来的plink步骤中，会直接报`ERROR: Problem reading BIM file, line 1`退出，原因就是它不允许chr的开头，至于具体的原因我也没去细查。
 
 ### 第二步，过滤genotype高missing rate和孟德尔错误的位点
 
