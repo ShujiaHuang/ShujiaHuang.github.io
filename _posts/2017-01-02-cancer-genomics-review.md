@@ -9,6 +9,7 @@ tags:
     - 综述
 ---
 
+![cover](http://blog-fungenomics-com.qiniudn.com/dna-epigenome-breast-cancer-early-warning-2.jpg)
 【注】本文首发于[泛基因fungenomics](http://blog.fungenomics.com/)以及微信公众号。
 
 癌症，一种慢性的基因病。
