@@ -1,0 +1,1066 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="NGS,测序技术,碱基平衡性,barcode," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="这是转载过来的一篇文章，虽然基础，但却觉得是很重要的知识,所以便记录了下来，原始出处来自微信公众号“基因测序资讯AGCT”。 碱基平衡性 碱基复杂度与碱基多样性是一个意思；复杂度高，碱基即平衡。低多样性(low diversity)即碱基不平衡，指碱基的组成太单纯了，种类少。碱基复杂度本来无关紧要，从前除了设计PCR的时候考虑高GC(GC-rich)以外，基本没人思考这个问题，没人觉得这是一个问">
+<meta name="keywords" content="NGS,测序技术,碱基平衡性,barcode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二代测序：碱基平衡性与barcode选择">
+<meta property="og:url" content="http://huangshujia.me/2015/02/01/2015-02-01-base-balance-and-barcode-selection.html">
+<meta property="og:site_name" content="YellowTree Homepage">
+<meta property="og:description" content="这是转载过来的一篇文章，虽然基础，但却觉得是很重要的知识,所以便记录了下来，原始出处来自微信公众号“基因测序资讯AGCT”。 碱基平衡性 碱基复杂度与碱基多样性是一个意思；复杂度高，碱基即平衡。低多样性(low diversity)即碱基不平衡，指碱基的组成太单纯了，种类少。碱基复杂度本来无关紧要，从前除了设计PCR的时候考虑高GC(GC-rich)以外，基本没人思考这个问题，没人觉得这是一个问">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/st.post.Figure0.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/st.post.Figure1.jpg">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/st.post.Figure2.jpg">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/st.post.Figure3.png">
+<meta property="og:updated_time" content="2017-05-14T17:42:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="二代测序：碱基平衡性与barcode选择">
+<meta name="twitter:description" content="这是转载过来的一篇文章，虽然基础，但却觉得是很重要的知识,所以便记录了下来，原始出处来自微信公众号“基因测序资讯AGCT”。 碱基平衡性 碱基复杂度与碱基多样性是一个意思；复杂度高，碱基即平衡。低多样性(low diversity)即碱基不平衡，指碱基的组成太单纯了，种类少。碱基复杂度本来无关紧要，从前除了设计PCR的时候考虑高GC(GC-rich)以外，基本没人思考这个问题，没人觉得这是一个问">
+<meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/st.post.Figure0.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huangshujia.me/2015/02/01/2015-02-01-base-balance-and-barcode-selection.html"/>
+
+
+
+
+
+  <title>二代测序：碱基平衡性与barcode选择 | YellowTree Homepage</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9091dc3354962cd0705c6a0c94b8a931";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">YellowTree Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2015/02/01/2015-02-01-base-balance-and-barcode-selection.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shujia Huang(矿工)">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YellowTree Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">二代测序：碱基平衡性与barcode选择</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-02-01T00:00:00+08:00">
+                2015-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/" itemprop="url" rel="index">
+                    <span itemprop="name">生物信息</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/02/01/2015-02-01-base-balance-and-barcode-selection.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2015/02/01/2015-02-01-base-balance-and-barcode-selection.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2015/02/01/2015-02-01-base-balance-and-barcode-selection.html" class="leancloud_visitors" data-flag-title="二代测序：碱基平衡性与barcode选择">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://blog-fungenomics-com.qiniudn.com/st.post.Figure0.png" alt="Sequencing"></p>
+<p>这是转载过来的一篇文章，虽然基础，但却觉得是很重要的知识,所以便记录了下来，原始出处来自微信公众号“基因测序资讯AGCT”。</p>
+<h2 id="碱基平衡性"><a href="#碱基平衡性" class="headerlink" title="碱基平衡性"></a>碱基平衡性</h2><hr>
+<p>碱基复杂度与碱基多样性是一个意思；复杂度高，碱基即平衡。低多样性(low diversity)即碱基不平衡，指碱基的组成太单纯了，种类少。碱基复杂度本来无关紧要，从前除了设计PCR的时候考虑高GC(GC-rich)以外，基本没人思考这个问题，没人觉得这是一个问题。随着Illumina的二代测序技术风靡全球，独占鳌头，这个不起眼的概念意外地变得重要起来。</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/st.post.Figure1.jpg" alt="Figure1"></p>
+<p><strong>一、概念</strong></p>
+<p>对于一个基因来说，它所包含的碱基种类越多，则碱基复杂度越高；如果各种碱基的百分含量越接近一致，则碱基组成越平衡。</p>
+<p>假设一个DNA片段，它的全部碱基都是A，AAAAAAAAAAAAAAAAAAAAAAAA，显然其碱基组成是极度不平衡的。</p>
+<p>DNA碱基有4种：AGCT。所以碱基最平衡的情况就是：%A=%G=%C=%T=25%，比如这样的DNA片段：AGCTAGCTAGCTAGCTAGCTAGCTAGCTAGCT。</p>
+<p>以上是从纵的方面讲的。对于二代测序，更重要的是横的方面。假设12个基因整整齐齐站成一排，第一个位置的12个碱基如果都是A，复杂度太低，严重不平衡；如果A和G各有6个，虽然平衡了，但是复杂度还是不够；如果AGCT各有3个，最复杂，也最平衡；如果A3个G4个C4个，T1个，虽然复杂，但是严重不平衡。</p>
+<p><strong>二、影响</strong></p>
+<p>4张滤色片，在4个波长处收集信号，然后合成，进行cluster定位及其他运算。如果缺少一种碱基，该波长的照片就是全黑的，没有信号，无法完成图片合并以及cluster定位，导致数据浪费。</p>
+<p><strong>需要特别注意碱基复杂度的二代测序应用:</strong>PCR产物测序，特别是用于鉴定细菌、真菌以及其他物种的16S rRNAPCR产物测序；小RNA测序；甲基化测序。</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/st.post.Figure2.jpg" alt="Figure2"></p>
+<p><strong>三、增加碱基复杂度的方法</strong></p>
+<p>文库：</p>
+<ol>
+<li>把不同的文库混合在一起。        </li>
+<li>如果没有其他文库，那么掺入人基因组DNA文库、人外显子组文库或者PhiX标准品。这些都是已知碱基平衡的。     </li>
+</ol>
+<p>引物：     </p>
+<ol>
+<li>对于PCR产物来说，只要引物长度不同，就能自然错开，增加碱基复杂度。       </li>
+<li>采用多对序列不同的引物来完成扩增，然后将产物混合在一起。     </li>
+</ol>
+<p>Barcodes：          </p>
+<ol>
+<li>仔细挑选barcode组合，确保每个位置都有3-4种碱基且碱基分布均匀。</li>
+</ol>
+<h2 id="barcode-选择"><a href="#barcode-选择" class="headerlink" title="##barcode 选择"></a>##barcode 选择</h2><p>很多情况下，我们需要把多个样本混合在一起，在同一个通道(lane)里完成测序。像转录组测序、miRNA测序、lncRNA测序、ChIP测序等等，通常每个样本所需要的数据量都比较少，远少于HiSeq一个通道的产出能力，混合样本是非常常见。以转录组测序为例，一个样本测序60 M reads (8G PF data) ，就能够满足绝大部分研究所需。而HiSeq2500-PE125的一条通道，使用V4试剂，数据产出&gt;480 M reads。为了充分利用测序仪产能，节约成本，需要把7~8个RNA样本混合起来。</p>
+<p>为了能够把测序数据按样本分离（de-multiplexing），在构建文库(library)的时候，需要用不同的标签序列(index, 也叫barcode)对文库进行标记。只有文库作了记号，数据才能区分。</p>
+<p>Barcode的选择是一门技术活。如果barcode组合不佳，标签序列测序质量下降，部分或者全部标签碱基识别不正确，将导致部分数据无法归属到任何一个样本，成为undetermined数据，造成浪费。</p>
+<p><strong>一、如何判断barcode组合好坏</strong></p>
+<ol>
+<li><p>碱基平衡。好的barcode组合必须是“4种碱基达到平衡”的，或者说碱基复杂度高。具体就是：<br>a. 在一组barcode的每一个位置，同时存在A、G、C、T四种碱基，不缺少任何一种碱基；<br>b. 这4种碱基的比例接近，最好各1/4，分别为25%左右，没有任何一种碱基特别多或者特别少。  </p>
+</li>
+<li><p>激光平衡。 受客观条件限制</p>
+</li>
+</ol>
+<p>a.试剂盒提供的barcode种类有限<br>b.有些barcode已经被其他样本占用，导致可选的余地受限制，这就导致barcode组合经常无法达到理想的碱基平衡要求。退而求其次，要力保“红绿激光达到平衡”。</p>
+<blockquote>
+<p>在所有型号的Illumina测序仪中，<strong>A和C两种碱基共用一种激光，由波长660 nm的红激光激发</strong>；<strong>G和T共用一种激光，由波长532 nm的绿激光激发</strong>。对于一组barcode的每一个位置，如果A＋C的总数与G＋T的总数相接近，可以在一定程度上弥补碱基不平衡的负面作用。</p>
+</blockquote>
+<p>3、激光平衡是次优选择，不得已而为之。它虽然可以在一定程度上提高barcode测序质量，减少de-multiplexing出问题的可能性，但是并不是说，只要激光平衡了，测序数据的分离就一定不受影响。<br>4、如果barcode组合碱基也不平衡，激光也不平衡，则de-multiplexing风险非常高。</p>
+<p><strong>二、Barcode组合举例</strong></p>
+<ol>
+<li>好的组合。</li>
+</ol>
+<p>Illumina推荐的12个样本barcode组合如下。 </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">编号</th>
+<th style="text-align:center">序列</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">01</td>
+<td style="text-align:center">ATC ACG</td>
+</tr>
+<tr>
+<td style="text-align:center">02</td>
+<td style="text-align:center">CGA TGT</td>
+</tr>
+<tr>
+<td style="text-align:center">03</td>
+<td style="text-align:center">TTA GGC</td>
+</tr>
+<tr>
+<td style="text-align:center">04</td>
+<td style="text-align:center">TGA CCA</td>
+</tr>
+<tr>
+<td style="text-align:center">05</td>
+<td style="text-align:center">ACA GTG</td>
+</tr>
+<tr>
+<td style="text-align:center">06</td>
+<td style="text-align:center">GCC AAT</td>
+</tr>
+<tr>
+<td style="text-align:center">07</td>
+<td style="text-align:center">CAG ATC</td>
+</tr>
+<tr>
+<td style="text-align:center">08</td>
+<td style="text-align:center">ACT TGA</td>
+</tr>
+<tr>
+<td style="text-align:center">09</td>
+<td style="text-align:center">GAT CAG</td>
+</tr>
+<tr>
+<td style="text-align:center">10</td>
+<td style="text-align:center">TAG CTT</td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center">GGC TAC</td>
+</tr>
+<tr>
+<td style="text-align:center">12</td>
+<td style="text-align:center">CTT GTA</td>
+</tr>
+</tbody>
+</table>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/st.post.Figure3.png" alt="Figure 3"></p>
+<p>以第一个位置（纵列）为例，<strong>A:G:C:T=3:3:3:3=1:1:1:1</strong>。实际上，该barcode组合每个位置的碱基比例都接近<strong>1:1</strong>，碱基平衡度近乎完美。</p>
+<ol>
+<li>不好的组合</li>
+</ol>
+<p>下面的组合有缺陷。比如说，第1个位置只有A和C两种碱基，A、C都属于红激光，导致绿激光没有信号，碱基和激光都不平衡。</p>
+<p>AGT TCC<br>ACT GAT<br>ACG AGC<br>ACT CCT<br>CAA AAG<br>CAA CCA<br>CAC CAG        </p>
+<p><strong>三、Barcode碱基不平衡的后果</strong></p>
+<ol>
+<li>如果barcode组合的碱基组成不平衡，会导致测序进行到这些碱基时，软件对测序信号的处理出现障碍，不能准确地识别这些碱基(base-calling)，表现为QV值降低，%Q30曲线波动。   </li>
+<li>在这种情况下，运用生物信息软件对测序数据进行数据分离（de-multiplexing）出现困难，部分数据不能准确分离，成为undetermined 数据的一部分，造成undetermined数据增多，可分离的数据减少。     </li>
+<li>如果测序数据的总量很多，远大于全部样本数据量期望值的总和，则问题有可能不那么严重，全部或者大部分样本仍然可能分离到足够的数据量。    </li>
+<li>万一样本性质特殊，反应效率低；或者混合样本之间竞争和抑制严重，导致测序数据总量在期望值附近，余量很少；或者其中个别样本数据量特别少，这时如果undetermined数据比例过高，就会导致部分或者全部样本的数据量不够用。   </li>
+<li>混合样本补数据是一个非常麻烦的问题，成本极高。如果一组样本中只有个别样本需要补数据，由于文库是混合在一起的，其他样本也不得不跟着重测一次。这是困难之一。困难之二，如果数据缺口比较小，本来可以与其他样本混合，搭个便车，可是，进行第二次混合的时候，经常会遇到barcode冲突或者碱基不平衡，拼lane非常困难，往往要等很长时间，才有合适的机会。</li>
+</ol>
+<p><strong>四、实验证明de-multiplexing成功，该barcode组合今后是否一定好用</strong></p>
+<ol>
+<li>如果barcode组合碱基平衡，则无论样本怎么变，该组合一定好用。    </li>
+<li>如果barcode组合的碱基组成不理想，即使以前的实验证明好用，不等于今后一定好用。下一次测序效果可能好，也可能不好。   </li>
+<li>这是由于不同的项目样本不同，有可能导致两种后果：  </li>
+</ol>
+<blockquote>
+<p>a.数据总量在期望值附近，余地不够多，de-multiplexing后部分样本数据量不够；<br>b.如果新的样本本身也碱基不平衡，read 1测序质量很差，会影响到barcode和read2的测序质量。当然，情况b责任不在barcode，即使barcode很好，数据还是不够。</p>
+</blockquote>
+<p><strong>五、补救措施</strong></p>
+<p>如果满足以下两个条件：</p>
+<p>a. 混合样本的数据总量足够，只是由于barcode质量不好，导致de-multiplexing后部分或全部样本数据量不够；<br>b. 排除QV值低的barcode碱基后，其余质量好的barcode碱基仍然足够用来区分全部样本；</p>
+<p>那么，可以通过改变de-multiplexing算法来为每个样本获得尽量多的数据。比如去掉信号识别模糊的碱基，或者增加mismatch碱基的数目，重新运行de-multiplexing程序。</p>
+<p><strong>六、样本少于4种，不可能碱基平衡，怎么办</strong></p>
+<p>如果样本数少于4种，每一个位置的碱基最多只有3种，不可能碱基平衡，怎么办呢？这时一定要保证激光平衡。Illumina推荐了3种low-level pooling的barcode组合：</p>
+<p>2个样本：</p>
+<p>:—:|:—-:</p>
+<p>#6|GCC AAT</p>
+<p>#12|CTT GTA</p>
+<p>3个样本：</p>
+<p>:—-:|:—-:</p>
+<p>#4|TGACCA</p>
+<p>#6|GCCAAT</p>
+<p>#12|CTTGTA</p>
+<p>6个样本：</p>
+<p>:—:|:—:</p>
+<p>#2|CGATGT</p>
+<p>#4|TGACCA</p>
+<p>#5|ACAGTG</p>
+<p>#6|GCCAAT</p>
+<p>#7|CAGATC</p>
+<p>#12|CTTGTA</p>
+<p>这3种组合包含一个共同内核：6号和12号。6号和12号组合是百分百激光平衡的，每一个位置的碱基（纵列，即GC、CT、CT、AG、AT和TA）都分别属于不同的激光。只要barcode组合中包含6号和12号，就能满足最基本的要求，不至于颗粒无收。6号和12号是barcode组合的核心，不可或缺。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NGS/" rel="tag"># NGS</a>
+          
+            <a href="/tags/测序技术/" rel="tag"># 测序技术</a>
+          
+            <a href="/tags/碱基平衡性/" rel="tag"># 碱基平衡性</a>
+          
+            <a href="/tags/barcode/" rel="tag"># barcode</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/01/22/2015-01-22-which-programming-language-should-I-learn-first.html" rel="next" title="如何选择入门编程语言">
+                <i class="fa fa-chevron-left"></i> 如何选择入门编程语言
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/03/22/2015-03-22-how-to-become-a-data-scientist.html" rel="prev" title="何不争当数据科学家？">
+                何不争当数据科学家？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shujia Huang(矿工)" />
+          <p class="site-author-name" itemprop="name">Shujia Huang(矿工)</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#碱基平衡性"><span class="nav-number">1.</span> <span class="nav-text">碱基平衡性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#barcode-选择"><span class="nav-number">2.</span> <span class="nav-text">##barcode 选择</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shujia Huang(矿工)</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://huangshujia.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://huangshujia.me/2015/02/01/2015-02-01-base-balance-and-barcode-selection.html';
+          this.page.identifier = '2015/02/01/2015-02-01-base-balance-and-barcode-selection.html';
+          this.page.title = '二代测序：碱基平衡性与barcode选择';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://huangshujia.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("PG9NA27zW2WuxmCMvOMlxzua-gzGzoHsz", "VMwO1UNTnT8FgGg411rzjALa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

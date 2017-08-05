@@ -1,0 +1,895 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RESTful API,web," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="这真的是一个系统工程！ 首先，我要开发一个在线的基因组数据库，目的是能够以符合RESTful API设计准则来进行访问的数据Web服务。虽然，此前我没接触过任何Web开发，想想也是困难重重，但这并不能阻止我——兴趣所在，而且我自己也更清楚需求是什么。 那么说干就要干。经过一番有限的比较之后（主要是看各种技术论坛和博客），我发现Rails、Django和Flask都适合用来干这个事情，他们的文档都很">
+<meta name="keywords" content="RESTful API,web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Flask开发基因组数据web服务的RESTful API（1）">
+<meta property="og:url" content="http://huangshujia.me/2015/12/20/2015-12-20-Develop-a-genome-data-RESTful-API-server-by-flask-1.html">
+<meta property="og:site_name" content="YellowTree Homepage">
+<meta property="og:description" content="这真的是一个系统工程！ 首先，我要开发一个在线的基因组数据库，目的是能够以符合RESTful API设计准则来进行访问的数据Web服务。虽然，此前我没接触过任何Web开发，想想也是困难重重，但这并不能阻止我——兴趣所在，而且我自己也更清楚需求是什么。 那么说干就要干。经过一番有限的比较之后（主要是看各种技术论坛和博客），我发现Rails、Django和Flask都适合用来干这个事情，他们的文档都很">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-05-14T17:43:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Flask开发基因组数据web服务的RESTful API（1）">
+<meta name="twitter:description" content="这真的是一个系统工程！ 首先，我要开发一个在线的基因组数据库，目的是能够以符合RESTful API设计准则来进行访问的数据Web服务。虽然，此前我没接触过任何Web开发，想想也是困难重重，但这并不能阻止我——兴趣所在，而且我自己也更清楚需求是什么。 那么说干就要干。经过一番有限的比较之后（主要是看各种技术论坛和博客），我发现Rails、Django和Flask都适合用来干这个事情，他们的文档都很">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huangshujia.me/2015/12/20/2015-12-20-Develop-a-genome-data-RESTful-API-server-by-flask-1.html"/>
+
+
+
+
+
+  <title>基于Flask开发基因组数据web服务的RESTful API（1） | YellowTree Homepage</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9091dc3354962cd0705c6a0c94b8a931";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">YellowTree Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2015/12/20/2015-12-20-Develop-a-genome-data-RESTful-API-server-by-flask-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shujia Huang(矿工)">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YellowTree Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于Flask开发基因组数据web服务的RESTful API（1）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-20T00:00:00+08:00">
+                2015-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/" itemprop="url" rel="index">
+                    <span itemprop="name">生物信息</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/基因组学/" itemprop="url" rel="index">
+                    <span itemprop="name">基因组学</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/12/20/2015-12-20-Develop-a-genome-data-RESTful-API-server-by-flask-1.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2015/12/20/2015-12-20-Develop-a-genome-data-RESTful-API-server-by-flask-1.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2015/12/20/2015-12-20-Develop-a-genome-data-RESTful-API-server-by-flask-1.html" class="leancloud_visitors" data-flag-title="基于Flask开发基因组数据web服务的RESTful API（1）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这真的是一个系统工程！</p>
+<p>首先，我要开发一个在线的基因组数据库，目的是能够以符合<a href="http://www.restapitutorial.com/" target="_blank" rel="external">RESTful API</a>设计准则来进行访问的数据Web服务。虽然，此前我没接触过任何Web开发，想想也是困难重重，但这并不能阻止我——兴趣所在，而且我自己也更清楚需求是什么。</p>
+<p>那么说干就要干。经过一番有限的比较之后（主要是看各种技术论坛和博客），我发现<a href="http://rubyonrails.org/" target="_blank" rel="external">Rails</a>、<a href="https://www.djangoproject.com/" target="_blank" rel="external">Django</a>和<a href="http://flask.pocoo.org/" target="_blank" rel="external">Flask</a>都适合用来干这个事情，他们的文档都很好，是目前Web开发的主流，社区活跃，用的人多了碰到问题也容易找到解决方案，但是觉得Rails和Django太大，太系统，以至于冗余，我希望的是微框架，因为初步搭成只是第一步，后面一定会有很多自定的优化和开发，而不是一次就完成，太冗余不灵活的话反而会极大影响自己的后续步骤，灵活的可拓展性对我而言反而更重要。这么考虑之后，我就选了Flask，其他的组件需要的时候加入即可，还可以随时换掉，或者自己重写，而且项目结构是完全自定的，这就很适合我的口味了，框架功能不需多，只要解决了Web开发中最重要的问题，作为一个最小可行集就OK——就像人体肠道最小宏基因组一样，浓缩即是精华，其他的枝叶要能够被灵活地删增。</p>
+<p>那么选好之后，接下来我是怎么做的呢？第一，学会了Flask，读了很多技术博客，操练了一些如何例子，比如<a href="http://www.pythondoc.com/flask-restful/" target="_blank" rel="external">使用 Python 和 Flask 设计 RESTful API</a>，<a href="http://www.pythondoc.com/flask-mega-tutorial" target="_blank" rel="external">The Flask Mega-Tutorial</a>等，同时读了<a href="https://book.douban.com/subject/26274202/" target="_blank" rel="external">《Flask Web开发：基于Python的Web应用开发实战》</a>，这对于我这种从未接触过Web应用开发的小白来说，真是一本好书，读了之后真是有一种相见恨晚的感觉，内容很好读[但我并不是说它读起来容易。虽然它确实是从基础的讲起，然而对我这类没有任何基础的人来说并不十分容易，好在]从开发到测试到部署每一步都十分清晰，很多内容讲得比博客清楚得多多了，而且整本书本身就是项目驱动的，就像我也是项目驱动要去用Flask一样。<br>第二，要学会数据库。其实这一步和前面是分不开了，基本都是同时进行。但在选择使用那种数据库这一步中我也花了不少心思，最后按照我的数据情况，我选择了非关系型数据库MongoDB。</p>
+<p>在这个一周多的学习时间中（工作之外的时候），我学到了很多，不但实现了一个完整的Web应用，还进一步加深加强了对如何更有效应用python的理解和认识。对我提升最大的还不是会了如何用flask去做一个简单的web，而是它们的设计理念，程序/项目如何布局，如何分离，如何做到低耦合，测试和性能分析应该怎么做才合理有效，这些理念是我们平时做基因组数据分析所缺少（马虎）的，因为本来许多生物信息工程师并不懂web开发，甚至从未有过任何IT软件设计的训练，平时也难有时间专门去学习，很多时候都是，任务来了要赶紧写个程序解决一下，然后再来一个任务，又再写个程序处理一下，如此反复，时间久了这些零散的程序根本难以复用，最后慢慢地也就成了垃圾程序。就算是比较大型的生信软件的开发，过程和布局也欠缺规范，关于这一点我深有体会，也想抽时间去系统学习，但实际操作起来并没严格注意，更多的是直接参看github上一些项目的布局和设计来依样画葫芦而已。</p>
+<p>接下来就难了，要做符合RESTful API准则的数据web服务，那么就得开始设计API了。怎么做？不同版本如何管理，如何<a href="http://semver.org/lang/zh-CN/" target="_blank" rel="external">语义化</a>，如何条理化管理新旧版本的内容和功能？如何把基因组数据资源转换为JSON格式的序列化字典，大数据资源如何分页等等诸多的细节都需要一一考虑，我参考了<a href="https://docs.solvebio.com/docs/api-overview" target="_blank" rel="external">Solvebio</a>，<a href="api.23andme.com">23andme</a>，<a href="https://developers.douban.com/wiki/?title=api_v2" target="_blank" rel="external">豆瓣</a>等，最后得到了我自认为比较合理的设计方式。</p>
+<p>（未完待续）</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RESTful-API/" rel="tag"># RESTful API</a>
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/25/why-fpkm-and-rpkm-are-wrong.html" rel="next" title="为什么说FPKM/RPKM是错的">
+                <i class="fa fa-chevron-left"></i> 为什么说FPKM/RPKM是错的
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/02/02/2016-02-02-How-to-create-manhattan-and-qq-plot-for-GWAS-study-in-Python.html" rel="prev" title="如何使用Python绘制GWAS分析中的曼哈顿图和QQ图">
+                如何使用Python绘制GWAS分析中的曼哈顿图和QQ图 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shujia Huang(矿工)" />
+          <p class="site-author-name" itemprop="name">Shujia Huang(矿工)</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shujia Huang(矿工)</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://huangshujia.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://huangshujia.me/2015/12/20/2015-12-20-Develop-a-genome-data-RESTful-API-server-by-flask-1.html';
+          this.page.identifier = '2015/12/20/2015-12-20-Develop-a-genome-data-RESTful-API-server-by-flask-1.html';
+          this.page.title = '基于Flask开发基因组数据web服务的RESTful API（1）';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://huangshujia.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("PG9NA27zW2WuxmCMvOMlxzua-gzGzoHsz", "VMwO1UNTnT8FgGg411rzjALa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

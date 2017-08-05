@@ -1,0 +1,961 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="网站插件," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="目录 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;概述&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;评论系统由Disqus改成了多说&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;添加google analytics&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;如何搞定数学公式显示问题&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;如何让每个页面自动生成二维码&amp;nbsp;&amp;nbsp;&amp;nb">
+<meta name="keywords" content="网站插件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="博客大改版：添加评论，二维码生成，数学公式的显示，添加分析代码等">
+<meta property="og:url" content="http://huangshujia.me/2014/07/18/2014-07-18-Change-blog-template.html">
+<meta property="og:site_name" content="YellowTree Homepage">
+<meta property="og:description" content="目录 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;概述&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;评论系统由Disqus改成了多说&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;添加google analytics&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;如何搞定数学公式显示问题&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;如何让每个页面自动生成二维码&amp;nbsp;&amp;nbsp;&amp;nb">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.lagou.com/upload/webproduct/ff80808142c5ed7f0142c6bb08cc12fe.png">
+<meta property="og:image" content="http://www.proyectosbds.com/blog/wp-content/uploads/2012/11/google-analytics-impementation.jpg">
+<meta property="og:image" content="http://media.journals.elsevier.com/content/images/main/elsevier-continues-as-mathjax-12092220.jpg">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/st.post.2014-07-18-Figure4-QRcode.jpg">
+<meta property="og:image" content="http://85ryan.com/wp-content/uploads/2013/09/simple-jquery-back-to-top-button.jpg">
+<meta property="og:updated_time" content="2017-05-14T17:40:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="博客大改版：添加评论，二维码生成，数学公式的显示，添加分析代码等">
+<meta name="twitter:description" content="目录 &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;概述&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;评论系统由Disqus改成了多说&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;添加google analytics&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;如何搞定数学公式显示问题&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;如何让每个页面自动生成二维码&amp;nbsp;&amp;nbsp;&amp;nb">
+<meta name="twitter:image" content="http://www.lagou.com/upload/webproduct/ff80808142c5ed7f0142c6bb08cc12fe.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huangshujia.me/2014/07/18/2014-07-18-Change-blog-template.html"/>
+
+
+
+
+
+  <title>博客大改版：添加评论，二维码生成，数学公式的显示，添加分析代码等 | YellowTree Homepage</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9091dc3354962cd0705c6a0c94b8a931";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">YellowTree Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2014/07/18/2014-07-18-Change-blog-template.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shujia Huang(矿工)">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YellowTree Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">博客大改版：添加评论，二维码生成，数学公式的显示，添加分析代码等</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-07-18T00:00:00+08:00">
+                2014-07-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Blog/" itemprop="url" rel="index">
+                    <span itemprop="name">Blog</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/07/18/2014-07-18-Change-blog-template.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2014/07/18/2014-07-18-Change-blog-template.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2014/07/18/2014-07-18-Change-blog-template.html" class="leancloud_visitors" data-flag-title="博客大改版：添加评论，二维码生成，数学公式的显示，添加分析代码等">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><hr>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#introduce"><strong>概述</strong></a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#1"><strong>评论系统由Disqus改成了多说</strong></a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#2"><strong>添加google analytics</strong></a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#3"><strong>如何搞定数学公式显示问题</strong></a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#4"><strong>如何让每个页面自动生成二维码</strong></a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#5"><strong>如何添加“返回顶部”按钮“</strong></a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#6"><strong>其他</strong></a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#7"><strong>最后</strong></a>   </p>
+<p><a id="introduce" name="introduce"> </a></p>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><hr>
+<p>前几天把博客改版了，在<a href="https://github.com/jekyll/jekyll/wiki/Sites" target="_blank" rel="external">Jekyll wiki</a>上爬主题来回爬了好几遍，先是爬了<a href="http://lhzhang.com/" target="_blank" rel="external">Linghua Zhang</a>,而后又直接爬了<a href="http://yihui.name/" target="_blank" rel="external">yihui</a>和<a href="http://webfrogs.me/" target="_blank" rel="external">Carl Chen</a>，不过做我这个版面主题的原始作者是<a href="http://yihui.name/" target="_blank" rel="external">yihui</a>，随便一提这位是牛人，<a href="http://cos.name/" target="_blank" rel="external">统计之都</a>和<a href="http://cos.name/cn/" target="_blank" rel="external">COS</a>论坛，以及中国R会议（第一届开始）都是他弄的，年纪轻轻且最近已经出了两本和R相关的书在亚马逊上卖了，恐怕国内（+很多国外）用过R的基本都知道！感兴趣的可以去他的<a href="http://yihui.name/" target="_blank" rel="external">主页</a>扒扒。。。扯远了，说回我自己，虽然我也想改得更加不同一些，但一方面暂时还没啥时间，其次，此前未碰过任何与网页制作相关之事，HTML勉强能看，css和js就停留在听说过这两词的地步；然，最重要的是，我也看上了这个版面！所以门面修改一事先缓一缓吧，先在这里谢过各位作者大人！但是话也说回来，以上只要有任意一位作者介意，我也只能作罢，重新扒过。</p>
+<p>OK，既然现在外在的部分还无力去动，那接下来，我说一下自己所做的一些内在改变。</p>
+<p><a id="1" name="1"> </a></p>
+<h3 id="1-评论系统由Disqus改成了多说"><a href="#1-评论系统由Disqus改成了多说" class="headerlink" title="1. 评论系统由Disqus改成了多说"></a>1. 评论系统由Disqus改成了多说</h3><hr>
+<p><img src="http://www.lagou.com/upload/webproduct/ff80808142c5ed7f0142c6bb08cc12fe.png" alt="多说"></p>
+<p>我倒不是排斥Disqus，一开始我用的就是它，Disqus，国际化，版面简洁，管理容易，主页也生动，cool，我很喜欢！一个账号说遍天下，当然这一点上多说也一样。换掉它根本的原因还是在于伟大的‘墙’，Disqus只具有分享到Facebook和Twitter的功能，而这两货正常途径咱是上不了的。也罢，在国内的话多说用起来确实要更友好些，所以这次改版就重新选择了和国内社交网络联系在一起的多说。</p>
+<p>这里我说一下自己是如何添加的。</p>
+<p>（1）如果还没有绑定多说，那第一步需要做的就是到<a href="http://duoshuo.com/" target="_blank" rel="external">多说</a>上绑定。多说是不需要做任何注册的，只要有QQ，微博，百度等账号就行，这一点相当方便，不然我又得增加一个账号，我都已经记不得自己在网络上到底注册过多少个账号了，恐怕各型各色几百个都有了！ </p>
+<p>（2）尔后，登陆多说主页点击“我要安装”，按提示走就行了。在<code>站点地址</code>这一栏填入自己的域名，再填上其他信息，按”创建”</p>
+<p>（3）创建了之后，在侧边框找到选择<code>工具</code>，选择<code>通用代码</code>，会看到多说提供了一段相关的代码，我们要做的事情很简单，直接把它复制并贴到你自己网页的代码中，然后，就没有然后了。。。诶诶，慢着呀！那应该贴进哪一个的网页里头啊？我这简单说明一下，比如，<code>_layout</code>（生成网站页面的相关网页绝大数都放这，jekyll会自己来加载）目录下我们一般都会创建<code>defualt.html</code>, <code>page.html</code>, <code>post.html</code>等这么几个文件。我假设<code>post.html</code>就是你用于博客的，而你也只想博客的页面才加多说评论框，那么代码就应该贴进<code>post.html</code>。虽然你可以放在<body>与</body>之间的任何位置，但考虑到页面主要内容的加载速度，最好还是把它靠后放，评论模块要那么急着加载干嘛，最好就只是在之前，下面我给了个示意。</p>
+<p>添加多说的代码结构。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">...</div><div class="line"><span class="tag">&lt;<span class="name">!—多说代码--</span>&gt;</span></div><div class="line">&#123; % include duoshuo.md % &#125; <span class="comment">&lt;!-- 实际使用中 “&#123;” 和 “%”，以及“%”和”&#125;“ 之间的空格需要去掉--&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>如果除了post.html，你还打算将它添加到其他的页面中，也没问题，操作和上面类似。但整块整块的代码复制来复制去的，总觉得很麻烦，一旦想修改还得一个个去改，太吃力了！！我自己更喜欢的一种方式就是直接把多说的代码写到一个单独的文件中，比如就叫<code>duoshuo.md</code>，并放在<code>_include</code>目录下（这个目录按照jekyll的建议，就是让我们用来存放模块插件的），然后在需要多说的页面中直接调用<code>{ % include duoshuo.md % }</code>就行(本文为了显示的原因在<code>{</code>和<code>%</code>以及<code>%</code>和<code>}</code>之间加了一个空格，正式使用的时候注意去掉，下同)，这就犹如一个函数一般，修改也只需要改duoshuo.md这个文件，相当方便。</p>
+<p>在设置<code>&lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;请将此处替换成文章在你的站点中的ID&quot; data-title=&quot;请替换成文章的标题&quot; data-url=&quot;请替换成文章的网址&quot;&gt;&lt;/div&gt;</code>，这几个值的时候，我参考了这篇<a href="http://www.leejianyang.com/2014/05/25/duoshuo_tutorial/" target="_blank" rel="external">博文</a>，它讲的很清楚，不过里面写成data-thread-key=”&lt;%= page.path %&gt;”，data-title=”&lt;%= page.title %&gt;”和data-url=”&lt;%= page.permalink %&gt;”的形式在我这并不能成功，不知道是否与我用markdown格式编辑有关。所以后来我改成<code>&lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;{ { page.path } }&quot; data-title=&quot;{ { page.title } }&quot; data-url=&quot;{ { page.permalink } }&quot;&gt;&lt;/div&gt;</code>就成功了（本文为了显示的原因在<code>{</code>和<code>{</code>以及<code>}</code>和<code>}</code>之间加了一个空格，正式使用的时候注意去掉，下同）。</p>
+<p><a id="2" name="2"> </a>  </p>
+<h3 id="2-添加google-analytics"><a href="#2-添加google-analytics" class="headerlink" title="2. 添加google analytics"></a>2. 添加google analytics</h3><hr>
+<p><img src="http://www.proyectosbds.com/blog/wp-content/uploads/2012/11/google-analytics-impementation.jpg" alt="GA"><br>对于自己的网站，一个关心的事情就是网站的浏览量如何？是通过什么途径以什么方式流入流出的？别的先不多说，光是能时刻知道自己的网站在哪里、被用什么操作系统、多少人浏览、网页之间的流入流出是怎么样的等状态信息的本身就是一个很cool的事情，这跟玩游戏一样，相信没多少人会愿意把自己角色的血条和蓝条隐藏掉，然后在那瞎玩。所以我就开始琢磨着应该怎么搞定这样一个事情。后来知道了可以用<a href="http://www.google.com/analytics/" target="_blank" rel="external">google-analytics</a>帮助记录和分析，同样需要登陆google账号，填入网站域名，获得对应该域名的google analytics网络跟踪代码，然后又是复制粘贴。改过一次评论系统之后，我就发现，这东西都是大同小异的，就那么几下板斧。当然了我还是把它单独写成一个模块放在<code>_include</code>下供调用。代码如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- Google Analysis For website tracking --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="undefined">  (function(i,s,o,g,r,a,m)&#123;i['GoogleAnalyticsObject']=r;i[r]=i[r]||function()&#123;</span></div><div class="line"><span class="undefined">  (i[r].q=i[r].q||[]).push(arguments)&#125;,i[r].l=1*new Date();a=s.createElement(o),</span></div><div class="line"><span class="undefined">  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)</span></div><div class="line"><span class="undefined">  &#125;)(window,document,'script','//www.google-analytics.com/analytics.js','ga');</span></div><div class="line"><span class="undefined"></span></div><div class="line"><span class="undefined">  ga('create', 'UA-52659904-2', 'auto');</span></div><div class="line"><span class="undefined">  ga('require', 'displayfeatures'); </span></div><div class="line"><span class="undefined">  ga('send', 'pageview');</span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span> </div><div class="line"><span class="comment">&lt;!-- Google Analysis end --&gt;</span></div></pre></td></tr></table></figure>
+<p>这一次我希望全站跟踪，<code>default.html</code>是我所有页面都会添加的网页，所以这个代码就放在<code>default.html</code>中了。关于GA代码应该放在文件中的哪个位置比较适合，我还是做了一下考虑的，参考了<a href="http://bluewhale.cc/2010-07-19/google-analytics-add-tracking-code.html" target="_blank" rel="external">这篇文章</a>,按照异步跟踪的方式添加：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">...</div><div class="line"><span class="tag">&lt;<span class="name">!—GA异步追踪代码--</span>&gt;</span></div><div class="line">&#123; % include googleAnalysis.md % &#125; <span class="comment">&lt;!-- 实际使用中 “&#123;” 和 “%”，以及“%”和”&#125;“ 之间的空格需要去掉--&gt;</span></div><div class="line">...</div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><strong>注意:</strong> <em>在国内使用google analytics 并不是一个明智的做法，它已被封，这会大大降低你的网页访问速度，体验极差，建议还是使用百度分析.</em></p>
+<p><a id="3" name="3"> </a></p>
+<h3 id="3-如何搞定数学公式显示问题"><a href="#3-如何搞定数学公式显示问题" class="headerlink" title="3. 如何搞定数学公式显示问题"></a>3. 如何搞定数学公式显示问题</h3><hr>
+<p><img src="http://media.journals.elsevier.com/content/images/main/elsevier-continues-as-mathjax-12092220.jpg" alt="mathJax"></p>
+<p>makrdown是个好东西，jekyll+markdown做网站很容易！但麻烦的是，markdown不能支持LaTeX，我写个数学公式在那上面，它解析不了，只是原封不动的显示在那。。这一点真让人捉急！咋办？又是一番的google，后来还是找到了个好办法——<a href="http://www.mathjax.org/" target="_blank" rel="external">MathJax</a>，它是一个数学公式显示引擎，能够把LaTeX编辑的公式在网页上显示出来，不过它是在线解析的，公式如果比较多的话，显示速度会稍慢。要用MathJax，需要先把<code>_config.yml</code>中的makrdown解析器换成<code>kramdown</code>，不然用不了。我同样也是写成模块<code>mathJax.md</code>，然后由post.html调用(估计我也不会在除了博客之外的地方用到它)，为了加载速度，也放的靠后一些，刚好在多说模块上面，下面是我用的mathJax.md模块的代码，当然了，若有需要你也可以使用：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/x-mathjax-config"</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="undefined">  MathJax.Hub.Config(&#123; tex2jax: &#123;inlineMath: [['$','$'], ['\\(','\\)']]&#125; &#125;);</span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span></span></div><div class="line"><span class="tag">  <span class="attr">src</span>=<span class="string">"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>成功添加了之后只需在公式前后用\$\$围起来，就可方便的编写公式了。如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$$</div><div class="line">\rho_i=\sum_j\chi(d_&#123;ij&#125;-d_c)</div><div class="line">$$</div></pre></td></tr></table></figure>
+<p>显示的结果就是：<br>$$<br>\rho_i=\sum<em>j\chi(d</em>{ij}-d_c)<br>$$</p>
+<p><a id="4" name="4"> </a></p>
+<h3 id="4-如何让每个页面自动生成二维码"><a href="#4-如何让每个页面自动生成二维码" class="headerlink" title="4. 如何让每个页面自动生成二维码"></a>4. 如何让每个页面自动生成二维码</h3><hr>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/st.post.2014-07-18-Figure4-QRcode.jpg" alt="QR"></p>
+<p>二维码的作用其实也不必做多解释，最重要的就是方便。我之前并不知道可以用Google API为网站自动生成二维码一事，直到我成功了之后才恍然一悟，真是隔行如隔山。一开始我都是暴力解决：找个能生成二维码的网站，把自己每一篇博客的网址贴进去，点击生成二维码，然后再把这个生成的二维码图片下载下来，接着将它上传至图床，最后再将图片的链接添加到每篇博客的最后！这实在是。。。这个过程就算只是这样说起来都觉得十分费事，可以想象操作起来该有多费劲，而且一旦网站发生调整，就得重来一遍，实在低效！所以我一直寻思着该如何做才能让网页自己去产生二维码，一定要将它自动化！后来注意到了这个<a href="https://www.the-qrcode-generator.com/" target="_blank" rel="external">QR生成器</a>，并且受到它<code>share</code>按钮中内容的启发，我当时就在想为什么它这样的一段代码（如下）在插入到网页中之后就能出来一个二维码呢？（当然这个二维码是指向它自己网站的）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--QR生成器的share代码--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://www.the-qrcode-generator.com/"</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"http://chart.apis.google.com/chart?chs=200x200&amp;amp;cht=qr&amp;amp;chld=|1&amp;amp;chl="</span> <span class="attr">alt</span>=<span class="string">"QR Code"</span> /&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>在仔细观察后发现代码中url地址中后面的<code>chs=200x200&amp;amp;cht=qr&amp;amp;chld=|1&amp;amp;chl=</code>看起来很像某些参数，貌似是可以自己设置的，若真如此的话，又该怎么做呢？这次得感谢<a href="http://www.divcss5.com/template/m504.shtml" target="_blank" rel="external">DIVCSS5</a>这篇博文中的那一段代码结构，它完全让我明白了自己该如何改装上面的QR生成器代码让它能为我所用，给每一个网页都自动根据自己的网址产生正确的二维码，改了的代码如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 网页自动生成二维码的代码 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined">  </span></div><div class="line"><span class="undefined">  thisURL  = document.URL;  </span></div><div class="line"><span class="xml">  strwrite = "<span class="tag">&lt;<span class="name">p</span> <span class="attr">align</span>=<span class="string">'center'</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">'http://chart.apis.google.com/chart?chs=120x120&amp;amp;cht=qr&amp;amp;chld=|1&amp;amp;chl=" + thisURL + "'</span> <span class="attr">width</span>=<span class="string">'120'</span> <span class="attr">height</span>=<span class="string">'120'</span> <span class="attr">alt</span>=<span class="string">'QR Code'</span>/&gt;</span>（传送门）<span class="tag">&lt;/<span class="name">p</span>&gt;</span>";</span></div><div class="line"><span class="undefined">  document.write( strwrite ); </span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这一段代码本身是独立的，不依赖于任何特定的网站拥有者，而且光看代码我们也能想象得到，这里头调用的就是Google API，所以如果有需要，也欢迎大家直接复制粘贴到自己的页面代码中。当然了，我还是把它独立写在了一个文件——<code>qrCodeGenerate.md</code>中并放在了<code>_include</code>目录下，然后再调用，就跟上面添加多说和google跟踪代码一个思路，不过这个倒没什么位置限制，就看各自喜欢放哪就放哪，只要是在<body>与</body>之间就行，但我还是建议放在博文内容加载模块之后，这样可以确保博文内容先加载。</p>
+<p><strong>注意:</strong> <em>后来在国内发现上面这个基于google的二维码，不但没用还大大影响了页面的加载速度！原因大家也都知道，具体的修改请参看这篇<a href="/2014/09/19/Change-QRCode-Generator.html">修改二维码生成工具</a>博文。</em></p>
+<p><a id="5" name="5"> </a></p>
+<h3 id="5-如何添加“返回顶部”按钮"><a href="#5-如何添加“返回顶部”按钮" class="headerlink" title="5. 如何添加“返回顶部”按钮"></a>5. 如何添加“返回顶部”按钮</h3><hr>
+<p><img src="http://85ryan.com/wp-content/uploads/2013/09/simple-jquery-back-to-top-button.jpg" alt="Backtop"></p>
+<p>“返回顶部”按钮（本博客右下角）的添加完全参照<a href="http://liberize.me/tech/jekyll-add-back-to-top-button.html" target="_blank" rel="external">这个教程</a>，作者写的相当详细！按照文章的信息我把’二’中的代码写入backtop.js，’三’中的信息写入backtop.css。然后将它们放在defualt.html中的<head>与</head>之间调用，示意如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">...</div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"/media/css/backtop.css"</span>&gt;</span>  <span class="comment">&lt;!-- Back Top --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"/media/js/backtop.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>  <span class="comment">&lt;!-- Back Top --&gt;</span></div><div class="line">...</div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><a id="6" name="6"> </a></p>
+<h3 id="6-其他"><a href="#6-其他" class="headerlink" title="6. 其他"></a>6. 其他</h3><hr>
+<p>（1）关于主页上的“<a href="/forum">FORUM</a>”，本来有打算做成类似于论坛形式可以让大家就某个话题来进行讨论，但是发现要实现这个功能难度很大工作量不小！限于我自己能力有限，这个也得慢慢来，暂时将就变成了贴“鸡汤文”的板子了，o(╯□╰)o！</p>
+<p>（2）google网站站长工具，上传了一份google提供的验证网页（它仅是验证之用），成功之后虽然可以将它删掉，但google官网的意思是建议留下。</p>
+<p>（3）图床的选择。图床对于独立博客来说是一个重要又头疼的事情，目前我直接用<a href="http://www.diandian.com/" target="_blank" rel="external">点点博客</a>的图片功能，使用外链。它的好处是免费，稳定，访问速度也快，要是真有一天点点不允许这样用的话，那我也不怕，实在不行就用七牛(<strong>注: 已改用七牛</strong> )，或者想办法用Github作为图床。</p>
+<p><a id="7" name="7"> </a></p>
+<h3 id="7-最后"><a href="#7-最后" class="headerlink" title="7. 最后"></a>7. 最后</h3><hr>
+<p>OK！唠叨了不少总算把这篇文章写完了。接下来与博客搭建相关的内容先暂放一边了，我要回归主业的更新了。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网站插件/" rel="tag"># 网站插件</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/07/09/2014-07-09-Blog-Migration.html" rel="next" title="博客搬家">
+                <i class="fa fa-chevron-left"></i> 博客搬家
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/07/19/2014-07-19-Human-did-not-evolved-from-monkey.html" rel="prev" title="人类不是从猴子进化而来">
+                人类不是从猴子进化而来 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shujia Huang(矿工)" />
+          <p class="site-author-name" itemprop="name">Shujia Huang(矿工)</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-评论系统由Disqus改成了多说"><span class="nav-number">3.</span> <span class="nav-text">1. 评论系统由Disqus改成了多说</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-添加google-analytics"><span class="nav-number">4.</span> <span class="nav-text">2. 添加google analytics</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-如何搞定数学公式显示问题"><span class="nav-number">5.</span> <span class="nav-text">3. 如何搞定数学公式显示问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-如何让每个页面自动生成二维码"><span class="nav-number">6.</span> <span class="nav-text">4. 如何让每个页面自动生成二维码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-如何添加“返回顶部”按钮"><span class="nav-number">7.</span> <span class="nav-text">5. 如何添加“返回顶部”按钮</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-其他"><span class="nav-number">8.</span> <span class="nav-text">6. 其他</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-最后"><span class="nav-number">9.</span> <span class="nav-text">7. 最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shujia Huang(矿工)</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://huangshujia.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://huangshujia.me/2014/07/18/2014-07-18-Change-blog-template.html';
+          this.page.identifier = '2014/07/18/2014-07-18-Change-blog-template.html';
+          this.page.title = '博客大改版：添加评论，二维码生成，数学公式的显示，添加分析代码等';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://huangshujia.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("PG9NA27zW2WuxmCMvOMlxzua-gzGzoHsz", "VMwO1UNTnT8FgGg411rzjALa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

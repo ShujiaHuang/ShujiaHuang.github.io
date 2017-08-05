@@ -1,0 +1,952 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,GWAS,manhattan plot,Q-Q plot," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="【前言】这篇文章使用geneview完成这两类图的作法，它是一个Python高级库，建立在matplotlib的基础之上，专门用于基因组数据的可视化，目的是为了使创建高大上（精致）的基因组数据图表变得简单。目前该发布的Python包中已经内置多个优美的调色板和风格（默认情况下就能创建赏心悦目的图形），同时已经集成了曼哈顿图和Q-Q图的绘制函数。作为该Python包的主要开发者，只是如此是远远不够">
+<meta name="keywords" content="Python,GWAS,manhattan plot,Q-Q plot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用Python绘制GWAS分析中的曼哈顿图和QQ图">
+<meta property="og:url" content="http://huangshujia.me/2016/02/02/2016-02-02-How-to-create-manhattan-and-qq-plot-for-GWAS-study-in-Python.html">
+<meta property="og:site_name" content="YellowTree Homepage">
+<meta property="og:description" content="【前言】这篇文章使用geneview完成这两类图的作法，它是一个Python高级库，建立在matplotlib的基础之上，专门用于基因组数据的可视化，目的是为了使创建高大上（精致）的基因组数据图表变得简单。目前该发布的Python包中已经内置多个优美的调色板和风格（默认情况下就能创建赏心悦目的图形），同时已经集成了曼哈顿图和Q-Q图的绘制函数。作为该Python包的主要开发者，只是如此是远远不够">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://7lrw1m.com1.z0.glb.clouddn.com/fg.post.2015-02-08.cover.jpg">
+<meta property="og:image" content="http://7u2had.com1.z0.glb.clouddn.com/post.man-0.png">
+<meta property="og:image" content="http://7u2had.com1.z0.glb.clouddn.com/post.man-1.png">
+<meta property="og:image" content="http://7u2had.com1.z0.glb.clouddn.com/post.man-2.png">
+<meta property="og:image" content="http://7u2had.com1.z0.glb.clouddn.com/post.qq-1.png">
+<meta property="og:updated_time" content="2017-05-30T14:05:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何使用Python绘制GWAS分析中的曼哈顿图和QQ图">
+<meta name="twitter:description" content="【前言】这篇文章使用geneview完成这两类图的作法，它是一个Python高级库，建立在matplotlib的基础之上，专门用于基因组数据的可视化，目的是为了使创建高大上（精致）的基因组数据图表变得简单。目前该发布的Python包中已经内置多个优美的调色板和风格（默认情况下就能创建赏心悦目的图形），同时已经集成了曼哈顿图和Q-Q图的绘制函数。作为该Python包的主要开发者，只是如此是远远不够">
+<meta name="twitter:image" content="http://7lrw1m.com1.z0.glb.clouddn.com/fg.post.2015-02-08.cover.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huangshujia.me/2016/02/02/2016-02-02-How-to-create-manhattan-and-qq-plot-for-GWAS-study-in-Python.html"/>
+
+
+
+
+
+  <title>如何使用Python绘制GWAS分析中的曼哈顿图和QQ图 | YellowTree Homepage</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9091dc3354962cd0705c6a0c94b8a931";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">YellowTree Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2016/02/02/2016-02-02-How-to-create-manhattan-and-qq-plot-for-GWAS-study-in-Python.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shujia Huang(矿工)">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YellowTree Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何使用Python绘制GWAS分析中的曼哈顿图和QQ图</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-02T00:00:00+08:00">
+                2016-02-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据可视化/" itemprop="url" rel="index">
+                    <span itemprop="name">数据可视化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/02/02/2016-02-02-How-to-create-manhattan-and-qq-plot-for-GWAS-study-in-Python.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/02/02/2016-02-02-How-to-create-manhattan-and-qq-plot-for-GWAS-study-in-Python.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2016/02/02/2016-02-02-How-to-create-manhattan-and-qq-plot-for-GWAS-study-in-Python.html" class="leancloud_visitors" data-flag-title="如何使用Python绘制GWAS分析中的曼哈顿图和QQ图">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://7lrw1m.com1.z0.glb.clouddn.com/fg.post.2015-02-08.cover.jpg" alt="GWAS-ARRAY"></p>
+<p>【前言】这篇文章使用<a href="https://github.com/ShujiaHuang/geneview" target="_blank" rel="external">geneview</a>完成这两类图的作法，它是一个Python高级库，建立在matplotlib的基础之上，专门用于基因组数据的可视化，目的是为了使创建<strong>高大上（精致）</strong>的基因组数据图表变得简单。目前该发布的Python包中已经内置多个优美的调色板和风格（默认情况下就能创建赏心悦目的图形），同时已经集成了曼哈顿图和Q-Q图的绘制函数。作为该Python包的主要开发者，只是如此是远远不够的，在未来的日子里，我希望它能在功能不断完善的同时也变得更加易用。</p>
+<p>曼哈顿图和QQ图是两个在全基因组关联（GWAS）分析里面最常出现的图形，基本上已经是GWAS的标配，几乎在每篇GWAS的文章都会见到，它们的作用和所要传达出来的信息我也在<a href="">上一篇关于GWAS的博文</a>中做了些说明，在这里我们就只集中在如何用Python和geneview将其有效地展现出来。</p>
+<p>首先，准备一些数据来作为例子。</p>
+<p>我这里用来展现的数据是2011年丹麦人所做过的一个关于年轻人过度肥胖的GWAS研究——<a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0024303" target="_blank" rel="external">GOYA</a>，数据也是从他们所发表的结果中获得，总共有5,373个样本，其中超重的个体（case）有2,633个，正常的个体（control）是2,740个，从样本量上看还算可以。为了方便使用，我对其做了相关的处理，包括从PED和MAP文件到GEN文件的生成，并重复了一次case-control的关联性分析，计算出了芯片上所研究的各个SNP位点与肥胖相关的显著性程度（即p-value），最后又将结果数据抽取出来做成数据集——放在<a href="https://github.com/ShujiaHuang/geneview-data/blob/master/GOYA.csv" target="_blank" rel="external">这里供下载（15.6Mb，csv格式）</a>。</p>
+<blockquote>
+<p>【注】以上内容虽提及到了一些领域内术语和相关文件格式，但若不懂也请不必纠结，因为后续处理都是基于这个最终的数据集来完成的。</p>
+</blockquote>
+<p>接着，需要将geneview软件包加入到你的Python中，有多种不同的方式，但推荐直接使用pip，以下是安装比较稳定的发布版，直接在终端命令行下(Linux or Mac)输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install geneview</div></pre></td></tr></table></figure>
+<p>或者，也可以直接从github上安装正在开发的版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install git+git://github.com/ShujiaHuang/geneview.git<span class="comment">#egg=geneview</span></div></pre></td></tr></table></figure>
+<p>第三种办法就是直接下载源码，然后自行编译，虽然不推荐这种做法（因为还有依赖包必须自行下载安装，过程会比较麻烦低效），但对于某些不能连接外网的集群也只能如此，这三种方式都是可行的。</p>
+<h2 id="曼哈顿图"><a href="#曼哈顿图" class="headerlink" title="曼哈顿图"></a>曼哈顿图</h2><p>将示例数据下载下来：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget https://raw.githubusercontent.com/ShujiaHuang/geneview-data/master/GOYA.csv ./</div></pre></td></tr></table></figure>
+<p>先简单地查看一下数据的格式:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">chrID,rsID,position,pvalue</div><div class="line">1,rs3094315,742429,0.144586</div><div class="line">1,rs3115860,743268,0.230022</div><div class="line">1,rs12562034,758311,0.644366</div><div class="line">1,rs12124819,766409,0.146269</div><div class="line">1,rs4475691,836671,0.458197</div><div class="line">1,rs28705211,890368,0.362731</div><div class="line">1,rs13303118,908247,0.22912</div><div class="line">1,rs9777703,918699,0.37948</div><div class="line">1,rs3121567,933331,0.440824</div></pre></td></tr></table></figure>
+<p>一共是4列（逗号分隔），分别为：[1]染色体编号，[2]SNP rs 编号，[3] 位点在染色体上的位置，[4]显著性差异程度（pvalue）。在本例曼哈顿图中我们只需要使用第1,3和4列；而QQ图则只需要第4列——pvalue。</p>
+<p>下面我们先从绘制曼哈顿图开始。我们先将需要的数据读取到一个列表中，可以这样做：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">import</span> csv</div><div class="line"></div><div class="line">data = []</div><div class="line"><span class="keyword">with</span> open(<span class="string">"GOYA.csv"</span>) <span class="keyword">as</span> f:</div><div class="line">	f_csv = csv.reader(f)</div><div class="line">	headers = next(f_csv)</div><div class="line">	data = [[row[<span class="number">0</span>], int(row[<span class="number">2</span>]), float(row[<span class="number">3</span>])] <span class="keyword">for</span> row <span class="keyword">in</span> f_csv]</div></pre></td></tr></table></figure>
+<p>现在GOYA.csv中的数据就都存放在data列表中了，由于Python在读取文件中数据时，都是以string类型存放，因此对于第3和第4列的数据有必要事先把做点类型转换。</p>
+<p>接下来，调用geneview中的曼哈顿图函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"></div><div class="line"><span class="keyword">from</span> geneview.gwas <span class="keyword">import</span> manhattanplot</div><div class="line"></div><div class="line">ax = manhattanplot(data, xlabel=<span class="string">"Chromosome"</span>, ylabel=<span class="string">"-Log10(P-value)"</span>)  <span class="comment"># 这就是Manhattan plot的函数</span></div><div class="line">plt.show()</div></pre></td></tr></table></figure>
+<p><img src="http://7u2had.com1.z0.glb.clouddn.com/post.man-0.png" alt="manhantan1"></p>
+<p>只需这样的一句代码就能创建一个漂亮的曼哈顿图，有必要再次指出的是，geneview是以matplotlib为基础开发出来的，所创建的图形对象实际上仍属于matplotlib，geneview内部自定义了很多图形风格，同时封装了大量只属于基因组数据的图表类型，但图形的输出格式以及界面显示都仍和matplotlib一样，因此在这里我们使用matplotlib.pyplot的show()函数(上例中：plt.show())将所绘制出来的曼哈顿图显示出来。如果要将图形保存下来，则只需执行<code>plt.savefig(&quot;man.png&quot;)</code>，这样就会在该目录下生成一个名为『man.png』png格式的曼哈顿图，若是要存为pdf格式，则只需将所要保存的文件名后缀改成『.pdf』（plt.savefig(“man.pdf”)）就可以了。下面这些格式：emf, eps, pdf, png, jpg, ps, raw, rgba, svg, svgz等都是支持的，至于最新的还有多少种，还请参照matplotlib文档中说明。</p>
+<p>此外，geneview中的每个画图函数都有着足够的灵活性，我们也可以根据自己的需要做一些调整，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">xtick = [<span class="string">'1'</span>, <span class="string">'2'</span>,<span class="string">'3'</span>,<span class="string">'4'</span>,<span class="string">'5'</span>,<span class="string">'6'</span>,<span class="string">'7'</span>,<span class="string">'8'</span>,<span class="string">'9'</span>,<span class="string">'10'</span>,<span class="string">'11'</span>,<span class="string">'12'</span>,<span class="string">'13'</span>,<span class="string">'14'</span>,<span class="string">'16'</span>,<span class="string">'18'</span>, <span class="string">'20'</span>,<span class="string">'22'</span>]</div><div class="line">manhattanplot(data,</div><div class="line">              xlabel=<span class="string">"Chromosome"</span>, <span class="comment"># 设置x轴名字</span></div><div class="line">              ylabel=<span class="string">"-Log10(P-value)"</span>, <span class="comment"># 设置y轴名字</span></div><div class="line">              xtick_label_set = set(xtick), <span class="comment"># 限定横坐标轴上的刻度显示</span></div><div class="line">              s=<span class="number">40</span>, <span class="comment"># 设置图中散点的大小</span></div><div class="line">              alpha=<span class="number">0.5</span>, <span class="comment"># 调整散点透明度</span></div><div class="line">              color=<span class="string">"#f28b1e,#9a0dea,#ea0dcc,#63b8ff"</span>, <span class="comment"># 设置新的颜色组合</span></div><div class="line">              )</div></pre></td></tr></table></figure>
+<p><img src="http://7u2had.com1.z0.glb.clouddn.com/post.man-1.png" alt="manhantan2"></p>
+<p>实现新的颜色组合、限定x轴上的刻度显示和散点大小的调节。甚至还可以将散点改为线：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">manhattanplot(data，</div><div class="line">              xlabel=<span class="string">"Chromosome"</span>, <span class="comment"># 设置x轴名字</span></div><div class="line">              ylabel=<span class="string">"-Log10(P-value)"</span>, <span class="comment"># 设置y轴名字</span></div><div class="line">              xtick_label_set = set(xtick), <span class="comment"># 限定横坐标轴上的刻度显示</span></div><div class="line">              alpha=<span class="number">0.5</span>, <span class="comment"># 调整散点透明度</span></div><div class="line">              color=<span class="string">"#f28b1e,#9a0dea,#ea0dcc,#63b8ff"</span>, <span class="comment"># 设置新的颜色组合</span></div><div class="line">              kind=<span class="string">"line"</span></div><div class="line">              )</div></pre></td></tr></table></figure>
+<p><img src="http://7u2had.com1.z0.glb.clouddn.com/post.man-2.png" alt="manhantan3"></p>
+<p>其它方面的调整请查看geneview文档中的相关说明。</p>
+<h2 id="Q-Q图"><a href="#Q-Q图" class="headerlink" title="Q-Q图"></a>Q-Q图</h2><p>qq图只需用到上例中的pvalue那一列：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> csv</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"><span class="keyword">from</span> geneview.gwas <span class="keyword">import</span> qqplot</div><div class="line"></div><div class="line">pvalue=[]</div><div class="line"><span class="keyword">with</span> open(<span class="string">"GOYA.csv"</span>) <span class="keyword">as</span> f:</div><div class="line">    f_csv = csv.reader(f)</div><div class="line">    headers = next(f_csv)</div><div class="line">    pvalue = [float(row[<span class="number">3</span>]) <span class="keyword">for</span> row <span class="keyword">in</span> f_csv]</div><div class="line"></div><div class="line">ax = qqplot(pvalue, color=<span class="string">"#00bb33"</span>, xlabel=<span class="string">"Expected p-value(-log10)"</span>, ylabel=<span class="string">"Observed p-value(-log10)"</span>) <span class="comment"># Q-Q 图</span></div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
+<p><img src="http://7u2had.com1.z0.glb.clouddn.com/post.qq-1.png" alt="QQ图"><br>同样，也可以根据自己的需要对改图进行相关的调整。</p>
+<p>以上，便是如何使用Python来制作Manhattan图和QQ图的方法，geneview的集成函数简化了这样的一个过程。</p>
+<p>另外，如果你也看过丹麦人的这个GOYA研究，就会发现实际以上的两个图和其文章中的基本是一致的，当然我自己做了些数据清洗的操作，结果上仍然会有些许的不同。虽然此刻下结论还有点为时尚早，但总的来讲，我应该也可以通过这个数据集比较顺利的将其结果重复出来了。</p>
+<p>最后，附上利用geneview画曼哈顿图和QQ图的代码：</p>
+<p>（1）曼哈顿图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"></div><div class="line"><span class="keyword">import</span> csv</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"></div><div class="line"><span class="keyword">from</span> geneview.gwas <span class="keyword">import</span> manhattanplot</div><div class="line"></div><div class="line"><span class="keyword">with</span> open(<span class="string">"data/GOYA.csv"</span>) <span class="keyword">as</span> f:</div><div class="line">    f_csv = csv.reader(f)</div><div class="line">    headers = next(f_csv)</div><div class="line">    data = [[row[<span class="number">0</span>], int(row[<span class="number">2</span>]), float(row[<span class="number">3</span>])] <span class="keyword">for</span> row <span class="keyword">in</span> f_csv]</div><div class="line"></div><div class="line">ax = manhattanplot(data, xlabel=<span class="string">"Chromosome"</span>, ylabel=<span class="string">"-Log10(P-value)"</span>)</div><div class="line"></div><div class="line">plt.show()</div></pre></td></tr></table></figure>
+<p>（2）QQ图：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> csv</div><div class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div><div class="line"></div><div class="line"><span class="keyword">from</span> geneview.gwas <span class="keyword">import</span> qqplot</div><div class="line"></div><div class="line">pvalue=[]</div><div class="line"><span class="keyword">with</span> open(<span class="string">"data/GOYA.csv"</span>) <span class="keyword">as</span> f:</div><div class="line">    f_csv = csv.reader(f)</div><div class="line">    headers = next(f_csv)</div><div class="line">    pvalue = [float(row[<span class="number">3</span>]) <span class="keyword">for</span> row <span class="keyword">in</span> f_csv]</div><div class="line"></div><div class="line">ax = qqplot(pvalue, color=<span class="string">"#00bb33"</span>, xlabel=<span class="string">"Expected p-value(-log10)"</span>, ylabel=<span class="string">"Observed p-value(-log10)"</span>)</div><div class="line">plt.show()</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/GWAS/" rel="tag"># GWAS</a>
+          
+            <a href="/tags/manhattan-plot/" rel="tag"># manhattan plot</a>
+          
+            <a href="/tags/Q-Q-plot/" rel="tag"># Q-Q plot</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/20/2015-12-20-Develop-a-genome-data-RESTful-API-server-by-flask-1.html" rel="next" title="基于Flask开发基因组数据web服务的RESTful API（1）">
+                <i class="fa fa-chevron-left"></i> 基于Flask开发基因组数据web服务的RESTful API（1）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/15/2016-03-15-how-to-phase-the-human-genome-by-shapeit2.html" rel="prev" title="如何使用Shapeit2对人类基因组数据进行phasing">
+                如何使用Shapeit2对人类基因组数据进行phasing <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shujia Huang(矿工)" />
+          <p class="site-author-name" itemprop="name">Shujia Huang(矿工)</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#曼哈顿图"><span class="nav-number">1.</span> <span class="nav-text">曼哈顿图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-Q图"><span class="nav-number">2.</span> <span class="nav-text">Q-Q图</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shujia Huang(矿工)</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://huangshujia.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://huangshujia.me/2016/02/02/2016-02-02-How-to-create-manhattan-and-qq-plot-for-GWAS-study-in-Python.html';
+          this.page.identifier = '2016/02/02/2016-02-02-How-to-create-manhattan-and-qq-plot-for-GWAS-study-in-Python.html';
+          this.page.title = '如何使用Python绘制GWAS分析中的曼哈顿图和QQ图';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://huangshujia.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("PG9NA27zW2WuxmCMvOMlxzua-gzGzoHsz", "VMwO1UNTnT8FgGg411rzjALa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
