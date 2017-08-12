@@ -1,0 +1,1056 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="NGS,WGS,数据格式," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="在WGS数据的分析过程中，我们会接触到许多生物信息学/基因组学领域所特有的数据文件和它们特殊的格式，在这一节中将要介绍的FASTA和FASTQ便是其中之一二。这是我们存储核苷酸序列信息（就是DNA序列）或者蛋白质序列信息最常使用的两种 文本文件，虽然看起来名字有些古怪，但它们完全是纯文本文件（如同.txt）！名字的发音分别是fast-A和fast-Q。这一篇文章内容虽然比较简单，但还是比较长，我">
+<meta name="keywords" content="NGS,WGS,数据格式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零开始完整学习全基因组测序（WGS）数据分析：第2节 FASTA和FASTQ">
+<meta property="og:url" content="http://huangshujia.me/2017/08/12/2017-08-12-Begining-WGS-Data-Analysis-Fasta-And-Fastq.html">
+<meta property="og:site_name" content="YellowTree Homepage">
+<meta property="og:description" content="在WGS数据的分析过程中，我们会接触到许多生物信息学/基因组学领域所特有的数据文件和它们特殊的格式，在这一节中将要介绍的FASTA和FASTQ便是其中之一二。这是我们存储核苷酸序列信息（就是DNA序列）或者蛋白质序列信息最常使用的两种 文本文件，虽然看起来名字有些古怪，但它们完全是纯文本文件（如同.txt）！名字的发音分别是fast-A和fast-Q。这一篇文章内容虽然比较简单，但还是比较长，我">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/wgs_s2_cover.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/interesting.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/fq_seqerror.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/tired.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png">
+<meta property="og:updated_time" content="2017-08-12T04:11:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从零开始完整学习全基因组测序（WGS）数据分析：第2节 FASTA和FASTQ">
+<meta name="twitter:description" content="在WGS数据的分析过程中，我们会接触到许多生物信息学/基因组学领域所特有的数据文件和它们特殊的格式，在这一节中将要介绍的FASTA和FASTQ便是其中之一二。这是我们存储核苷酸序列信息（就是DNA序列）或者蛋白质序列信息最常使用的两种 文本文件，虽然看起来名字有些古怪，但它们完全是纯文本文件（如同.txt）！名字的发音分别是fast-A和fast-Q。这一篇文章内容虽然比较简单，但还是比较长，我">
+<meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/wgs_s2_cover.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huangshujia.me/2017/08/12/2017-08-12-Begining-WGS-Data-Analysis-Fasta-And-Fastq.html"/>
+
+
+
+
+
+  <title>从零开始完整学习全基因组测序（WGS）数据分析：第2节 FASTA和FASTQ | YellowTree Homepage</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9091dc3354962cd0705c6a0c94b8a931";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">YellowTree Homepage</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2017/08/12/2017-08-12-Begining-WGS-Data-Analysis-Fasta-And-Fastq.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shujia Huang(矿工)">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YellowTree Homepage">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">从零开始完整学习全基因组测序（WGS）数据分析：第2节 FASTA和FASTQ</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-12T00:00:00+08:00">
+                2017-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/" itemprop="url" rel="index">
+                    <span itemprop="name">生物信息</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/基因组学/" itemprop="url" rel="index">
+                    <span itemprop="name">基因组学</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/12/2017-08-12-Begining-WGS-Data-Analysis-Fasta-And-Fastq.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/08/12/2017-08-12-Begining-WGS-Data-Analysis-Fasta-And-Fastq.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/08/12/2017-08-12-Begining-WGS-Data-Analysis-Fasta-And-Fastq.html" class="leancloud_visitors" data-flag-title="从零开始完整学习全基因组测序（WGS）数据分析：第2节 FASTA和FASTQ">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://blog-fungenomics-com.qiniudn.com/wgs_s2_cover.png" alt="wgs_02_cover"></p>
+<p>在WGS数据的分析过程中，我们会接触到许多生物信息学/基因组学领域所特有的数据文件和它们特殊的格式，在这一节中将要介绍的FASTA和FASTQ便是其中之一二。这是我们存储核苷酸序列信息（就是DNA序列）或者蛋白质序列信息最常使用的两种 <strong>文本文件</strong>，虽然看起来名字有些古怪，但它们完全是纯文本文件（如同.txt）！名字的发音分别是fast-A和fast-Q。这一篇文章内容虽然比较简单，但还是比较长，我在这里详细介绍了这两类文件的格式特点和一些在分析的时候需要考虑的地方。</p>
+<h2 id="FASTA"><a href="#FASTA" class="headerlink" title="FASTA"></a>FASTA</h2><p>我相信许多人（包括生物信息工程师们）一定不知道FASTA这个文件的来源，竟然是一款名叫“FASTA”的比对软件！名字中最后一个字母A，其实就是Alignment的意思！但这已经是上个世纪的事情了，最初是由William. R. Pearson 和 David. J. Lipman在1988年所编写，目的是用于生物序列数据的处理。</p>
+<p>自那之后，生物学家和遗传学家们也没做过多的考虑，就草率地决定（其实类似的‘草率’行为在组学领域经常碰到）把FASTA作为这种存储 <strong>有顺序的</strong>序列数据的文件后缀【注】，这包括我们常用的参考基因组序列、蛋白质序列、编码DNA序列（coding DNA sequence，简称CDS）、转录本序列等文件都是如此，文件后缀除了.fasta之外，也常用.fa或者.fa.gz（gz压缩）。</p>
+<blockquote>
+<p>【注】这里的序列、序列数据，指的其实就是表示DNA或者蛋白质的一条字符串。</p>
+</blockquote>
+<p>这里再特别强调三个字：有！顺！序！说的是从1开始一个个按顺序往下排列的意思——这不也正是序列这个词的含义！</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/interesting.png" alt="1"></p>
+<p>因此，我们可以通过数个数，就知道某个DNA碱基在某个基因组上的准确位置，这个位置会用所在序列的名字和所在位置来表达，比如基因数据比对的结果（下一篇会介绍），方便后续数据分析。</p>
+<p>FASTA文件主要由两个部分构成：<strong>序列头信息（有时包括一些其它的描述信息）和具体的序列数据。头信息独占一行，以大于号（&gt;）开头作为识别标记</strong>，其中除了记录该条序列的名字之外，有时候还会接上其它的信息。紧接的下一行是具体的序列内容，直到另一行碰到另一个大于号（&gt;）开头的新序列或者文件末尾。下面给出一个FASTA文件的例子，这是我们人类一个名为EGFR基因的部分序列。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt;ENSMUSG00000020122|ENSMUST00000138518</div><div class="line">CCCTCCTATCATGCTGTCAGTGTATCTCTAAATAGCACTCTCAACCCCCGTGAACTTGGT</div><div class="line">TATTAAAAACATGCCCAAAGTCTGGGAGCCAGGGCTGCAGGGAAATACCACAGCCTCAGT</div><div class="line">TCATCAAAACAGTTCATTGCCCAAAATGTTCTCAGCTGCAGCTTTCATGAGGTAACTCCA</div><div class="line">GGGCCCACCTGTTCTCTGGT</div><div class="line">&gt;ENSMUSG00000020122|ENSMUST00000125984</div><div class="line">GAGTCAGGTTGAAGCTGCCCTGAACACTACAGAGAAGAGAGGCCTTGGTGTCCTGTTGTC</div><div class="line">TCCAGAACCCCAATATGTCTTGTGAAGGGCACACAACCCCTCAAAGGGGTGTCACTTCTT</div><div class="line">CTGATCACTTTTGTTACTGTTTACTAACTGATCCTATGAATCACTGTGTCTTCTCAGAGG</div><div class="line">CCGTGAACCACGTCTGCAAT</div></pre></td></tr></table></figure>
+<p>可以看到，FASTA其实很简单，但它往往都很大，比如人类基因组有30亿个碱基，就是30亿个字符存储在这样的一个文本文件中，就算是压缩也要占用约1GB的存储空间。</p>
+<p>另外，有两个地方，我觉得有必要提及：</p>
+<p><strong>第一，除了序列内容之外，FASTA的头信息并没有被严格地限制</strong>。这个特点有时会带来很多麻烦的事情，比如有时我们会看到相同的序列被不同的人处理之后、甚至是在不同的网站上或者数据库中它们的头信息都不尽相同，比如以下的几种情况都是可能存在的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;ENSMUSG00000020122|ENSMUST00000125984</div><div class="line">&gt; ENSMUSG00000020122|ENSMUST00000125984</div><div class="line">&gt;ENSMUSG00000020122|ENSMUST00000125984|epidermal growth factor receptor</div><div class="line">&gt;ENSMUSG00000020122|ENSMUST00000125984|Egfr</div><div class="line">&gt;ENSMUSG00000020122|ENSMUST00000125984|11|ENSFM00410000138465</div></pre></td></tr></table></figure>
+<p>这对于程序处理来说，凌乱的格式显然是不合适的。因此后来在业内也慢慢地有一些不成文的规则被大家所使用，那就是，<strong>用一个空格把头信息分为两个部分：第一部分是序列名字，它和大于号（&gt;）紧接在一起；第二部分是注释信息，这个可以没有，就看具体需要</strong>，比如下面这个序列例子，除了前面gene_00284728这个名字之外，注释信息（length=231;type=dna）给出这段序列的长度和它所属的序列类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;gene_00284728 length=231;type=dna</div><div class="line">GAGAACTGATTCTGTTACCGCAGGGCATTCGGATGTGCTAAGGTAGTAATCCATTATAAGTAACATG</div><div class="line">CGCGGAATATCCGGGAGGTCATAGTCGTAATGCATAATTATTCCCTCCCTCAGAAGGACTCCCTTGC</div><div class="line">GAGACGCCAATACCAAAGACTTTCGTAAGCTGGAACGATTGGACGGCCCAACCGGGGGGAGTCGGCT</div><div class="line">ATACGTCTGATTGCTACGCCTGGACTTCTCTT</div></pre></td></tr></table></figure>
+<p>这对于程序处理来说，凌乱的格式显然是不合适的。因此后来在业内也慢慢地有一些不成文的规则被大家所使用，那就是，用一个空格把头信息分为两个部分：第一部分是序列名字，它和大于号（&gt;）紧接在一起；第二部分是注释信息，这个可以没有，就看具体需要，比如下面这个序列例子，除了前面gene_00284728这个名字之外，注释信息（length=231;type=dna）给出这段序列的长度和它所属的序列类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;gene_00284728 length=231;type=dna</div><div class="line">GAGAACTGATTCTGTTACCGCAGGGCATTCGGATGTGCTAAGGTAGTAATCCATTATAAGTAACATG</div><div class="line">CGCGGAATATCCGGGAGGTCATAGTCGTAATGCATAATTATTCCCTCCCTCAGAAGGACTCCCTTGC</div><div class="line">GAGACGCCAATACCAAAGACTTTCGTAAGCTGGAACGATTGGACGGCCCAACCGGGGGGAGTCGGCT</div><div class="line">ATACGTCTGATTGCTACGCCTGGACTTCTCTT</div></pre></td></tr></table></figure>
+<p>虽然这样的格式还不算是真正的标准，但却非常有助于我们的数据分析和处理，很多生信软件（如：BWA，samtools，bcftools，bedtools等）都是将第一个空格前面的内容认定为序列名字来进行操作的。</p>
+<p><strong>第二，FASTA由于是文本文件，它里面的内容是否有重复是无法自检的，在使用之前需要我们进行额外的检查</strong>。这个检查倒不用很复杂，只需检查序列名字是否有重复即可。但对于那些已经成为标准使用的参考序列来说，都有专门的团队进行维护，因此不会出现这种内容重复的情况，可以直接使用，但对于其它的一些序列来说，谨慎起见，最好进行检查。</p>
+<h2 id="FASTQ"><a href="#FASTQ" class="headerlink" title="FASTQ"></a>FASTQ</h2><p>这是目前存储测序数据最普遍、最公认的一个数据格式，另一个是uBam格式，但这篇文章中不打算对其进行介绍。上面所讲的FASTA文件，它所存的都是已经排列好的序列（如参考序列），FASTQ存的则是产生自测序仪的原始测序数据，它由测序的图像数据转换过来，也是文本文件，文件大小依照不同的测序量（或测序深度）而有很大差异，小的可能只有几M，大的则常常有几十G上百G，文件后缀通常都是.fastq，.fq或者.fq.gz（gz压缩），以下是它的一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@DJB775P1:248:D0MDGACXX:7:1202:12362:49613</div><div class="line">TGCTTACTCTGCGTTGATACCACTGCTTAGATCGGAAGAGCACACGTCTGAA</div><div class="line">+</div><div class="line">JJJJJIIJJJJJJHIHHHGHFFFFFFCEEEEEDBD?DDDDDDBDDDABDDCA</div><div class="line">@DJB775P1:248:D0MDGACXX:7:1202:12782:49716</div><div class="line">CTCTGCGTTGATACCACTGCTTACTCTGCGTTGATACCACTGCTTAGATCGG</div><div class="line">+</div><div class="line">IIIIIIIIIIIIIIIHHHHHHFFFFFFEECCCCBCECCCCCCCCCCCCCCCC</div></pre></td></tr></table></figure>
+<p>你可以看到它有着自己独特的格式：<strong>每四行成为一个独立的单元，我们称之为read</strong>。具体的格式描述如下：</p>
+<ul>
+<li><p>第一行：以‘@’开头，是这一条read的名字，这个字符串是根据测序时的状态信息转换过来的，中间不会有空格，它是 <strong>每一条read的唯一标识符</strong>，同一份FASTQ文件中不会重复出现，甚至不同的FASTQ文件里也不会有重复； </p>
+</li>
+<li><p>第二行：测序read的序列，由A，C，G，T和N这五种字母构成，这也是我们真正关心的DNA序列，N代表的是测序时那些无法被识别出来的碱基；</p>
+</li>
+<li><p>第三行：以‘+’开头，在旧版的FASTQ文件中会直接重复第一行的信息，但现在一般什么也不加（节省存储空间）；</p>
+</li>
+<li><p>第四行：测序read的质量值，这个和第二行的碱基信息一样重要，它描述的是每个测序碱基的可靠程度，用ASCII码表示。</p>
+</li>
+</ul>
+<p>那么，重点说一下什么是质量值？顾名思义，碱基质量值就是能够用来定量描述碱基 <strong>好坏程度</strong>的一个数值。它该如何才能恰当地描述这个结果呢？我们试想一下，如果测序测得越准确，这个碱基的质量就应该越高；反之，测得越不准确，质量值就应该越低。也就是说可以利用碱基被测错的概率来描述它的质量值，错误率越低，质量值就越高！如下图，红线代表错误率，蓝线代表质量值，这便是我们希望达到的效果：</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/fq_seqerror.png" alt="测序错误率"></p>
+<p>这里我们假定碱基的测序错误率为: $${P}_{error}$$质量值为Q，它们之间的关系如下：</p>
+<p>$$Q=-10log_{10}{P}_{error}$$</p>
+<p>即，<strong>质量值是测序错误率的对数（10为底数）乘以-10（并取整）</strong>。这个公式也是目前测序质量值的计算公式，它非常简单，p_error的值和测序时的多个因素有关，体现为测序图像数据点的清晰程度，并由测序过程中的base calling 算法计算出来；公式右边的Q我们称之为Phred quality score，就是用它来描述测序碱基的靠谱程度。比如，如果该碱基的测序错误率是0.01，那么质量值就是20（俗称Q20），如果是0.001，那么质量值就是30（俗称Q30）。Q20和Q30的比例常常被我们用来评价某次测序结果的好坏，比例越高就越好。下面我也详细给出一个表，更进一步地解释质量值高低的含义：</p>
+<table>
+<thead>
+<tr>
+<th>测序平台</th>
+<th>ASCII码范围</th>
+<th>下限</th>
+<th>质量值类型</th>
+<th>质量值范围</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sanger, Illumina(版本1.8及以上)</td>
+<td>33-126</td>
+<td>33</td>
+<td>Phred quality score</td>
+<td>0-93</td>
+<td>现在沿用</td>
+</tr>
+<tr>
+<td>Solexa, Illumina早期版本(&lt;1.3版本)</td>
+<td>59-126</td>
+<td>64</td>
+<td>Solexa quality score</td>
+<td>5-62</td>
+<td>除了已测序数据之外，不再使用</td>
+</tr>
+<tr>
+<td>Illumina(版本1.3-1.7)</td>
+<td>64-126</td>
+<td>64</td>
+<td>Phred quality score</td>
+<td>0-62</td>
+<td>除了已测序数据之外，不再使用</td>
+</tr>
+</tbody>
+</table>
+<p>现在回过头来说说为什么要用ASCII码来代表，直接用数字不行吗？行！但很难看，而且数字不能直接连起来，还得在中间加一个分隔符，长度也对不齐，还占空间，又不符合美学设计，真！麻！烦！</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/tired.png" alt="2"></p>
+<p>因此，也是为了格式存储以及处理时的方便，这个数字被直接转换成了ASCII码，并与第二行的read序列构成一一对应的关系——每一个ASCII码都和它正上面的碱基对应，这就很完美。</p>
+<p>不过，值得一提的是，ASCII码虽然能够从小到大表示0-127的整数，但是并非所有的ASCII码都是 <strong>可见的字符</strong>，比如所有小于33的ASCII码值所表示的都是不可见字符，比如空格，换行符等，因此 <strong>为了能够让碱基的质量值表达出来，必须避开所有这些不可见字符</strong>。最简单的做法就是加上一个固定的整数！也的确是这么干的。</p>
+<p>但一开始对于要加哪一个整数，并没有什么指导标准，这就导致了在刚开始的时候，不同的测序平台加的整数也不同，总的来说有以下3种质量体系，演变到现在也基本只剩下第一种了，如下表：</p>
+<table>
+<thead>
+<tr>
+<th>Phred Quality Score</th>
+<th>Probability of incorrect base call</th>
+<th>Base call accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10</td>
+<td>1 in 10</td>
+<td>90%</td>
+</tr>
+<tr>
+<td>20</td>
+<td>1 in 100</td>
+<td>99%</td>
+</tr>
+<tr>
+<td>30</td>
+<td>1 in 1000</td>
+<td>99.9%</td>
+</tr>
+<tr>
+<td>40</td>
+<td>1 in 10,000</td>
+<td>99.99%</td>
+</tr>
+<tr>
+<td>50</td>
+<td>1 in 100,000</td>
+<td>99.999%</td>
+</tr>
+<tr>
+<td>60</td>
+<td>1 in 1,000,000</td>
+<td>99.9999%</td>
+</tr>
+</tbody>
+</table>
+<p>从表中可以看到下限有33和64两个值，我们把加33的的质量值体系称之为Phred33，加64的称之为Phred64（Solexa的除外，它叫Solexa64）。不过，现在一般都是使用Phred33这个体系，而且33也恰好是ASCII的第一个可见字符（’!’），完美+2。</p>
+<p>如果你在实际做项目的过程不知道所用的质量体系（经验丰富者是可以直接看出来的），那么可以用我下面这一段代码，简单地做个检查:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">less <span class="variable">$1</span> | head -n 1000 | awk <span class="string">'&#123;if(NR%4==0) printf("%s",$0);&#125;'</span> \</div><div class="line">| od -A n -t u1 -v \</div><div class="line">| awk <span class="string">'BEGIN&#123;min=100;max=0;&#125; \</span></div><div class="line"><span class="string">  &#123;for(i=1;i&lt;=NF;i++) &#123;if($i&gt;max) max=$i; if($i&lt;min) min=$i;&#125;&#125;END \</span></div><div class="line"><span class="string">  &#123;if(max&lt;=126 &amp;&amp; min&lt;59) print "Phred33"; \</span></div><div class="line"><span class="string">  else if(max&gt;73 &amp;&amp; min&gt;=64) print "Phred64"; \</span></div><div class="line"><span class="string">  else if(min&gt;=59 &amp;&amp; min&lt;64 &amp;&amp; max&gt;73) print "Solexa64"; \</span></div><div class="line"><span class="string">  else print "Unknown score encoding"; \</span></div><div class="line"><span class="string">  print "( " min ", " max, ")";&#125;'</span></div></pre></td></tr></table></figure>
+<p>将上面这段代码复制到任意一份shell文件中（比如：fq_qual_type.sh），就可以用它来进行质量值类型的检查了。代码的思路其实比较简单，就是截取FASTQ文件的前1000行数据，并抽取出质量值所在的行，分别计算出其中最小和最大的ASCII值，再比较一下就判断出来了。下面给出一个例子，这是我们在本文中用到的FASTQ文件，它是Phred33的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ sh fq_qual_type.sh untreated.fq</div><div class="line">Phred33</div><div class="line">( 34, 67 )</div></pre></td></tr></table></figure>
+<p>另外，在查看碱基质量值的过程中，如果你心中存有ASCII码表当然可以直接“看”出各个碱基的质量值，但在实际的场景中都是通过程序直接进行转换处理。下面我就用Python的ord()函数举个转换的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">In [<span class="number">1</span>]: qual=<span class="string">'JJJJJIIJJJJJJHIHHHGHFFFFFFCEEEEEDBD'</span></div><div class="line">In [<span class="number">2</span>]: [ord(q)<span class="number">-33</span> <span class="keyword">for</span> q <span class="keyword">in</span> qual]</div><div class="line">Out[<span class="number">2</span>]:</div><div class="line">[<span class="number">35</span>, <span class="number">20</span>, <span class="number">17</span>, <span class="number">18</span>, <span class="number">24</span>, <span class="number">34</span>, <span class="number">35</span>, <span class="number">35</span>, <span class="number">35</span>, <span class="number">34</span>, <span class="number">35</span>, <span class="number">34</span>, <span class="number">29</span>, <span class="number">29</span>, <span class="number">32</span>, <span class="number">32</span>, <span class="number">34</span>, <span class="number">34</span>, <span class="number">33</span>, </div><div class="line"> <span class="number">29</span>, <span class="number">33</span>, <span class="number">33</span>, <span class="number">32</span>, <span class="number">35</span>, <span class="number">35</span>, <span class="number">35</span>, <span class="number">34</span>, <span class="number">34</span>, <span class="number">34</span>, <span class="number">34</span>, <span class="number">35</span>, <span class="number">35</span>, <span class="number">34</span>, <span class="number">35</span>, <span class="number">34</span>, <span class="number">35</span>, <span class="number">34</span>, <span class="number">35</span>, </div><div class="line"> <span class="number">34</span>, <span class="number">34</span>, <span class="number">34</span>, <span class="number">35</span>, <span class="number">35</span>, <span class="number">35</span>, <span class="number">35</span>, <span class="number">34</span>, <span class="number">33</span>, <span class="number">33</span>, <span class="number">30</span>, <span class="number">33</span>, <span class="number">24</span>, <span class="number">27</span>]</div></pre></td></tr></table></figure>
+<p>这里的ord()函数会将字符转换为ASCII对应的数字，减掉33后就得到了该碱基最后的质量值（即，Phred quality score）。</p>
+<p>另外，根据上面phred quality score的计算公式，我们可以很方便地获得每个测序碱基的错误率，这个错误率在我们的比对和变异检测中都十分重要，后续文章中我将会讲述该部分的具体内容，以下先给出一个转换的例子，还是以上述qual为例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">In [<span class="number">1</span>]: qual=<span class="string">'JJJJJIIJJJJJJHIHHHGHFFFFFFCEEEEEDBD'</span></div><div class="line">In [<span class="number">2</span>]: phred_score = [ord(q)<span class="number">-33</span> <span class="keyword">for</span> q <span class="keyword">in</span> qual]</div><div class="line">In [<span class="number">3</span>]: [<span class="number">10</span>**(-q/<span class="number">10.0</span>) <span class="keyword">for</span> q <span class="keyword">in</span> phred_score]</div><div class="line">Out[<span class="number">3</span>]:</div><div class="line">[<span class="number">3e-04</span>, <span class="number">1e-02</span>, <span class="number">2e-02</span>, <span class="number">2e-02</span>, <span class="number">4e-03</span>, <span class="number">4e-04</span>, <span class="number">3e-04</span>, <span class="number">3e-04</span>, <span class="number">3e-04</span>, </div><div class="line"> <span class="number">4e-04</span>, <span class="number">3e-04</span>, <span class="number">4e-04</span>, <span class="number">1e-03</span>, <span class="number">1e-03</span>, <span class="number">6e-04</span>, <span class="number">6e-04</span>, <span class="number">4e-04</span>, <span class="number">4e-04</span>, </div><div class="line"> <span class="number">5e-04</span>, <span class="number">1e-03</span>, <span class="number">5e-04</span>, <span class="number">5e-04</span>, <span class="number">6e-04</span>, <span class="number">3e-04</span>, <span class="number">3e-04</span>, <span class="number">3e-04</span>, <span class="number">4e-04</span>, </div><div class="line"> <span class="number">4e-04</span>, <span class="number">4e-04</span>, <span class="number">4e-04</span>, <span class="number">3e-04</span>, <span class="number">3e-04</span>, <span class="number">4e-04</span>, <span class="number">3e-04</span>, <span class="number">4e-04</span>, <span class="number">3e-04</span>, </div><div class="line"> <span class="number">4e-04</span>, <span class="number">3e-04</span>, <span class="number">4e-04</span>, <span class="number">4e-04</span>, <span class="number">4e-04</span>, <span class="number">3e-04</span>, <span class="number">3e-04</span>, <span class="number">3e-04</span>, <span class="number">3e-04</span>, </div><div class="line"> <span class="number">4e-04</span>, <span class="number">5e-04</span>, <span class="number">5e-04</span>, <span class="number">1e-03</span>, <span class="number">5e-04</span>, <span class="number">4e-03</span>, <span class="number">2e-03</span>]</div></pre></td></tr></table></figure>
+<p>这其实就是根据phred quality score的定义进行简单的指数运算。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>到这里就说完了，虽然一开始只不过是想介绍两个普通的文件格式，但写着写着就变得很长，可见，越是看似简单的东西，其实越不容易说明白。关于FASTQ还有很多需要说的内容，我打算将其留到该系列的第四篇文章里，到时我会讲述该如何构造流程对其进行有效的数据质控等，这都是构造WGS分析流程之前非常重要的内容。</p>
+<p>我一直觉得，生物信息学（或者说基因组学）中的许多数据文件，它们的格式都有着比较特殊的一面，为了能够真正有效地进行数据分析，多花些时间搞清楚它们的细节和来龙去脉是非常重要的。不然，你有可能在后续的数据分析过程掉入意想不到的陷阱，从而浪费大量宝贵的时间去寻找可能出错的地方。</p>
+<p>欢迎通过我的公众号（解螺旋的矿工），更及时了解更多信息</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png" alt="解螺旋的矿工"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NGS/" rel="tag"># NGS</a>
+          
+            <a href="/tags/WGS/" rel="tag"># WGS</a>
+          
+            <a href="/tags/数据格式/" rel="tag"># 数据格式</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/04/2017-08-04-Begining-WGS-Data-Analysis-Sequecing-Tech.html" rel="next" title="从零开始完整学习全基因组测序（WGS）数据分析：第1节 测序技术">
+                <i class="fa fa-chevron-left"></i> 从零开始完整学习全基因组测序（WGS）数据分析：第1节 测序技术
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shujia Huang(矿工)" />
+          <p class="site-author-name" itemprop="name">Shujia Huang(矿工)</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#FASTA"><span class="nav-number">1.</span> <span class="nav-text">FASTA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FASTQ"><span class="nav-number">2.</span> <span class="nav-text">FASTQ</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shujia Huang(矿工)</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://huangshujia.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://huangshujia.me/2017/08/12/2017-08-12-Begining-WGS-Data-Analysis-Fasta-And-Fastq.html';
+          this.page.identifier = '2017/08/12/2017-08-12-Begining-WGS-Data-Analysis-Fasta-And-Fastq.html';
+          this.page.title = '从零开始完整学习全基因组测序（WGS）数据分析：第2节 FASTA和FASTQ';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://huangshujia.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("PG9NA27zW2WuxmCMvOMlxzua-gzGzoHsz", "VMwO1UNTnT8FgGg411rzjALa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
