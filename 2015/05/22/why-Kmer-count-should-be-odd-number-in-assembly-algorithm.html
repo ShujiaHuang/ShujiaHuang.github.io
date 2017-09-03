@@ -95,7 +95,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="de Bruijn graph组装基因组的时候，Kmer数必须是奇数的原因">
 <meta property="og:url" content="http://huangshujia.me/2015/05/22/why-Kmer-count-should-be-odd-number-in-assembly-algorithm.html">
-<meta property="og:site_name" content="YellowTree Homepage">
+<meta property="og:site_name" content="解螺旋的矿工">
 <meta property="og:description" content="根本原因就是为了避免导致 正反链混淆。 一开始，我并没弄明白，后来仔细想想也终于懂了。 如果kmer是偶数，我们会发现基因组上有些序列（如，CGCGCGCG，kmer=4）的Kmer在反向互补后得到的序列仍然是它自身！而这是不能允许的，因为这将导致你无法区分某段序列的kmer到底是属于它自身还是说只是来自于它的互补链！！这会给解de Bruijn graph带来极大的困难！ 或许你会觉得“为什么">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/37v38closeuptata.png">
@@ -138,7 +138,7 @@
 
 
 
-  <title>de Bruijn graph组装基因组的时候，Kmer数必须是奇数的原因 | YellowTree Homepage</title>
+  <title>de Bruijn graph组装基因组的时候，Kmer数必须是奇数的原因 | 解螺旋的矿工</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -185,7 +185,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">YellowTree Homepage</span>
+        <span class="site-title">解螺旋的矿工</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -297,7 +297,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="YellowTree Homepage">
+      <meta itemprop="name" content="解螺旋的矿工">
     </span>
 
     
