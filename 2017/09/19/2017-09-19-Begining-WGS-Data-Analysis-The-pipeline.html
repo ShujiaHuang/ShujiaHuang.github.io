@@ -115,7 +115,7 @@
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/wgs0413.BQSR.png">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/wgs0414.variant.png">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png">
-<meta property="og:updated_time" content="2017-09-20T14:49:53.000Z">
+<meta property="og:updated_time" content="2017-09-30T16:27:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零开始完整学习全基因组测序（WGS）数据分析：第4节 构建WGS主流程">
 <meta name="twitter:description" content="这篇文章很长，超过1万字，是本系列中最重要的一篇，因为我并非只是在简单地告诉大家几条硬邦邦的操作命令。对于新手而言不建议碎片时间阅读，对于有一定经验的老手来说，相信依然可以有所收获。在开始之前，我想先说一句：流程的具体形式其实是次要的，WGS本质上只是一个技术手段，重要的是，我们要明白自己所要解决的问题是什么，所希望获取的结果是什么，然后再选择合适的技术。这是许多人经常忽视的一个重要问题。 好了">
@@ -462,11 +462,11 @@
 <p>其中，<strong>[options]</strong>是一系列可选的参数，暂时不多说。这里的 <strong>&lt; idxbase&gt;</strong>要输入的是参考基因组的BW索引文件，我们上面通过<code>bwa index</code>构建好的那几个以human.fasta为前缀的文件便是；<strong>&lt; in1.fq&gt;</strong>和 <strong>[in2.fq]</strong>输入的是质控后的fastq文件。但这里输入的时候为什么会需要两个fq（in1.fq和in2.fq）呢？我们上面的例子也是有两个：read_1.fq.gz和read_2.fq.gz。这是因为这是双末端测序（也称Pair-End）的情况，那什么是“双末端测序”呢？这两个fq之间的关系又是什么？这个我需要简单解析一下。</p>
 <p>我们已经知道NGS是短读长的测序技术，一次测出来的read的长度都不会太长，那为了尽可能把一个DNA序列片段尽可能多地测出来，既然测一边不够，那就测两边，于是就有了一种从被测DNA序列两端各测序一次的模式，<strong>这就被称为双末端测序（Pair-End Sequencing，简称PE测序）</strong>。如下图是Pair-End测序的示意图，中间灰色的是被测序的DNA序列片段，左边黄色带箭头和右边蓝色带箭头的分别是测序出来的read1和read2序列，这里假定它们的长度都是100bp。虽然很多时候Pair-End测序还是无法将整个被测的DNA片段完全测通，但是它依然提供了极其有用的信息，比如，我们知道每一对的read1和read2都来自于同一个DNA片段，read1和read2之间的距离是这个DNA片段的长度，而且read1和read2的方向刚好是相反的（这里排除mate-pair的情形）等，这些信息对于后面的变异检测等分析来说都是非常有用的。</p>
 <p><img src="http://blog-fungenomics-com.qiniudn.com/wgs0402.pair-end.png" alt="Pair-End 测序"></p>
-<center>Pair-End 测序</center>
+<p align="center"><a>Pair-End 测序</a></p> 
 
 <p>另外，在read1在fq1文件中位置和read2在fq2文件中的文件中的位置是相同的，而且read ID之间只在末尾有一个’/1’或者’/2’的差别。</p>
 <p><img src="http://blog-fungenomics-com.qiniudn.com/wgs0403.png" alt="read1 ID和read2 ID的差别"></p>
-<center>read1 ID和read2 ID的差别</center>
+<p align="center"><a>read1 ID和read2 ID的差别</a></p> 
 
 <p>既然有双末端测序，那么与之对应的就有单末端测序（Single End Sequecing，简称SE测序），即只测序其中一端。因此，我们在使用bwa比对的时候，实际上，in2.fq是非强制性的（所以用方括号括起来），只有是双末端测序的数据时才需要添加。</p>
 <p>回到上面我们的例子，大伙可以看到我这里除了用法中提到的参数之外，还多了2个额外的参数，分别是：-t，线程数，我们在这里使用4个线程；-R 接的是 <strong>Read Group的字符串信息，这是一个非常重要的信息</strong>，以@RG开头，它是用来将比对的read进行分组的。不同的组之间测序过程被认为是相互独立的，这个信息对于我们后续对比对数据进行错误率分析和Mark duplicate时非常重要。在Read Group中，有如下几个信息非常重要：</p>
@@ -502,7 +502,7 @@
 <p>因此，这里重复序列的来源实际上就是由PCR过程中所引入的。因为所谓的PCR扩增就是把原来的一段DNA序列复制多次。<strong>可是为什么需要PCR扩增呢？如果没有扩增不就可以省略这一步了吗？</strong></p>
 <p>情况确实如此，但是很多时候我们构建测序文库时能用的细胞量并不会非常充足，而且在打断的步骤中也会引起部分DNA的降解，这两点会使整体或者局部的DNA浓度过低，这时如果直接从这个溶液中取样去测序就很可能漏掉原本基因组上的一些DNA片段，导致测序不全。<strong>而PCR扩增的作用就是为了把这些微弱的DNA多复制几倍乃至几十倍，以便增大它们在溶液中分布的密度，使得能够在取样时被获取到</strong>。所以这里大家需要记住一个重点，PCR扩增原本的目的是为了增大微弱DNA序列片段的密度，但由于整个反应都在一个试管中进行，因此其他一些密度并不低的DNA片段也会被同步放大，那么这时在取样去上机测序的时候，这些DNA片段就很可能会被重复取到相同的几条去进行测序（下图为PCR扩增示意图）。</p>
 <p><img src="http://blog-fungenomics-com.qiniudn.com/wgs0405.pcr.png" alt="PCR扩增示意图"></p>
-<center><em>PCR扩增示意图：PCR扩增是一个指数扩增的过程，图中原本只有一段双链DNA序列，在经过3轮PCR后就被扩增成了8段</em></center>
+<p align="center"><a>PCR扩增示意图：PCR扩增是一个指数扩增的过程，图中原本只有一段双链DNA序列，在经过3轮PCR后就被扩增成了8段</a></p> 
 
 <p>看到这里，你或许会觉得，那没必要去除不也应该可以吗？因为即便扩增了多几次，不也同样还是原来的那一段DNA吗？直接用来分析对结果也不会有影响啊！难道不是吗？</p>
 <p><strong>会有影响，而且有时影响会很大！</strong>最直接的后果就是同时增大了变异检测结果的假阴和假阳率。主要有几个原因：</p>
@@ -534,7 +534,7 @@
 <p>因此，我们需要有一种算法来对这些区域进行局部的序列重比对。这个算法通常就是大名鼎鼎的Smith-Waterman算法，它非常适合于这类场景，可以极其有效地实现对全局比对结果的校正和调整，最大程度低地降低由全局比对算法的不足而带来的错误。<strong>而且GATK的局部重比对模块，除了应用这个算法之外，还会对这个区域中的read进行一次局部组装，把它们连接成为长度更大的序列，这样能够更进一步提高局部重比对的准确性。</strong></p>
 <p>下图给大家展示一个序列重比对之前和之后的结果，其中灰色的横条指的是read，空白黑线指的是deletion，有颜色的碱基指的是错配碱基。</p>
 <p><img src="http://blog-fungenomics-com.qiniudn.com/wgs0408.realign.png" alt="Indel局部重比对的前后的对比"></p>
-<center>Indel局部重比对的前后的对比</center>
+<p align="center"><a>Indel局部重比对的前后的对比</a></p>
 
 <p>相信大家都可以明显地看到在序列重比对之前，在这个区域的比对数据是多么的糟糕，如果就这样进行变异检测，那么一定会得到很多假的结果。而在经过局部重比对之后，这个区域就变得非常清晰而分明，它原本发生的就只是一个比较长的序列删除（deletion）事件，但在原始的比对结果中却被错误地用碱基错配和短的Indel所代替。</p>
 <p>说到这里，那么具体该怎么做呢？我们的WGS分析流程从这个步骤开始就需要用到GATK (GenomeAnalysisTK.jar)了，我们的执行命令如下：</p>
@@ -545,12 +545,12 @@
 <li>第二步，IndelRealigner，对所有在第一步中找到的目标区域运用算法进行序列重比对，最后得到捋顺了的新结果。</li>
 </ul>
 <p><img src="http://blog-fungenomics-com.qiniudn.com/wgs0409.realign.png" alt="IndelRealigner.intervals文件内容示例"></p>
-<center>IndelRealigner.intervals文件内容示例</center>
+<p align="center"><a>IndelRealigner.intervals文件内容示例</a></p> 
 
 <p>以上这两个步骤是缺一不可的，顺序也是固定的。而且，需要指出的是，<strong>这里的-R参数输入的human.fasta不是BWA比对中的索引文件前缀，而是参考基因组序列（FASTA格式）文件，下同。</strong></p>
 <p>另外，在重比对步骤中，我们还看到了两个陌生的VCF文件，分别是：1000G_phase1.indels.b37.vcf和Mills_and_1000G_gold_standard.indels.b37.vcf。这两个文件来自于千人基因组和Mills项目，里面记录了那些项目中检测到的人群Indel区域。我上面其实也提到了，<strong>候选的重比对区除了要在样本自身的比对结果中寻找之外，还应该把人群中已知的Indel区域也包含进来，而这两个是我们在重比对过程中最常用到的。</strong>这些文件你可以很方便地在<a href="ftp://ftp.broadinstitute.org/bundle/" target="_blank" rel="external">GATK bundle ftp</a>中下载，注意一定要选择和你的参考基因组对应的版本，我们这里用的是b37版本。</p>
 <p><img src="http://blog-fungenomics-com.qiniudn.com/wgs0410.gatk-bundle.png" alt="GATK bundle"></p>
-<center>GATK bundle</center>
+<p align="center"><a>GATK bundle</a></p> 
 
 <p><strong>那么既然Indel局部重比对这么好，这么重要，似乎看起来在任何情况下都应该是必须的。然鹅，我的回答是否定的！</strong>惊讶吗！</p>
 <p><img src="http://blog-fungenomics-com.qiniudn.com/wgs0411.png" alt="友谊的小船"></p>
@@ -559,7 +559,7 @@
 <p><strong>在WGS分析中，变异检测是一个极度依赖测序碱基质量值的步骤。因为这个质量值是衡量我们测序出来的这个碱基到底有多正确的重要（甚至是唯一）指标</strong>。它来自于测序图像数据的base calling。因此，基本上是由测序仪和测序系统来决定的。但不幸的是，影响这个值准确性的系统性因素有很多，包括物理和化学等对测序反应的影响，甚至连仪器本身和周围环境都是其重要的影响因素。当把所有这些东西综合在一起之后，往往会发现计算出来的碱基质量值要么高于真实结果，要么低于真实结果。那么，我们到底该如何才能获得符合真实情况的碱基质量值？</p>
 <p>BQSR（Base Quality Score Recalibration）这个步骤就是为此而存在的，这一步同样非常重要。它主要是通过机器学习的方法构建测序碱基的错误率模型，然后对这些碱基的质量值进行相应的调整。</p>
 <p><img src="http://blog-fungenomics-com.qiniudn.com/wgs0413.BQSR.png" alt="BQSR质量校正对比"></p>
-<center>BQSR质量校正对比</center>
+<p align="center"><a>BQSR质量校正对比</a></p>
 
 <p>图中，横轴（Reported quality score）是测序结果在Base calling之后报告出来的质量值，也就是我们在FASTQ文件中看到的那些；纵轴（Empirical quality score）代表的是“真实情况的质量值”。</p>
 <p>但是且慢，这个“真实情况的质量值”是怎么来的？因为实际上我们并没有办法直接测得它们啊！没错，确实没办法直接测量到，但是我们可以通过统计学的技巧获得极其接近的分布结果（因此我加了引号）。试想一下，<strong>如果我们在看到某一个碱基报告的质量值是20时，那么它的预期错误率是1%，反过来想，就等于是说如果有100个质量值都是20的碱基，那么从统计上讲它们中将只有1个是错的！做了这个等效变换之后，我们的问题就可以转变成为寻找错误碱基的数量了</strong>。</p>
