@@ -1,0 +1,993 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,BAM,Pysam," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="在上一篇的文章里我详细介绍了BAM（SAM/CRAM）的格式和一些需要注意的细节，还说了该如何使用samtools在命令行中对其进行操作。但是很多时候这些操作是不能满足我们的实际需要的，比如统计比对率、计算在某个比对质量值之上的read有多少，或者计算PE比对的插入片段长度分布，甚至需要你根据实际情况编写一个新的变异检测算法等。这个时候往往难以直接通过samtools来实现【注】，而是需要编写专">
+<meta name="keywords" content="Python,BAM,Pysam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用Pysam处理BAM">
+<meta property="og:url" content="http://huangshujia.me/2017/12/07/2017-12-06-How-To-Use-Pysam.html">
+<meta property="og:site_name" content="解螺旋的矿工">
+<meta property="og:description" content="在上一篇的文章里我详细介绍了BAM（SAM/CRAM）的格式和一些需要注意的细节，还说了该如何使用samtools在命令行中对其进行操作。但是很多时候这些操作是不能满足我们的实际需要的，比如统计比对率、计算在某个比对质量值之上的read有多少，或者计算PE比对的插入片段长度分布，甚至需要你根据实际情况编写一个新的变异检测算法等。这个时候往往难以直接通过samtools来实现【注】，而是需要编写专">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/coding.cover.jpeg">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/fig1.pysam.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/fig2.pysam.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/fig3.pysam.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png">
+<meta property="og:updated_time" content="2017-12-07T13:11:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何使用Pysam处理BAM">
+<meta name="twitter:description" content="在上一篇的文章里我详细介绍了BAM（SAM/CRAM）的格式和一些需要注意的细节，还说了该如何使用samtools在命令行中对其进行操作。但是很多时候这些操作是不能满足我们的实际需要的，比如统计比对率、计算在某个比对质量值之上的read有多少，或者计算PE比对的插入片段长度分布，甚至需要你根据实际情况编写一个新的变异检测算法等。这个时候往往难以直接通过samtools来实现【注】，而是需要编写专">
+<meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/coding.cover.jpeg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huangshujia.me/2017/12/07/2017-12-06-How-To-Use-Pysam.html"/>
+
+
+
+
+
+  <title>如何使用Pysam处理BAM | 解螺旋的矿工</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9091dc3354962cd0705c6a0c94b8a931";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">解螺旋的矿工</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2017/12/07/2017-12-06-How-To-Use-Pysam.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shujia Huang(矿工)">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解螺旋的矿工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何使用Pysam处理BAM</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-07T00:00:00+08:00">
+                2017-12-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/" itemprop="url" rel="index">
+                    <span itemprop="name">生物信息</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/基因组学/" itemprop="url" rel="index">
+                    <span itemprop="name">基因组学</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/07/2017-12-06-How-To-Use-Pysam.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/12/07/2017-12-06-How-To-Use-Pysam.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/12/07/2017-12-06-How-To-Use-Pysam.html" class="leancloud_visitors" data-flag-title="如何使用Pysam处理BAM">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://blog-fungenomics-com.qiniudn.com/coding.cover.jpeg" alt=""></p>
+<p>在上一篇的文章里我详细介绍了BAM（SAM/CRAM）的格式和一些需要注意的细节，还说了该如何使用samtools在命令行中对其进行操作。但是很多时候这些操作是不能满足我们的实际需要的，比如统计比对率、计算在某个比对质量值之上的read有多少，或者计算PE比对的插入片段长度分布，甚至需要你根据实际情况编写一个新的变异检测算法等。这个时候往往难以直接通过samtools来实现【注】，而是需要编写专门的程序进行计算。因此，在这一篇文章里我们就一起来学习应该如何在程序中借助Pysam来处理BAM文件。</p>
+<blockquote>
+<p>【注】关于统计比对率其实是可以通过samtools stats计算获得的。不过我们这篇文章不是为了争辩samtools能做什么，不能做什么，而是要跟大家讨论该如何编写程序处理BAM。</p>
+</blockquote>
+<p>不过，在开始之前我想稍微再补充一下上一节中提到的CRAM——我习惯将其称为BAM的高压缩格式，因为它和BAM/SAM的格式基本相同，但有四点我们需要注意一下：</p>
+<ul>
+<li>CRAM的高压缩是通过借助参考序列和对其他信息的进一步编码来实现的，它相比于BAM有着更高的压缩率，能够节省30%-50%的空间；</li>
+<li>CRAM目前的IO效率没有BAM高（压得密嘛），约慢30%，但在不断进步，现在已经更新到了3.x版本了；</li>
+<li>CRAM和BAM可以通过samtools或者picard方便地实现互转；</li>
+<li>CRAM一定会取代BAM，这话并不是我说的，而是baw/samtools的作者lh3说的。</li>
+</ul>
+<h2 id="什么是Pysam"><a href="#什么是Pysam" class="headerlink" title="什么是Pysam"></a>什么是Pysam</h2><p>Pysam是一个专门用来处理（BAM/CRAM/SAM）比对数据和变异数据（VCF和BCF）的Python包。它的核心是htslib——一个高通量数据处理API（来自samtools和bwa的核心，基于C语言），开发者们用Python对它直接进行轻量级包装，因此能够在Python中方便地进行调用，并且保证了它与原生C-API功能上的高度一致。</p>
+<h2 id="为什么是Pysam"><a href="#为什么是Pysam" class="headerlink" title="为什么是Pysam"></a>为什么是Pysam</h2><p>因为Pysam可以说是最为官方的版本，有比较固定的开发者在维护，它的稳定性和可靠性都很高。虽然还有一些其它的包同样能够处理BAM但其实它们大多绕不开对htslib的使用，但却没有pysam周全。而且Pysam还集成了tabix的接口，所以除了比对数据之外，还能够用于处理所有用tabix构建过索引的文件，总之就是全且可靠。</p>
+<p>如果是文本格式的sam的话，其实也可以直接将其当作普通文本文件来处理，不需借助任何程序包（这在早期的数据分析中经常看到这种操作），只是要麻烦很多（必须自己在程序中处理所有细节，包括解析FLAG和CIGAR信息，以前我也干过不少类似的事情），甚至我还看到有人直接在程序中调用samtools view把BAM转换成SAM之后再处理的。。。这样的做法实在不推荐。</p>
+<p>所以，只要你用的是Python，那么Pysam真的是目前看来比较好的选择。当然如果你用C/C++那么直接用htslib或者bamtools，如果是Java，那么直接使用htsjdk——htslib的java版本。</p>
+<h2 id="如何使用Pysam"><a href="#如何使用Pysam" class="headerlink" title="如何使用Pysam"></a>如何使用Pysam</h2><p><img src="http://blog-fungenomics-com.qiniudn.com/fig1.pysam.png" alt="Pysam"></p>
+<p>首先，要为我们的Python环境安装这个包，如果已安装过的话可以忽略这一步。有两个方法，pip和bioconda，都比较简单，我们这里以pip——Python的包管理工具来进行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ pip install pysam</div></pre></td></tr></table></figure>
+<p>安装完成之后我们就可以在Python程序中调用pysam了。</p>
+<h2 id="读取BAM-CRAM-SAM文件"><a href="#读取BAM-CRAM-SAM文件" class="headerlink" title="读取BAM/CRAM/SAM文件"></a>读取BAM/CRAM/SAM文件</h2><p>Pysam中的函数有很多，但是重要的读取函数主要有：</p>
+<ul>
+<li>AlignmentFile：读取BAM/CRAM/SAM文件</li>
+<li>VariantFile：读取变异数据（VCF或者BCF）</li>
+<li>TabixFile：读取由tabix索引的文件；</li>
+<li>FastaFile：读取fasta序列文件；</li>
+<li>FastqFile：读取fastq测序序列文件；</li>
+</ul>
+<p>等以上几个，其中尤以AlignmentFile和VariantFile为核心。需要我们注意到的地方是，Pysam中的有些函数由于历史原因存在重复，比如名字上只有大小写的差异，但功能却是一样的（比如下图的TabixFile），有些则只是简化了函数名，这些情况用的时候留个心眼就行了。</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/fig2.pysam.png" alt="Tabixfile重名"></p>
+<p>另外，这篇文章的目的是介绍如何处理比对文件，所以我打算只介绍<code>AlignmentFile</code>。</p>
+<p>读取比对文件前，我建议先使用<code>samtools index</code>为比对文件构建好索引。当然如果是SAM文件就不必了——它是文本文件，索引的作用是让我们可以对文件进行随机读取，而不必总是从头开始。</p>
+<p>下面我先用一个例子作为引子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pysam</div><div class="line">bf = pysam.AlignmentFile(<span class="string">'in.bam'</span>, <span class="string">'rb'</span>)</div></pre></td></tr></table></figure>
+<p>我在这个例子里面，先在程序中导入pysam包，然后调用<code>AlignmentFile</code>函数读取<code>in.bam</code>文件，并把句柄赋值给了bf，bf其实是一个迭代器——Python中的术语，意思就是适合在for循环中进行遍历的对象。</p>
+<p>这样我们就是可以通过bf获取这份比对文件中的内容了。比如我们想把in.bam中每一条read的比对位置（包含染色体编号和位置信息），比对质量值和插入片段长度输出（我们的in.bam来自PE测序数据的结果），那么可以这样做：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pysam</div><div class="line">bf = pysam.AlignmentFile(<span class="string">'in.bam'</span>, <span class="string">'rb'</span>)</div><div class="line"><span class="keyword">for</span> r <span class="keyword">in</span> bf:</div><div class="line">  <span class="keyword">print</span> r.reference_name, r.pos, r.mapq, r.isize</div></pre></td></tr></table></figure>
+<p>是不是很简单！打开in.bam文件之后，用for循环对其从头到尾地遍历，并把每个值都赋给r，r在这里代表的就是比对的read信息，它是一个对象（在Pysam由AlignedSegment定义），通过它就可以获取所有的比对信息，比如上面例子中：</p>
+<ul>
+<li>r.reference_name代表read比对到的参考序列染色体id；</li>
+<li>r.pos代表read比对的位置；</li>
+<li>r.mapq代表read的比对质量值；</li>
+<li>r.isize代表PE read直接的插入片段长度，有时也称Fragment长度；</li>
+</ul>
+<p>这里例子的结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">chrM 160 50 235</div><div class="line">chrM 161 30 -283</div><div class="line">chrM 314 60 -207</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>另外，由于bf是一个迭代器，我们其实还可以用<code>bf.next()</code>一个一个地对其进行访问，而不必在for循环中遍历，这在一些特殊的情况下，这个做法是非常有用且方便的。</p>
+<p>当然，上面这个例子其实非常简单，实际上r变量中还有很多其它关于比对的信息，下面这个截图，就是变量中能够获取到的所有比对相关的信息，有好几十个。</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/fig3.pysam.png" alt="函数很多"></p>
+<p>眼尖的同学可能也发现了，这里面存在一些名字类似的变量，如：r.mapping_quality 和 r.mapq，它们其实都是比对质量值。类似的也还有几个，这都是上面我提到的历史原因所致，不过这种多余变量随着Pysam的维护也正在逐步变少。</p>
+<p>此外，<strong>Pysam中的位点坐标体系是0-base（意思是染色体的起始位置是从0而不是1开始算的）而不是1-base，所以上面的输出的160，其实真实位置应该要+1，也就是161</strong>。</p>
+<p>还有，上文我也说过，AlignmentFile除了能够读/写BAM之外，还同样能够读/写CRAM和SAM。区别就在于函数中的第二个参数，比如上面例子中的字符’b’就是用于明确指定BAM文件，’r’字符代表“只读”模式（read首字母）。<strong>如果要打开CRAM文件，只需要把b换成c（代表CRAM）就行了</strong>，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pysam</div><div class="line">cf = pysam.AlignmentFile(<span class="string">'in.cram'</span>, <span class="string">'rc'</span>)</div></pre></td></tr></table></figure>
+<p>那么，如果是SAM文件呢？去掉b或c即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pysam</div><div class="line">sf = pysam.AlignmentFile(<span class="string">'in.sam'</span>, <span class="string">'r'</span>)</div></pre></td></tr></table></figure>
+<h2 id="读取特定比对区域内的数据"><a href="#读取特定比对区域内的数据" class="headerlink" title="读取特定比对区域内的数据"></a>读取特定比对区域内的数据</h2><p>有时候我们并不需要遍历整一份BAM文件，我们可能只想获得区中的某一个区域（比如chrM中301-310中的信息），那么这个时候可以用Alignmen模块中的fetch函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pysam</div><div class="line">bf = AlignmentFile(<span class="string">'in.bam'</span>, <span class="string">'rb'</span>)</div><div class="line"><span class="keyword">for</span> r <span class="keyword">in</span> bf.fetch(<span class="string">'chrM'</span>, <span class="number">300</span>, <span class="number">310</span>)：</div><div class="line">    <span class="keyword">print</span> r</div><div class="line">bf.close()</div></pre></td></tr></table></figure>
+<p><strong>通过fetch函数就可以定位特定区域了</strong>，非常方便。不过，这个时候输入文件in.bam就必须要有索引，不然无法实现这种读取操作。最后用完了，要记得关闭文件——bf.close()。</p>
+<h2 id="来个稍微难一点的例子"><a href="#来个稍微难一点的例子" class="headerlink" title="来个稍微难一点的例子"></a>来个稍微难一点的例子</h2><p><strong>问题：如何输出覆盖在某个位置上，比对质量值大于30的所有碱基？</strong></p>
+<p>这个问题包含两个部分：</p>
+<ul>
+<li>固定的某个位置（我们这里还是用chrM 301这个位置）</li>
+<li>read比对质量值必须是大于30</li>
+</ul>
+<p>如何做呢？这个时候我们要用AlignmentFile模块的另一个函数——pileups来协助解决，代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pysam</div><div class="line">bf = pysam.AlignmentFile(<span class="string">"in.bam"</span>, <span class="string">"rb"</span> )</div><div class="line"><span class="keyword">for</span> pileupcolumn <span class="keyword">in</span> bf.pileup(<span class="string">"chrM"</span>, <span class="number">300</span>, <span class="number">301</span>):</div><div class="line">    <span class="keyword">for</span> read <span class="keyword">in</span> [al <span class="keyword">for</span> al <span class="keyword">in</span> pileupcolumn.pileups <span class="keyword">if</span> al.alignment.mapq&gt;<span class="number">30</span>]:</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> read.is_del <span class="keyword">and</span> <span class="keyword">not</span> read.is_refskip:</div><div class="line">            <span class="keyword">if</span> read.alignment.pos + <span class="number">1</span> == <span class="number">301</span>:</div><div class="line">                <span class="keyword">print</span> read.alignment.reference_name,\</div><div class="line">                      read.alignment.pos + <span class="number">1</span>,\</div><div class="line">                    read.alignment.query_sequence[read.query_position]</div><div class="line"></div><div class="line">bf.close()</div></pre></td></tr></table></figure>
+<p>这段代码看起来虽然简单，但其实包含了很多信息。总的来说，就是通过pileup获取了所有覆盖到该位置的read，并将其存到pileupcolumn中。然后，对pileupcolumn调用pileups（注意多了一个s）获得一条read中每个比对位置的信息（一条read那么长，并非只覆盖了一个位置），然后通过判断语句留下覆盖到目标位点（301）的碱基。<strong>代码中的read.alignment是Pysam中AlignedSegment对象，它包含的内容和上述其它例子中的r是一样的</strong>。read.alignment.pos + 1还是0-base的原因。最后结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">chrM 301 A</div><div class="line">chrM 301 A</div><div class="line">chrM 301 A</div><div class="line">chrM 301 C</div><div class="line">chrM 301 C</div><div class="line">chrM 301 C</div><div class="line">chrM 301 C</div><div class="line">chrM 301 C</div><div class="line">chrM 301 C</div><div class="line">chrM 301 C</div><div class="line">...</div></pre></td></tr></table></figure>
+<h2 id="创建BAM-CRAM-SAM文件"><a href="#创建BAM-CRAM-SAM文件" class="headerlink" title="创建BAM/CRAM/SAM文件"></a>创建BAM/CRAM/SAM文件</h2><p>最后这个例子，我想告诉大家该如何用Pysam输出BAM/CRAM/SAM格式，具体还是看代码吧，这里想输出结果是BAM文件，所以输出模式是“wb”，例子中我们只输出一条比对结果作为说明。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pysam</div><div class="line"></div><div class="line">header = &#123;<span class="string">'HD'</span>: &#123;<span class="string">'VN'</span>: <span class="string">'1.0'</span>&#125;,</div><div class="line">          <span class="string">'SQ'</span>: [&#123;<span class="string">'LN'</span>: <span class="number">1575</span>, <span class="string">'SN'</span>: <span class="string">'chr1'</span>&#125;,</div><div class="line">                 &#123;<span class="string">'LN'</span>: <span class="number">1584</span>, <span class="string">'SN'</span>: <span class="string">'chr2'</span>&#125;]</div><div class="line">&#125;</div><div class="line"></div><div class="line">tmpfilename = <span class="string">"out.bam"</span></div><div class="line"><span class="keyword">with</span> pysam.AlignmentFile(tmpfilename, <span class="string">"wb"</span>, header=header) <span class="keyword">as</span> outf:</div><div class="line">    a = pysam.AlignedSegment()  <span class="comment"># 定义一个AlignedSegment对象用于存储比对信息</span></div><div class="line">    a.query_name = <span class="string">"read_28833_29006_6945"</span></div><div class="line">    a.query_sequence=<span class="string">"AGCTTAGCTAGCTACCTATATCTTGGTCTTGGCCG"</span></div><div class="line">    a.flag = <span class="number">99</span></div><div class="line">    a.reference_id = <span class="number">0</span></div><div class="line">    a.reference_start = <span class="number">32</span></div><div class="line">    a.mapping_quality = <span class="number">20</span></div><div class="line">    a.cigar = ((<span class="number">0</span>,<span class="number">10</span>), (<span class="number">2</span>,<span class="number">1</span>), (<span class="number">0</span>,<span class="number">25</span>))</div><div class="line">    a.next_reference_id = <span class="number">0</span></div><div class="line">    a.next_reference_start=<span class="number">199</span></div><div class="line">    a.template_length=<span class="number">167</span></div><div class="line">    a.query_qualities = pysam.qualitystring_to_array(<span class="string">"&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;:&lt;9/,&amp;,22;;&lt;&lt;&lt;"</span>)</div><div class="line">    a.tags = ((<span class="string">"NM"</span>, <span class="number">1</span>),</div><div class="line">              (<span class="string">"RG"</span>, <span class="string">"L1"</span>))</div><div class="line"></div><div class="line">    outf.write(a)</div></pre></td></tr></table></figure>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>我写这篇文章的目的主要有两个：<strong>第一</strong>，充实上一篇文章中关于如何操作BAM的内容；<strong>第二，</strong>介绍Pysam这一个值得使用的包给大家。另外，我上面列举的例子其实都比较偏于基础操作，这可能和我自身对认知的看法有关。我一直认为，只有真正理解并灵活地应用基础操作，才可以灵活地解决一切复杂的问题。</p>
+<p>而且，上面几个例子中用到的模块和函数其实都是比较常用的，所以我比较推荐优先掌握它们。这些例子里面用到的数据我已放到github了，感兴趣的同学可以在公众号后台回复“WGS”即可获得，后续也会陆续有其它的代码和数据可供参考。</p>
+<p>最后，Pysam的内容其实还有很多，我所介绍的也仅在对于比对数据的处理，其它很多的模块和函数，包括对Fasta，Fastq，VCF，BCF和Tabix文件的处理，我就不进行一一介绍了，建议大家在使用的时候多看看它的<a href="http://pysam.readthedocs.io/en/latest/api.html" target="_blank" rel="external">完整文档</a>。</p>
+<hr>
+<p>本文首发于我的个人公众号：<strong>解螺旋的矿工</strong>，欢迎关注，更及时了解更多信息</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png" alt="解螺旋的矿工"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/BAM/" rel="tag"># BAM</a>
+          
+            <a href="/tags/Pysam/" rel="tag"># Pysam</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/19/2017-09-19-Begining-WGS-Data-Analysis-The-pipeline.html" rel="next" title="从零开始完整学习全基因组测序（WGS）数据分析：第4节 构建WGS主流程">
+                <i class="fa fa-chevron-left"></i> 从零开始完整学习全基因组测序（WGS）数据分析：第4节 构建WGS主流程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Shujia Huang(矿工)" />
+          <p class="site-author-name" itemprop="name">Shujia Huang(矿工)</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Pysam"><span class="nav-number">1.</span> <span class="nav-text">什么是Pysam</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么是Pysam"><span class="nav-number">2.</span> <span class="nav-text">为什么是Pysam</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用Pysam"><span class="nav-number">3.</span> <span class="nav-text">如何使用Pysam</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读取BAM-CRAM-SAM文件"><span class="nav-number">4.</span> <span class="nav-text">读取BAM/CRAM/SAM文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读取特定比对区域内的数据"><span class="nav-number">5.</span> <span class="nav-text">读取特定比对区域内的数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#来个稍微难一点的例子"><span class="nav-number">6.</span> <span class="nav-text">来个稍微难一点的例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建BAM-CRAM-SAM文件"><span class="nav-number">7.</span> <span class="nav-text">创建BAM/CRAM/SAM文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">8.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shujia Huang(矿工)</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://huangshujia.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://huangshujia.me/2017/12/07/2017-12-06-How-To-Use-Pysam.html';
+          this.page.identifier = '2017/12/07/2017-12-06-How-To-Use-Pysam.html';
+          this.page.title = '如何使用Pysam处理BAM';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://huangshujia.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("PG9NA27zW2WuxmCMvOMlxzua-gzGzoHsz", "VMwO1UNTnT8FgGg411rzjALa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
