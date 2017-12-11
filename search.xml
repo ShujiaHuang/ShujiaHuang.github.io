@@ -3,7 +3,7 @@
   
     
     <entry>
-      <title><![CDATA[如何使用Pysam处理BAM]]></title>
+      <title><![CDATA[如何使用Python处理BAM]]></title>
       <url>/2017/12/07/2017-12-06-How-To-Use-Pysam.html</url>
       <content type="html"><![CDATA[<p><img src="http://blog-fungenomics-com.qiniudn.com/coding.cover.jpeg" alt=""></p>
 <p>在上一篇的文章里我详细介绍了BAM（SAM/CRAM）的格式和一些需要注意的细节，还说了该如何使用samtools在命令行中对其进行操作。但是很多时候这些操作是不能满足我们的实际需要的，比如统计比对率、计算在某个比对质量值之上的read有多少，或者计算PE比对的插入片段长度分布，甚至需要你根据实际情况编写一个新的变异检测算法等。这个时候往往难以直接通过samtools来实现【注】，而是需要编写专门的程序进行计算。因此，在这一篇文章里我们就一起来学习应该如何在程序中借助Pysam来处理BAM文件。</p>
