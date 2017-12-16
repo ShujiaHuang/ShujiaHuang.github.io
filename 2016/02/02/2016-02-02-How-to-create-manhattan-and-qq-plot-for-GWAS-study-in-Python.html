@@ -90,13 +90,13 @@
 
 
 
-<meta name="description" content="【前言】这篇文章使用geneview完成这两类图的作法，它是一个Python高级库，建立在matplotlib的基础之上，专门用于基因组数据的可视化，目的是为了使创建高大上（精致）的基因组数据图表变得简单。目前该发布的Python包中已经内置多个优美的调色板和风格（默认情况下就能创建赏心悦目的图形），同时已经集成了曼哈顿图和Q-Q图的绘制函数。作为该Python包的主要开发者，只是如此是远远不够">
+<meta name="description" content="【前言】这篇文章使用geneview完成这两类图的作法，它是一个Python高级库，建立在matplotlib的基础之上，专门用于基因组数据的可视化，目的是为了使创建高大上（精致）的基因组数据图表变得简单。目前该发布的Python包中已经内置多个优美的调色板和风格（默认情况下就能创建赏心悦目的图形），同时已经集成了曼哈顿图和Q-Q图的绘制函数。作为该Python包的主要开发者，只是如此是远远不">
 <meta name="keywords" content="Python,GWAS,manhattan plot,Q-Q plot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何使用Python绘制GWAS分析中的曼哈顿图和QQ图">
 <meta property="og:url" content="http://huangshujia.me/2016/02/02/2016-02-02-How-to-create-manhattan-and-qq-plot-for-GWAS-study-in-Python.html">
 <meta property="og:site_name" content="解螺旋的矿工">
-<meta property="og:description" content="【前言】这篇文章使用geneview完成这两类图的作法，它是一个Python高级库，建立在matplotlib的基础之上，专门用于基因组数据的可视化，目的是为了使创建高大上（精致）的基因组数据图表变得简单。目前该发布的Python包中已经内置多个优美的调色板和风格（默认情况下就能创建赏心悦目的图形），同时已经集成了曼哈顿图和Q-Q图的绘制函数。作为该Python包的主要开发者，只是如此是远远不够">
+<meta property="og:description" content="【前言】这篇文章使用geneview完成这两类图的作法，它是一个Python高级库，建立在matplotlib的基础之上，专门用于基因组数据的可视化，目的是为了使创建高大上（精致）的基因组数据图表变得简单。目前该发布的Python包中已经内置多个优美的调色板和风格（默认情况下就能创建赏心悦目的图形），同时已经集成了曼哈顿图和Q-Q图的绘制函数。作为该Python包的主要开发者，只是如此是远远不">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://7lrw1m.com1.z0.glb.clouddn.com/fg.post.2015-02-08.cover.jpg">
 <meta property="og:image" content="http://7u2had.com1.z0.glb.clouddn.com/post.man-0.png">
@@ -106,7 +106,7 @@
 <meta property="og:updated_time" content="2017-05-30T14:05:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何使用Python绘制GWAS分析中的曼哈顿图和QQ图">
-<meta name="twitter:description" content="【前言】这篇文章使用geneview完成这两类图的作法，它是一个Python高级库，建立在matplotlib的基础之上，专门用于基因组数据的可视化，目的是为了使创建高大上（精致）的基因组数据图表变得简单。目前该发布的Python包中已经内置多个优美的调色板和风格（默认情况下就能创建赏心悦目的图形），同时已经集成了曼哈顿图和Q-Q图的绘制函数。作为该Python包的主要开发者，只是如此是远远不够">
+<meta name="twitter:description" content="【前言】这篇文章使用geneview完成这两类图的作法，它是一个Python高级库，建立在matplotlib的基础之上，专门用于基因组数据的可视化，目的是为了使创建高大上（精致）的基因组数据图表变得简单。目前该发布的Python包中已经内置多个优美的调色板和风格（默认情况下就能创建赏心悦目的图形），同时已经集成了曼哈顿图和Q-Q图的绘制函数。作为该Python包的主要开发者，只是如此是远远不">
 <meta name="twitter:image" content="http://7lrw1m.com1.z0.glb.clouddn.com/fg.post.2015-02-08.cover.jpg">
 
 
@@ -399,7 +399,7 @@
       
 
       
-        <p><img src="http://7lrw1m.com1.z0.glb.clouddn.com/fg.post.2015-02-08.cover.jpg" alt="GWAS-ARRAY"></p>
+        <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://7lrw1m.com1.z0.glb.clouddn.com/fg.post.2015-02-08.cover.jpg" alt="GWAS-ARRAY"></p>
 <p>【前言】这篇文章使用<a href="https://github.com/ShujiaHuang/geneview" target="_blank" rel="external">geneview</a>完成这两类图的作法，它是一个Python高级库，建立在matplotlib的基础之上，专门用于基因组数据的可视化，目的是为了使创建<strong>高大上（精致）</strong>的基因组数据图表变得简单。目前该发布的Python包中已经内置多个优美的调色板和风格（默认情况下就能创建赏心悦目的图形），同时已经集成了曼哈顿图和Q-Q图的绘制函数。作为该Python包的主要开发者，只是如此是远远不够的，在未来的日子里，我希望它能在功能不断完善的同时也变得更加易用。</p>
 <p>曼哈顿图和QQ图是两个在全基因组关联（GWAS）分析里面最常出现的图形，基本上已经是GWAS的标配，几乎在每篇GWAS的文章都会见到，它们的作用和所要传达出来的信息我也在<a href="">上一篇关于GWAS的博文</a>中做了些说明，在这里我们就只集中在如何用Python和geneview将其有效地展现出来。</p>
 <p>首先，准备一些数据来作为例子。</p>
@@ -578,7 +578,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -600,7 +600,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

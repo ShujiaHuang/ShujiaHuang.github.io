@@ -90,13 +90,13 @@
 
 
 
-<meta name="description" content="经过了第四节的长文，我想大家基本上已经知道了一个WGS流程该如何构建起来了吧。但在那一节中限于篇幅有两个很重要的文件我没能展开来讲，分别是：BAM和VCF文件。这篇我们先说BAM文件。 什么是BAMBAM是目前基因数据分析中最通用的比对数据存储格式，它既适合于短read也适合于长read，最长可以支持128Mbp的超大read！除了后缀是.bam之外，有些同学可能还会看到.cram，甚至.sam">
+<meta name="description" content="经过了第四节的长文，我想大家基本上已经知道了一个WGS流程该如何构建起来了吧。但在那一节中限于篇幅有两个很重要的文件我没能展开来讲，分别是：BAM和VCF文件。这篇我们先说BAM文件。 什么是BAMBAM是目前基因数据分析中最通用的比对数据存储格式，它既适合于短read也适合于长read，最长可以支持128Mbp的超大read！除了后缀是.bam之外，有些同学可能还会看到.cram，甚至.sa">
 <meta name="keywords" content="WGS,数据格式,BAM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零开始完整学习全基因组测序数据分析：第5节 理解并操作BAM文件">
 <meta property="og:url" content="http://huangshujia.me/2017/11/27/2017-11-27-Begining-WGS-Data-Analysis-BAM-CRAM-And-SAM.html">
 <meta property="og:site_name" content="解螺旋的矿工">
-<meta property="og:description" content="经过了第四节的长文，我想大家基本上已经知道了一个WGS流程该如何构建起来了吧。但在那一节中限于篇幅有两个很重要的文件我没能展开来讲，分别是：BAM和VCF文件。这篇我们先说BAM文件。 什么是BAMBAM是目前基因数据分析中最通用的比对数据存储格式，它既适合于短read也适合于长read，最长可以支持128Mbp的超大read！除了后缀是.bam之外，有些同学可能还会看到.cram，甚至.sam">
+<meta property="og:description" content="经过了第四节的长文，我想大家基本上已经知道了一个WGS流程该如何构建起来了吧。但在那一节中限于篇幅有两个很重要的文件我没能展开来讲，分别是：BAM和VCF文件。这篇我们先说BAM文件。 什么是BAMBAM是目前基因数据分析中最通用的比对数据存储格式，它既适合于短read也适合于长read，最长可以支持128Mbp的超大read！除了后缀是.bam之外，有些同学可能还会看到.cram，甚至.sa">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/bam_cover.jpg">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/im_best.png">
@@ -115,7 +115,7 @@
 <meta property="og:updated_time" content="2017-12-07T15:31:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零开始完整学习全基因组测序数据分析：第5节 理解并操作BAM文件">
-<meta name="twitter:description" content="经过了第四节的长文，我想大家基本上已经知道了一个WGS流程该如何构建起来了吧。但在那一节中限于篇幅有两个很重要的文件我没能展开来讲，分别是：BAM和VCF文件。这篇我们先说BAM文件。 什么是BAMBAM是目前基因数据分析中最通用的比对数据存储格式，它既适合于短read也适合于长read，最长可以支持128Mbp的超大read！除了后缀是.bam之外，有些同学可能还会看到.cram，甚至.sam">
+<meta name="twitter:description" content="经过了第四节的长文，我想大家基本上已经知道了一个WGS流程该如何构建起来了吧。但在那一节中限于篇幅有两个很重要的文件我没能展开来讲，分别是：BAM和VCF文件。这篇我们先说BAM文件。 什么是BAMBAM是目前基因数据分析中最通用的比对数据存储格式，它既适合于短read也适合于长read，最长可以支持128Mbp的超大read！除了后缀是.bam之外，有些同学可能还会看到.cram，甚至.sa">
 <meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/bam_cover.jpg">
 
 
@@ -419,7 +419,7 @@
       
 
       
-        <p><img src="http://blog-fungenomics-com.qiniudn.com/bam_cover.jpg" alt=""></p>
+        <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://blog-fungenomics-com.qiniudn.com/bam_cover.jpg" alt=""></p>
 <p>经过了第四节的长文，我想大家基本上已经知道了一个WGS流程该如何构建起来了吧。但在那一节中限于篇幅有两个很重要的文件我没能展开来讲，分别是：BAM和VCF文件。这篇我们先说BAM文件。</p>
 <h2 id="什么是BAM"><a href="#什么是BAM" class="headerlink" title="什么是BAM"></a>什么是BAM</h2><p>BAM是目前基因数据分析中最通用的比对数据存储格式，它既适合于短read也适合于长read，最长可以支持128Mbp的超大read！除了后缀是.bam之外，有些同学可能还会看到.cram，甚至.sam后缀的文件，其实它们一个是BAM的高压缩格式(.cram)——IO效率比原来的BAM要略差；另一个是BAM的纯文本格式（.sam）。当然格式都是一样的，因此为了描述上的清晰，我下面都统一用BAM。</p>
 <h2 id="BAM文件格式"><a href="#BAM文件格式" class="headerlink" title="BAM文件格式"></a>BAM文件格式</h2><p>其实一开始它的名字是SAM（The Sequencing Alignment/Map Format的英文简称），第一次出现的时候，它是bwa比对软件的标准输出文件，但原生的SAM是纯文本文件，十分巨大（比如：一个人30x全基因组测序的sam大小超过600G），非常容易导致存储空间爆满！为了解决这个问题，bwa的开发者李恒（lh3）设计了一种比gz更加高效的压缩算法，对其进行压缩，这就是我们所说的BAM，它的文件大小差不多只有原来的1/6。</p>
@@ -621,7 +621,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -643,7 +643,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

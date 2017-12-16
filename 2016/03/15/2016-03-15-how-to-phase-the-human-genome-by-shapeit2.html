@@ -90,19 +90,19 @@
 
 
 
-<meta name="description" content="SHAPEIT(2.0)是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。 以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。 首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fas">
+<meta name="description" content="SHAPEIT(2.0)是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。 以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。 首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fa">
 <meta name="keywords" content="shapeit2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何使用Shapeit2对人类基因组数据进行phasing">
 <meta property="og:url" content="http://huangshujia.me/2016/03/15/2016-03-15-how-to-phase-the-human-genome-by-shapeit2.html">
 <meta property="og:site_name" content="解螺旋的矿工">
-<meta property="og:description" content="SHAPEIT(2.0)是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。 以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。 首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fas">
+<meta property="og:description" content="SHAPEIT(2.0)是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。 以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。 首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fa">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://7u2had.com1.z0.glb.clouddn.com/post.Phasing-Data.png">
 <meta property="og:updated_time" content="2017-05-14T17:48:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何使用Shapeit2对人类基因组数据进行phasing">
-<meta name="twitter:description" content="SHAPEIT(2.0)是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。 以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。 首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fas">
+<meta name="twitter:description" content="SHAPEIT(2.0)是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。 以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。 首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fa">
 <meta name="twitter:image" content="http://7u2had.com1.z0.glb.clouddn.com/post.Phasing-Data.png">
 
 
@@ -395,7 +395,7 @@
       
 
       
-        <p><img src="http://7u2had.com1.z0.glb.clouddn.com/post.Phasing-Data.png" alt="phasing"></p>
+        <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://7u2had.com1.z0.glb.clouddn.com/post.Phasing-Data.png" alt="phasing"></p>
 <p><a href="https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html" target="_blank" rel="external">SHAPEIT(2.0)</a>是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。</p>
 <p>以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。</p>
 <p>首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fasta格式）。对于genetic_map文件需要单独做些说明，这个记录的是基因组中各个位点的重组率和物理距离之间的关系，这是phasing过程非常重要的一个文件。它来自于<a href="http://hapmap.ncbi.nlm.nih.gov/" target="_blank" rel="external">人类单体型计划-Hapmap计划</a>，可以<a href="http://hapmap.ncbi.nlm.nih.gov/downloads/recombination/" target="_blank" rel="external">下载</a>,<br><a href="http://hapmap.ncbi.nlm.nih.gov/downloads/recombination/2011-01_phaseII_B37/genetic_map_HapMapII_GRCh37.tar.gz" target="_blank" rel="external">最新版是b37或者说hg19</a>，如果你的reference版本高于hg19，则需要liftover，liftover之后那些顺序发生交叉的位点，是liftover的错误导致的，要去掉。但是要注意的是，genetic-map中两个位点之间的重组率（recombination rate）是不变的，这其实也很好理解，reference之所以需要升级，是因为它的组装结果并非是百分百符合真实情形的，随着技术的进步，我们会不断去升级逼近这个真实情况，但重组率是根据群体的重组情况来计算的，它是由真实情况反映出来的，因此即便reference版本改变了，它的值也不需要改变。不过对于两个位点之间的物理距离（physical distance）就不同了，leftover之后，这个距离是会发生变化的，通过和原点（一般是重组率为0的点或者就是各个染色体的第一个位点）的距离比例来调节。</p>
@@ -542,7 +542,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -564,7 +564,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

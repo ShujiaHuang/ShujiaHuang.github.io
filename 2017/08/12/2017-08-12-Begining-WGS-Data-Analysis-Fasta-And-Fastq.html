@@ -90,13 +90,13 @@
 
 
 
-<meta name="description" content="在WGS数据的分析过程中，我们会接触到许多生物信息学/基因组学领域所特有的数据文件和它们特殊的格式，在这一节中将要介绍的FASTA和FASTQ便是其中之一二。这是我们存储核苷酸序列信息（就是DNA序列）或者蛋白质序列信息最常使用的两种 文本文件，虽然看起来名字有些古怪，但它们完全是纯文本文件（如同.txt）！名字的发音分别是fast-A和fast-Q。这一篇文章内容虽然比较简单，但还是比较长，我">
+<meta name="description" content="在WGS数据的分析过程中，我们会接触到许多生物信息学/基因组学领域所特有的数据文件和它们特殊的格式，在这一节中将要介绍的FASTA和FASTQ便是其中之一二。这是我们存储核苷酸序列信息（就是DNA序列）或者蛋白质序列信息最常使用的两种 文本文件，虽然看起来名字有些古怪，但它们完全是纯文本文件（如同.txt）！名字的发音分别是fast-A和fast-Q。这一篇文章内容虽然比较简单，但还是比较长，">
 <meta name="keywords" content="NGS,WGS,数据格式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零开始完整学习全基因组测序（WGS）数据分析：第2节 FASTA和FASTQ">
 <meta property="og:url" content="http://huangshujia.me/2017/08/12/2017-08-12-Begining-WGS-Data-Analysis-Fasta-And-Fastq.html">
 <meta property="og:site_name" content="解螺旋的矿工">
-<meta property="og:description" content="在WGS数据的分析过程中，我们会接触到许多生物信息学/基因组学领域所特有的数据文件和它们特殊的格式，在这一节中将要介绍的FASTA和FASTQ便是其中之一二。这是我们存储核苷酸序列信息（就是DNA序列）或者蛋白质序列信息最常使用的两种 文本文件，虽然看起来名字有些古怪，但它们完全是纯文本文件（如同.txt）！名字的发音分别是fast-A和fast-Q。这一篇文章内容虽然比较简单，但还是比较长，我">
+<meta property="og:description" content="在WGS数据的分析过程中，我们会接触到许多生物信息学/基因组学领域所特有的数据文件和它们特殊的格式，在这一节中将要介绍的FASTA和FASTQ便是其中之一二。这是我们存储核苷酸序列信息（就是DNA序列）或者蛋白质序列信息最常使用的两种 文本文件，虽然看起来名字有些古怪，但它们完全是纯文本文件（如同.txt）！名字的发音分别是fast-A和fast-Q。这一篇文章内容虽然比较简单，但还是比较长，">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/wgs_s2_cover.png">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/interesting.png">
@@ -106,7 +106,7 @@
 <meta property="og:updated_time" content="2017-08-12T04:11:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零开始完整学习全基因组测序（WGS）数据分析：第2节 FASTA和FASTQ">
-<meta name="twitter:description" content="在WGS数据的分析过程中，我们会接触到许多生物信息学/基因组学领域所特有的数据文件和它们特殊的格式，在这一节中将要介绍的FASTA和FASTQ便是其中之一二。这是我们存储核苷酸序列信息（就是DNA序列）或者蛋白质序列信息最常使用的两种 文本文件，虽然看起来名字有些古怪，但它们完全是纯文本文件（如同.txt）！名字的发音分别是fast-A和fast-Q。这一篇文章内容虽然比较简单，但还是比较长，我">
+<meta name="twitter:description" content="在WGS数据的分析过程中，我们会接触到许多生物信息学/基因组学领域所特有的数据文件和它们特殊的格式，在这一节中将要介绍的FASTA和FASTQ便是其中之一二。这是我们存储核苷酸序列信息（就是DNA序列）或者蛋白质序列信息最常使用的两种 文本文件，虽然看起来名字有些古怪，但它们完全是纯文本文件（如同.txt）！名字的发音分别是fast-A和fast-Q。这一篇文章内容虽然比较简单，但还是比较长，">
 <meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/wgs_s2_cover.png">
 
 
@@ -410,7 +410,7 @@
       
 
       
-        <p><img src="http://blog-fungenomics-com.qiniudn.com/wgs_s2_cover.png" alt="wgs_02_cover"></p>
+        <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://blog-fungenomics-com.qiniudn.com/wgs_s2_cover.png" alt="wgs_02_cover"></p>
 <p>在WGS数据的分析过程中，我们会接触到许多生物信息学/基因组学领域所特有的数据文件和它们特殊的格式，在这一节中将要介绍的FASTA和FASTQ便是其中之一二。这是我们存储核苷酸序列信息（就是DNA序列）或者蛋白质序列信息最常使用的两种 <strong>文本文件</strong>，虽然看起来名字有些古怪，但它们完全是纯文本文件（如同.txt）！名字的发音分别是fast-A和fast-Q。这一篇文章内容虽然比较简单，但还是比较长，我在这里详细介绍了这两类文件的格式特点和一些在分析的时候需要考虑的地方。</p>
 <h2 id="FASTA"><a href="#FASTA" class="headerlink" title="FASTA"></a>FASTA</h2><p>我相信许多人（包括生物信息工程师们）一定不知道FASTA这个文件的来源，竟然是一款名叫“FASTA”的比对软件！名字中最后一个字母A，其实就是Alignment的意思！但这已经是上个世纪的事情了，最初是由William. R. Pearson 和 David. J. Lipman在1988年所编写，目的是用于生物序列数据的处理。</p>
 <p>自那之后，生物学家和遗传学家们也没做过多的考虑，就草率地决定（其实类似的‘草率’行为在组学领域经常碰到）把FASTA作为这种存储 <strong>有顺序的</strong>序列数据的文件后缀【注】，这包括我们常用的参考基因组序列、蛋白质序列、编码DNA序列（coding DNA sequence，简称CDS）、转录本序列等文件都是如此，文件后缀除了.fasta之外，也常用.fa或者.fa.gz（gz压缩）。</p>
@@ -686,7 +686,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -708,7 +708,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

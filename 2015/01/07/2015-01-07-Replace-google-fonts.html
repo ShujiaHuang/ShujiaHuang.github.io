@@ -90,19 +90,19 @@
 
 
 
-<meta name="description" content="一段时间以来，这个博客的打开速度慢得出奇！本来只有很少的东西，ping的速度也在120ms左右，算是可以的了，怎么会这样！一开始我没有搞明白问题的根源。今天才突然醒悟到一定是google字体加载的问题！当时这个博客的主题是从yihui和Carl Chen那里抄来的（不用试了，这俩的页面是极难打开的了），因为懒，因为不认识网页语言，尤其是css，所以所有.css后缀什么的，我一概不去看！所以那几个">
+<meta name="description" content="一段时间以来，这个博客的打开速度慢得出奇！本来只有很少的东西，ping的速度也在120ms左右，算是可以的了，怎么会这样！一开始我没有搞明白问题的根源。今天才突然醒悟到一定是google字体加载的问题！当时这个博客的主题是从yihui和Carl Chen那里抄来的（不用试了，这俩的页面是极难打开的了），因为懒，因为不认识网页语言，尤其是css，所以所有.css后缀什么的，我一概不去看！所以那几">
 <meta name="keywords" content="google">
 <meta property="og:type" content="article">
 <meta property="og:title" content="替换google字体，加快网站访问速度">
 <meta property="og:url" content="http://huangshujia.me/2015/01/07/2015-01-07-Replace-google-fonts.html">
 <meta property="og:site_name" content="解螺旋的矿工">
-<meta property="og:description" content="一段时间以来，这个博客的打开速度慢得出奇！本来只有很少的东西，ping的速度也在120ms左右，算是可以的了，怎么会这样！一开始我没有搞明白问题的根源。今天才突然醒悟到一定是google字体加载的问题！当时这个博客的主题是从yihui和Carl Chen那里抄来的（不用试了，这俩的页面是极难打开的了），因为懒，因为不认识网页语言，尤其是css，所以所有.css后缀什么的，我一概不去看！所以那几个">
+<meta property="og:description" content="一段时间以来，这个博客的打开速度慢得出奇！本来只有很少的东西，ping的速度也在120ms左右，算是可以的了，怎么会这样！一开始我没有搞明白问题的根源。今天才突然醒悟到一定是google字体加载的问题！当时这个博客的主题是从yihui和Carl Chen那里抄来的（不用试了，这俩的页面是极难打开的了），因为懒，因为不认识网页语言，尤其是css，所以所有.css后缀什么的，我一概不去看！所以那几">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/st.post.2015-01-07-font-face.png">
 <meta property="og:updated_time" content="2017-05-14T17:34:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="替换google字体，加快网站访问速度">
-<meta name="twitter:description" content="一段时间以来，这个博客的打开速度慢得出奇！本来只有很少的东西，ping的速度也在120ms左右，算是可以的了，怎么会这样！一开始我没有搞明白问题的根源。今天才突然醒悟到一定是google字体加载的问题！当时这个博客的主题是从yihui和Carl Chen那里抄来的（不用试了，这俩的页面是极难打开的了），因为懒，因为不认识网页语言，尤其是css，所以所有.css后缀什么的，我一概不去看！所以那几个">
+<meta name="twitter:description" content="一段时间以来，这个博客的打开速度慢得出奇！本来只有很少的东西，ping的速度也在120ms左右，算是可以的了，怎么会这样！一开始我没有搞明白问题的根源。今天才突然醒悟到一定是google字体加载的问题！当时这个博客的主题是从yihui和Carl Chen那里抄来的（不用试了，这俩的页面是极难打开的了），因为懒，因为不认识网页语言，尤其是css，所以所有.css后缀什么的，我一概不去看！所以那几">
 <meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/st.post.2015-01-07-font-face.png">
 
 
@@ -395,7 +395,7 @@
       
 
       
-        <p><img src="http://blog-fungenomics-com.qiniudn.com/st.post.2015-01-07-font-face.png" alt="font log"></p>
+        <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://blog-fungenomics-com.qiniudn.com/st.post.2015-01-07-font-face.png" alt="font log"></p>
 <p>一段时间以来，这个博客的打开速度慢得出奇！本来只有很少的东西，ping的速度也在120ms左右，算是可以的了，怎么会这样！一开始我没有搞明白问题的根源。今天才突然醒悟到一定是google字体加载的问题！当时这个博客的主题是从<a href="http://yihui.name/" target="_blank" rel="external">yihui</a>和<a href="http://webfrogs.me/" target="_blank" rel="external">Carl Chen</a>那里抄来的（不用试了，这俩的页面是极难打开的了），因为懒，因为不认识网页语言，尤其是<code>css</code>，所以所有<code>.css</code>后缀什么的，我一概不去看！所以那几个css就成了我的一个暗区，现在问题很明显了，要修改的地方一定在那！目标锁定之后，那么着手处理吧！</p>
 <p>我页面的主要配置都在<code>style.css</code>和<code>home.css</code>，打开这两文件，搜索<code>google</code>，果然发现“fonts.googleapis.com”！那么剩下的就是要先找字体替换方案了，搜索一番后，发现原来360已经把整个的google字库下载下来放在了自己的服务器上了，这样就太好了！改起来也极其简单，只需要直接把所有的<code>fonts.googleapis.com</code>替换为<code>fonts.useso.com</code>,而且还不用做任何其他的修改，字体也还是原来的字体！</p>
 <p>完成后，发现这下页面打开的速度和以前相比根本就是两个网站！不禁感叹：“靠！怎么这么简单！”</p>
@@ -527,7 +527,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -549,7 +549,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
