@@ -103,7 +103,8 @@
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/rpkm2.png">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/rpkm3.png">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/rpkm4.png">
-<meta property="og:updated_time" content="2017-05-30T14:10:21.000Z">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png">
+<meta property="og:updated_time" content="2018-01-21T13:41:17.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为什么说FPKM&#x2F;RPKM是错的">
 <meta name="twitter:description" content="两周前，我接触了一个RNA-seq的项目，做完之后，我重新思考了FPKM和RPKM的计算，觉得它们很可能是不对的，后来查阅了一些文献终于验证了我的想法。现在我重新将这个过程记录了下来： FPKM和RPKM分别是什么RPKM是 Reads Per Kilobase Per Million的缩写，它的计算方程非常简单： $$RPKM = \frac{10 ^ 6 \times n_r}{L × N">
@@ -450,10 +451,9 @@
 <p>一个统计量该如何计算，说到底都只是一个“术”的问题，而我们应该尽可能在接近其本质意义的地方去确定。</p>
 <p>FPKM/RPKM和TPM存在一定的正比关系，因此我们在使用FPKM/RPK时，有些时候确实也能获得可以被实验所验证的“好”结果，但其实它是一个橡皮筋，它的单位刻度是会随着样本的不同而改变的。到头来，样本之间的差异比较实际上也只是在不同的标准下进行的，这样的比较就算得到了所谓的“好”结果，那又有什么意义，根本就是个错误的东东。想想就是由于这种统计量，我们一定已经获得了许多的假阳性结果，同时也肯定错过了许多本来真正有意义的差异，真是弯路走尽也不知，而且还浪费了大堆的心情和时间。</p>
 <p>这篇文章：A comprehensive evaluation of normalization methods for Illumina high-throughput RNA sequencing data analysis. Briefings in Bioinformatics.10.1093/bib/bbs046. 对7种主要的RNA-seq标准化方法（但不包含本文提到的TPM）做了一个详细的比较，它用实际结果进行比较（不同于本文所用的数学方式）也得出了RPKM/FPKM这些统计量应该被摒弃的结论，因为它所描述出来的结果是最不合理的，其实所有类似于RPKM/FPKM的统计量在描述转录本丰度的时候都应该被摒弃。</p>
-<p>【注】本文已同时发布于<a href="http://blog.fungenomics.com/2016/07/why-fpkm-and-rpkm-are-wrong.html" target="_blank" rel="external">泛基因fungenomics</a>以及我的个人微信公众号。</p>
-<blockquote>
-<p><a href="http://bib.oxfordjournals.org/content/early/2012/09/15/bib.bbs046.full" target="_blank" rel="external">http://bib.oxfordjournals.org/content/early/2012/09/15/bib.bbs046.full</a><br><a href="http://www.ncbi.nlm.nih.gov/pubmed/22872506" target="_blank" rel="external">http://www.ncbi.nlm.nih.gov/pubmed/22872506</a></p>
-</blockquote>
+<hr>
+<p>欢迎通过我的公众号（解螺旋的矿工），更及时了解更多信息</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png" alt="解螺旋的矿工"></p>
 
       
     </div>

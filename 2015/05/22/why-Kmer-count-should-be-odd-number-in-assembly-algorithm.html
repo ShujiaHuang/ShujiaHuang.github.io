@@ -90,20 +90,21 @@
 
 
 
-<meta name="description" content="根本原因就是为了避免导致 正反链混淆。 一开始，我并没弄明白，后来仔细想想也终于懂了。 如果kmer是偶数，我们会发现基因组上有些序列（如，CGCGCGCG，kmer=4）的Kmer在反向互补后得到的序列仍然是它自身！而这是不能允许的，因为这将导致你无法区分某段序列的kmer到底是属于它自身还是说只是来自于它的互补链！！这会给解de Bruijn graph带来极大的困难！ 或许你会觉得“为什">
+<meta name="description" content="根本原因就是为了避免导致 正反链混淆。 一开始，我并没弄明白，后来仔细想想也终于懂了。 如果kmer是偶数，我们会发现基因组上有些序列（如，CGCGCGCG，kmer=4）的Kmer在反向互补后得到的序列仍然是它自身！这是不能允许发生的。因为这将导致你无法区分某段序列的kmer到底是属于它自身还是说只是来自于它的互补链！！这会给解de Bruijn graph带来极大的混淆和困难！ 或许你会觉">
 <meta name="keywords" content="组装,de Bruijn graph">
 <meta property="og:type" content="article">
-<meta property="og:title" content="de Bruijn graph组装基因组的时候，Kmer数必须是奇数的原因">
+<meta property="og:title" content="de Bruijn graph组装基因组的时候，Kmer为什么必须是奇数？">
 <meta property="og:url" content="http://huangshujia.me/2015/05/22/why-Kmer-count-should-be-odd-number-in-assembly-algorithm.html">
 <meta property="og:site_name" content="解螺旋的矿工">
-<meta property="og:description" content="根本原因就是为了避免导致 正反链混淆。 一开始，我并没弄明白，后来仔细想想也终于懂了。 如果kmer是偶数，我们会发现基因组上有些序列（如，CGCGCGCG，kmer=4）的Kmer在反向互补后得到的序列仍然是它自身！而这是不能允许的，因为这将导致你无法区分某段序列的kmer到底是属于它自身还是说只是来自于它的互补链！！这会给解de Bruijn graph带来极大的困难！ 或许你会觉得“为什">
+<meta property="og:description" content="根本原因就是为了避免导致 正反链混淆。 一开始，我并没弄明白，后来仔细想想也终于懂了。 如果kmer是偶数，我们会发现基因组上有些序列（如，CGCGCGCG，kmer=4）的Kmer在反向互补后得到的序列仍然是它自身！这是不能允许发生的。因为这将导致你无法区分某段序列的kmer到底是属于它自身还是说只是来自于它的互补链！！这会给解de Bruijn graph带来极大的混淆和困难！ 或许你会觉">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/37v38closeuptata.png">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/assembly.jpg">
-<meta property="og:updated_time" content="2017-05-30T14:36:06.000Z">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png">
+<meta property="og:updated_time" content="2018-01-21T16:04:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="de Bruijn graph组装基因组的时候，Kmer数必须是奇数的原因">
-<meta name="twitter:description" content="根本原因就是为了避免导致 正反链混淆。 一开始，我并没弄明白，后来仔细想想也终于懂了。 如果kmer是偶数，我们会发现基因组上有些序列（如，CGCGCGCG，kmer=4）的Kmer在反向互补后得到的序列仍然是它自身！而这是不能允许的，因为这将导致你无法区分某段序列的kmer到底是属于它自身还是说只是来自于它的互补链！！这会给解de Bruijn graph带来极大的困难！ 或许你会觉得“为什">
+<meta name="twitter:title" content="de Bruijn graph组装基因组的时候，Kmer为什么必须是奇数？">
+<meta name="twitter:description" content="根本原因就是为了避免导致 正反链混淆。 一开始，我并没弄明白，后来仔细想想也终于懂了。 如果kmer是偶数，我们会发现基因组上有些序列（如，CGCGCGCG，kmer=4）的Kmer在反向互补后得到的序列仍然是它自身！这是不能允许发生的。因为这将导致你无法区分某段序列的kmer到底是属于它自身还是说只是来自于它的互补链！！这会给解de Bruijn graph带来极大的混淆和困难！ 或许你会觉">
 <meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/37v38closeuptata.png">
 
 
@@ -138,7 +139,7 @@
 
 
 
-  <title>de Bruijn graph组装基因组的时候，Kmer数必须是奇数的原因 | 解螺旋的矿工</title>
+  <title>de Bruijn graph组装基因组的时候，Kmer为什么必须是奇数？ | 解螺旋的矿工</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -305,7 +306,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">de Bruijn graph组装基因组的时候，Kmer数必须是奇数的原因</h1>
+          <h1 class="post-title" itemprop="name headline">de Bruijn graph组装基因组的时候，Kmer为什么必须是奇数？</h1>
         
 
         <div class="post-meta">
@@ -368,7 +369,7 @@
 
           
           
-             <span id="/2015/05/22/why-Kmer-count-should-be-odd-number-in-assembly-algorithm.html" class="leancloud_visitors" data-flag-title="de Bruijn graph组装基因组的时候，Kmer数必须是奇数的原因">
+             <span id="/2015/05/22/why-Kmer-count-should-be-odd-number-in-assembly-algorithm.html" class="leancloud_visitors" data-flag-title="de Bruijn graph组装基因组的时候，Kmer为什么必须是奇数？">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -399,11 +400,15 @@
         <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://blog-fungenomics-com.qiniudn.com/37v38closeuptata.png" alt="cover"></p>
 <p>根本原因就是为了避免导致 <strong>正反链混淆</strong>。</p>
 <p>一开始，我并没弄明白，后来仔细想想也终于懂了。</p>
-<p>如果kmer是偶数，我们会发现基因组上有些序列（如，CGCGCGCG，kmer=4）的Kmer在反向互补后得到的序列仍然是它自身！而这是不能允许的，因为这将导致你无法区分某段序列的kmer到底是属于它自身还是说只是来自于它的互补链！！这会给解de Bruijn graph带来极大的困难！</p>
-<p>或许你会觉得“为什么我需要纠结于序列是不是来自互补链呢？毕竟双链DNA的正反链是严格互补的啊，目前的基因组组装技术也就是把它们合并装在一起的呀！”，若你能这样来理解其实是没问题的，但前提却是基因组必须能够被一次性完整地（至少是非常接近完整）测出来，这时的测序深度只需是1就可以了——如果都已经把基因组完整测序出来了，那还要组装个屁呀 ！！！！！ (╯‵□′)╯︵┻━┻。</p>
-<p>并且目前的NGS测序技术也做不到通测，一般来说都是测出成千上百万千万亿万个小小的片段（也叫read，长度一般是100bp-250bp）。同时基因组会被反复测很多层，所以这个时候构建kmer的单位实际上就是对这些read进行的，具体的操作就是按照kmer的长度把这些read切割成更小的片段。这个时候在构建de Bruijn graph时，能够保证正确地把同属于一条read上的kmer连接起来，就显得极其重要了呀！我们总不能一会儿把A kmer正确地连到它自己所在的read，一会儿又连到它互补链的read上去呀！这就是为何kmer不能是偶数的原因了，因为只有奇数，才能保证每个kmer序列的反向互补Kmer与自身是不同的，<strong>而这个不同的真正意义就是为了避免正反链混淆</strong>，如 ：5-mer的 CGCGC，反向互补后是 GCGCG， 它们是不同的；这就不会像 4-mer，CGCG发现它反向互补后仍然是CGCG！！</p>
+<p>如果kmer是偶数，我们会发现基因组上有些序列（如，CGCGCGCG，kmer=4）的Kmer在反向互补后得到的序列仍然是它自身！这是不能允许发生的。因为这将导致你无法区分某段序列的kmer到底是属于它自身还是说只是来自于它的互补链！！这会给解de Bruijn graph带来极大的混淆和困难！</p>
+<p>或许你会觉得 <strong>“为什么我需要纠结于序列是不是来自互补链呢？毕竟双链DNA的正反链是严格互补的啊，目前的基因组组装技术也就是把它们合并装在一起的呀！”</strong>。你若能这样来理解其实是对的，但前提却是基因组必须能够被一次性完整地（至少是非常接近完整）测出来，这时的测序深度只需是1就可以了。但是你回头想想，既然都已经把基因组完整测序出来了，那还要组装个屁呀 ！！！！！ (╯‵□′)╯︵┻━┻。</p>
+<p>并且目前的NGS测序技术也做不到通测，一般来说都是测出成千上百万千万亿万个小小的片段（read，长度一般是100bp-250bp）。同时基因组会被反复测很多层，组装时构建的kmer单位，实际上就是对这些read进行的，具体的操作就是按照kmer的长度把这些read切割成更小的片段。此刻在构建de Bruijn graph时，如果能够保证正确地把同属于一条read上的kmer连接起来，就显得极其重要了！我们不能一会儿把A kmer正确地连到它自己所在的read，一会儿又连到它互补链的read上去！</p>
+<p>这就是为何kmer不能是偶数的原因了，因为只有奇数，才能保证每个kmer序列的反向互补Kmer与自身是不同的，<strong>而这个不同的真正意义就是为了避免正反链混淆</strong>，如 ：5-mer的 CGCGC，反向互补后是 GCGCG， 它们是不同的；这就不会像 4-mer，CGCG发现它反向互补后仍然是CGCG，这个时候就一定会混淆正负链！！</p>
 <p>最后上一个来自GenomeResearch的图，给大家欣赏下一个Repeat序列的组装过程。</p>
 <p><img src="http://blog-fungenomics-com.qiniudn.com/assembly.jpg" alt="assembly-repeat"></p>
+<hr>
+<p>欢迎通过我的公众号（解螺旋的矿工），更及时了解更多信息</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png" alt="解螺旋的矿工"></p>
 
       
     </div>
@@ -745,7 +750,7 @@
         var disqus_config = function () {
           this.page.url = 'http://huangshujia.me/2015/05/22/why-Kmer-count-should-be-odd-number-in-assembly-algorithm.html';
           this.page.identifier = '2015/05/22/why-Kmer-count-should-be-odd-number-in-assembly-algorithm.html';
-          this.page.title = 'de Bruijn graph组装基因组的时候，Kmer数必须是奇数的原因';
+          this.page.title = 'de Bruijn graph组装基因组的时候，Kmer为什么必须是奇数？';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://huangshujia.disqus.com/embed.js';

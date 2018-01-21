@@ -99,7 +99,8 @@
 <meta property="og:description" content="SHAPEIT(2.0)是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。 以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。 首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fa">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://7u2had.com1.z0.glb.clouddn.com/post.Phasing-Data.png">
-<meta property="og:updated_time" content="2017-05-14T17:48:57.000Z">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png">
+<meta property="og:updated_time" content="2018-01-21T13:42:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何使用Shapeit2对人类基因组数据进行phasing">
 <meta name="twitter:description" content="SHAPEIT(2.0)是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。 以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。 首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fa">
@@ -409,6 +410,9 @@
 <h3 id="第二步，过滤genotype高missing-rate和孟德尔错误的位点"><a href="#第二步，过滤genotype高missing-rate和孟德尔错误的位点" class="headerlink" title="第二步，过滤genotype高missing rate和孟德尔错误的位点"></a>第二步，过滤genotype高missing rate和孟德尔错误的位点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">plink=/com/extra/testing/bin/plink</div><div class="line">time <span class="variable">$plink</span> --noweb --bfile chr22 --keep-allele-order --me 1 1 --<span class="built_in">set</span>-me-missing --make-bed --out chr22.nomendel &amp;&amp; <span class="built_in">echo</span> <span class="string">"** nomendel done **"</span> &amp;&amp; time <span class="variable">$plink</span> --noweb --bfile chr22.nomendel --keep-allele-order --geno 0.05 --make-bed --out chr22.nomendel.filter &amp;&amp; <span class="built_in">echo</span> <span class="string">"** fileter done **"</span></div></pre></td></tr></table></figure>
 <h3 id="第三步，phasing"><a href="#第三步，phasing" class="headerlink" title="第三步，phasing"></a>第三步，phasing</h3><p>这是phasing的最后一步了，这里分成两小步，phasing和输出格式转换：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># phasing</span></div><div class="line">time shapeit2 \</div><div class="line">    --duohmm \</div><div class="line">    -W 5 \</div><div class="line">    --input-bed chr22.nomendel.filter.bed chr22.nomendel.filter.bim chr22.nomendel.filter.fam \</div><div class="line">    --input-map genetic_map.chr22.txt \</div><div class="line">    -O hapData \</div><div class="line">    --thread 1 &amp;&amp; <span class="built_in">echo</span> <span class="string">"** panel done **"</span></div><div class="line"></div><div class="line"><span class="comment"># 格式转换</span></div><div class="line">time shapeit2 -convert \</div><div class="line">    --input-haps hapData \</div><div class="line">    --output-vcf chr22.haps.vcf \</div><div class="line">    --output-ref chr22.phased.hap chr22.phased.leg chr22.phased.sam &amp;&amp; <span class="built_in">echo</span> <span class="string">"** all done **"</span></div></pre></td></tr></table></figure></p>
 <p>以上输出结果中，<code>chr22.haps.vcf</code>便是进行phasing之后的结果，而<code>chr22.phased.hap</code>和<code>chr22.phased.leg</code>这两个文件是从<code>chr22.haps.vcf</code>中得到的，它们便是Imputation分析中的reference panel。</p>
+<hr>
+<p>欢迎通过我的公众号（解螺旋的矿工），更及时了解更多信息</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png" alt="解螺旋的矿工"></p>
 
       
     </div>

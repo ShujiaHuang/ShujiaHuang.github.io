@@ -1307,7 +1307,7 @@ FPKM和RPKM分别是什么RPKM是 Reads Per Kilobase Per Million的缩写，它
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/05/22/why-Kmer-count-should-be-odd-number-in-assembly-algorithm.html" itemprop="url">de Bruijn graph组装基因组的时候，Kmer数必须是奇数的原因</a></h1>
+                <a class="post-title-link" href="/2015/05/22/why-Kmer-count-should-be-odd-number-in-assembly-algorithm.html" itemprop="url">de Bruijn graph组装基因组的时候，Kmer为什么必须是奇数？</a></h1>
         
 
         <div class="post-meta">
@@ -1370,7 +1370,7 @@ FPKM和RPKM分别是什么RPKM是 Reads Per Kilobase Per Million的缩写，它
 
           
           
-             <span id="/2015/05/22/why-Kmer-count-should-be-odd-number-in-assembly-algorithm.html" class="leancloud_visitors" data-flag-title="de Bruijn graph组装基因组的时候，Kmer数必须是奇数的原因">
+             <span id="/2015/05/22/why-Kmer-count-should-be-odd-number-in-assembly-algorithm.html" class="leancloud_visitors" data-flag-title="de Bruijn graph组装基因组的时候，Kmer为什么必须是奇数？">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1403,7 +1403,7 @@ FPKM和RPKM分别是什么RPKM是 Reads Per Kilobase Per Million的缩写，它
            
 根本原因就是为了避免导致 正反链混淆。
 一开始，我并没弄明白，后来仔细想想也终于懂了。
-如果kmer是偶数，我们会发现基因组上有些序列（如，CGCGCGCG，kmer=4）的Kmer在反向互补后得到的序列仍然是它自身！而这是不能允许的，因为这将导致你无法区分某段序列的kmer到底是属于它自身还是
+如果kmer是偶数，我们会发现基因组上有些序列（如，CGCGCGCG，kmer=4）的Kmer在反向互补后得到的序列仍然是它自身！这是不能允许发生的。因为这将导致你无法区分某段序列的kmer到底是属于它自身还
           ...
           <!--noindex-->
           <div class="post-button text-center">
