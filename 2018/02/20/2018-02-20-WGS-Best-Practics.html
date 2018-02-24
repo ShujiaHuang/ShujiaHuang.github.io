@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/srr1770414.png">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/sratoolkit.png">
 <meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png">
-<meta property="og:updated_time" content="2018-02-21T06:34:27.000Z">
+<meta property="og:updated_time" content="2018-02-21T07:00:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GATK4.0和全基因组数据分析实践（上）">
 <meta name="twitter:description" content="前言在前面的一系列WGS文章中，我讲述了很多基因数据分析的来龙去脉，虽然许多同学觉得很有帮助，但是却缺了一个重要的环节——没有提供实际可用的数据来实战完成具体的流程，不能得到直观的体会。许多读者也纷纷在后台留言反馈这个问题，特别是在我写了如何入门生物信息学的文章之后情况尤甚。所以我决定要再写一篇文章来解决这个问题，但碰巧今年年末事情稍多，在写作的过程中也曾多次中断，直至今天才完成，各位久等了。">
@@ -468,7 +468,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">./201802_wgs_practice/</div><div class="line">├── bin</div><div class="line">├── input</div><div class="line">│   ├── E.coli</div><div class="line">│       ├── fasta</div><div class="line">│       │   ├── E.coli_K12_MG1655.fa</div><div class="line">│       │   ├── E.coli_K12_MG1655.fa.fai</div><div class="line">│       │   └── work.log.sh</div><div class="line">│       └── fastq</div><div class="line">│           ├── SRR1770413_1.fastq.gz</div><div class="line">│           ├── SRR1770413_2.fastq.gz</div><div class="line">│           └── work.log.sh   </div><div class="line">├── output</div><div class="line">└── work.log.sh</div></pre></td></tr></table></figure>
 <p>其中各个目录下的 <strong>work.log.sh记录了我在该目录下的所有重要操作——这是我的个人习惯</strong>，目的是方便以后反查数据的需要。</p>
 <p>数据准备完毕之后，接下来就可以进行具体的分析了。</p>
-<h3 id="质控"><a href="#质控" class="headerlink" title="质控"></a>质控</h3><p>质控是必须做的，我们需要完整认识原始的测序数据质量到底如何，该步骤不能省略。我专门为此单独写了一篇文章（WGS系列第三节），在正式的数据分析过程中，大家可以参考它来完成数据的质控，然后再进行接下来的分析。本篇文章为了控制篇幅和尽可能扣住核心内容，就不再对此深入展开，大家如果碰到问题，可以到在后台留言，或者加入我的交流圈（知识星球：解螺旋技术交流圈）和更多有经验的人一起交流。</p>
+<h3 id="质控"><a href="#质控" class="headerlink" title="质控"></a>质控</h3><p>质控是必须做的，我们需要完整认识原始的测序数据质量到底如何，该步骤不能省略。我专门为此单独写了一篇文章（<a href="http://www.huangshujia.me/2017/08/25/2017-08-25-Begining-WGS-Data-Analysis-Fastq-Data-Quality-Control.html" target="_blank" rel="external">WGS系列第三节</a>），在正式的数据分析过程中，大家可以参考它来完成数据的质控，然后再进行接下来的分析。本篇文章为了控制篇幅和尽可能扣住核心内容，就不再对此深入展开，大家如果碰到问题，可以到在后台留言，或者加入我的交流圈（知识星球：解螺旋技术交流圈）和更多有经验的人一起交流。</p>
 <h3 id="比对"><a href="#比对" class="headerlink" title="比对"></a>比对</h3><p>首先是比对。所谓比对就是把测序数据定位到参考基因组上，确定每一个read在基因组中的位置。这里，我们依然用目前使用最广的BWA来完成这个工作。在正式比对之前，需要先为参考序列构建BWA比对所需的FM-index（比对索引）。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ /Tools/common/bin/bwa index E.coli_K12_MG1655.fa</div></pre></td></tr></table></figure>
 <p>由于这个序列很短，只需几秒就可以完成这个索引文件的构建（对于人类基因组则需要3个小时的时间）。创建完毕之后，将多出5份以E.coli_K12_MG1655.fa为前缀的序列索引文件。</p>
@@ -557,6 +557,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/02/24/2018-02-24-What-Do-I-Think-About-DNA-storage.html" rel="prev" title="我如何看待用1公斤DNA存储全球信息这个事情">
+                我如何看待用1公斤DNA存储全球信息这个事情 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -634,7 +638,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -645,7 +649,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
