@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="shapeit2," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -90,21 +90,25 @@
 
 
 
-<meta name="description" content="SHAPEIT(2.0)是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。 以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。 首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fa">
-<meta name="keywords" content="shapeit2">
+<meta name="description" content="这应该是首次正式地介绍这个公众号，我想通过这篇文章让大家能够更好地了解『解螺旋的矿工』。  其实，我在2015年就注册了这个公众号，当时名字叫：泛基因（fungenomics）——还有一个同名小网站。从时间上来讲应该说注册得还算早，但惭愧的是毫无敏感度，对“媒体”的力量一无所知，自己自然也不重视，再加上平时事情很多，几乎没有更新文章。直到2017年8月份才决定要写好这个公众号（原因下文会说），">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何使用Shapeit2对人类基因组数据进行phasing">
-<meta property="og:url" content="http://huangshujia.me/2016/03/15/2016-03-15-how-to-phase-the-human-genome-by-shapeit2.html">
+<meta property="og:title" content="我是解螺旋的矿工，我热爱生命科学">
+<meta property="og:url" content="http://huangshujia.me/2018/03/30/2018-03-30-I-am-helixminer.html">
 <meta property="og:site_name" content="解螺旋的矿工">
-<meta property="og:description" content="SHAPEIT(2.0)是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。 以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。 首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fa">
+<meta property="og:description" content="这应该是首次正式地介绍这个公众号，我想通过这篇文章让大家能够更好地了解『解螺旋的矿工』。  其实，我在2015年就注册了这个公众号，当时名字叫：泛基因（fungenomics）——还有一个同名小网站。从时间上来讲应该说注册得还算早，但惭愧的是毫无敏感度，对“媒体”的力量一无所知，自己自然也不重视，再加上平时事情很多，几乎没有更新文章。直到2017年8月份才决定要写好这个公众号（原因下文会说），">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://7u2had.com1.z0.glb.clouddn.com/post.Phasing-Data.png">
-<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png">
-<meta property="og:updated_time" content="2018-01-21T13:42:38.000Z">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-4b82b4651e287410?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-803cb672f8a3f6d7?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-e937833a1d97b98c?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-691d6554ea85b800?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-3da652e0af93600b?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-501f6376828bb76a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2248079-6d491605e36a9e02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-08T14:23:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何使用Shapeit2对人类基因组数据进行phasing">
-<meta name="twitter:description" content="SHAPEIT(2.0)是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。 以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。 首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fa">
-<meta name="twitter:image" content="http://7u2had.com1.z0.glb.clouddn.com/post.Phasing-Data.png">
+<meta name="twitter:title" content="我是解螺旋的矿工，我热爱生命科学">
+<meta name="twitter:description" content="这应该是首次正式地介绍这个公众号，我想通过这篇文章让大家能够更好地了解『解螺旋的矿工』。  其实，我在2015年就注册了这个公众号，当时名字叫：泛基因（fungenomics）——还有一个同名小网站。从时间上来讲应该说注册得还算早，但惭愧的是毫无敏感度，对“媒体”的力量一无所知，自己自然也不重视，再加上平时事情很多，几乎没有更新文章。直到2017年8月份才决定要写好这个公众号（原因下文会说），">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2248079-4b82b4651e287410?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -132,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://huangshujia.me/2016/03/15/2016-03-15-how-to-phase-the-human-genome-by-shapeit2.html"/>
+  <link rel="canonical" href="http://huangshujia.me/2018/03/30/2018-03-30-I-am-helixminer.html"/>
 
 
 
 
 
-  <title>如何使用Shapeit2对人类基因组数据进行phasing | 解螺旋的矿工</title>
+  <title>我是解螺旋的矿工，我热爱生命科学 | 解螺旋的矿工</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -288,7 +292,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2016/03/15/2016-03-15-how-to-phase-the-human-genome-by-shapeit2.html">
+    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2018/03/30/2018-03-30-I-am-helixminer.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shujia Huang">
@@ -305,7 +309,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">如何使用Shapeit2对人类基因组数据进行phasing</h1>
+          <h1 class="post-title" itemprop="name headline">我是解螺旋的矿工，我热爱生命科学</h1>
         
 
         <div class="post-meta">
@@ -317,8 +321,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-15T00:00:00+08:00">
-                2016-03-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-30T00:00:00+08:00">
+                2018-03-30
               </time>
             
 
@@ -340,8 +344,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/phasing/" itemprop="url" rel="index">
-                    <span itemprop="name">phasing</span>
+                  <a href="/categories/生物信息/" itemprop="url" rel="index">
+                    <span itemprop="name">生物信息</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/基因组学/" itemprop="url" rel="index">
+                    <span itemprop="name">基因组学</span>
                   </a>
                 </span>
 
@@ -358,9 +373,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/03/15/2016-03-15-how-to-phase-the-human-genome-by-shapeit2.html#comments" itemprop="discussionUrl">
+                <a href="/2018/03/30/2018-03-30-I-am-helixminer.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/03/15/2016-03-15-how-to-phase-the-human-genome-by-shapeit2.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/03/30/2018-03-30-I-am-helixminer.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -368,7 +383,7 @@
 
           
           
-             <span id="/2016/03/15/2016-03-15-how-to-phase-the-human-genome-by-shapeit2.html" class="leancloud_visitors" data-flag-title="如何使用Shapeit2对人类基因组数据进行phasing">
+             <span id="/2018/03/30/2018-03-30-I-am-helixminer.html" class="leancloud_visitors" data-flag-title="我是解螺旋的矿工，我热爱生命科学">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -396,23 +411,44 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://7u2had.com1.z0.glb.clouddn.com/post.Phasing-Data.png" alt="phasing"></p>
-<p><a href="https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html" target="_blank" rel="external">SHAPEIT(2.0)</a>是专门用于对推断基因组单体型的软件，有牛津大学的团队所开发，并且一直应用与千人基因组计划中。</p>
-<p>以下，我将记录如何通过shapeit2对人群的变异数据集（VCF 格式）进行phasing，并构造出reference panel的过程。</p>
-<p>首先，准备文件。整个过程只需要变异数据集（VCF 格式），样本信息文件(sample.fam)，genetic_map文件和参考序列（fasta格式）。对于genetic_map文件需要单独做些说明，这个记录的是基因组中各个位点的重组率和物理距离之间的关系，这是phasing过程非常重要的一个文件。它来自于<a href="http://hapmap.ncbi.nlm.nih.gov/" target="_blank" rel="external">人类单体型计划-Hapmap计划</a>，可以<a href="http://hapmap.ncbi.nlm.nih.gov/downloads/recombination/" target="_blank" rel="external">下载</a>,<br><a href="http://hapmap.ncbi.nlm.nih.gov/downloads/recombination/2011-01_phaseII_B37/genetic_map_HapMapII_GRCh37.tar.gz" target="_blank" rel="external">最新版是b37或者说hg19</a>，如果你的reference版本高于hg19，则需要liftover，liftover之后那些顺序发生交叉的位点，是liftover的错误导致的，要去掉。但是要注意的是，genetic-map中两个位点之间的重组率（recombination rate）是不变的，这其实也很好理解，reference之所以需要升级，是因为它的组装结果并非是百分百符合真实情形的，随着技术的进步，我们会不断去升级逼近这个真实情况，但重组率是根据群体的重组情况来计算的，它是由真实情况反映出来的，因此即便reference版本改变了，它的值也不需要改变。不过对于两个位点之间的物理距离（physical distance）就不同了，leftover之后，这个距离是会发生变化的，通过和原点（一般是重组率为0的点或者就是各个染色体的第一个位点）的距离比例来调节。</p>
-<p>至于样本信息文件，格式如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">1009	1009-01	0	0	1	34</div><div class="line">1009	1009-02	0	0	2	33</div><div class="line">1009	1009-06	1009-01	1009-02	2	67</div><div class="line">1030	1030-01	0	0	1	43</div><div class="line">1030	1030-02	0	0	2	44</div><div class="line">1030	1030-06	1030-01	1030-02	1	71</div></pre></td></tr></table></figure>
-<p>其他的两份文件就不必多说了。</p>
-<p>准备好以上文件之后接下来就是主要的步骤了：</p>
-<h3 id="第一步，将vcf转化为bed-bim-fam"><a href="#第一步，将vcf转化为bed-bim-fam" class="headerlink" title="第一步，将vcf转化为bed/bim/fam"></a>第一步，将vcf转化为bed/bim/fam</h3><p>bed/bim/fam这三个文件是phasing的常用谱系文件格式。做这一步转换的工具有很多，我们这里直接借助GATK的<a href="https://www.broadinstitute.org/gatk/guide/tooldocs/org_broadinstitute_gatk_tools_walkers_variantutils_VariantsToBinaryPed.php" target="_blank" rel="external">VariantsToBinaryPed</a>模块进行转换：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">time java -Xmx8g -jar GenomeAnalysisTK.jar -T VariantsToBinaryPed \</div><div class="line">    -R hg20.fa \</div><div class="line">    -V chr22.vcf \</div><div class="line">    --metaData sample.fam \</div><div class="line">    -mgq 0 \</div><div class="line">    -bed chr22.bed \</div><div class="line">    -bim chr22.bim \</div><div class="line">    -fam chr22.fam \</div><div class="line">    -<span class="built_in">log</span> gatk.log &amp;&amp; <span class="built_in">echo</span> <span class="string">"** done **"</span> &amp;&amp; sed <span class="string">'s/^chr//g'</span> chr22.bim &gt; t.bim &amp;&amp; mv -f t.bim chr22.bim</div></pre></td></tr></table></figure>
-<p>这个执行命令的最后多加了一小步：将原来输出的.bim文件中第一列的chr22换成了22。之所以要费这个小周折，是因为如果不做这个小操作，接下来的plink步骤中，会直接报<code>ERROR: Problem reading BIM file, line 1</code>退出，原因就是它不允许chr的开头，至于具体的原因我也没去细查。</p>
-<h3 id="第二步，过滤genotype高missing-rate和孟德尔错误的位点"><a href="#第二步，过滤genotype高missing-rate和孟德尔错误的位点" class="headerlink" title="第二步，过滤genotype高missing rate和孟德尔错误的位点"></a>第二步，过滤genotype高missing rate和孟德尔错误的位点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">plink=/com/extra/testing/bin/plink</div><div class="line">time <span class="variable">$plink</span> --noweb --bfile chr22 --keep-allele-order --me 1 1 --<span class="built_in">set</span>-me-missing --make-bed --out chr22.nomendel &amp;&amp; <span class="built_in">echo</span> <span class="string">"** nomendel done **"</span> &amp;&amp; time <span class="variable">$plink</span> --noweb --bfile chr22.nomendel --keep-allele-order --geno 0.05 --make-bed --out chr22.nomendel.filter &amp;&amp; <span class="built_in">echo</span> <span class="string">"** fileter done **"</span></div></pre></td></tr></table></figure>
-<h3 id="第三步，phasing"><a href="#第三步，phasing" class="headerlink" title="第三步，phasing"></a>第三步，phasing</h3><p>这是phasing的最后一步了，这里分成两小步，phasing和输出格式转换：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># phasing</span></div><div class="line">time shapeit2 \</div><div class="line">    --duohmm \</div><div class="line">    -W 5 \</div><div class="line">    --input-bed chr22.nomendel.filter.bed chr22.nomendel.filter.bim chr22.nomendel.filter.fam \</div><div class="line">    --input-map genetic_map.chr22.txt \</div><div class="line">    -O hapData \</div><div class="line">    --thread 1 &amp;&amp; <span class="built_in">echo</span> <span class="string">"** panel done **"</span></div><div class="line"></div><div class="line"><span class="comment"># 格式转换</span></div><div class="line">time shapeit2 -convert \</div><div class="line">    --input-haps hapData \</div><div class="line">    --output-vcf chr22.haps.vcf \</div><div class="line">    --output-ref chr22.phased.hap chr22.phased.leg chr22.phased.sam &amp;&amp; <span class="built_in">echo</span> <span class="string">"** all done **"</span></div></pre></td></tr></table></figure></p>
-<p>以上输出结果中，<code>chr22.haps.vcf</code>便是进行phasing之后的结果，而<code>chr22.phased.hap</code>和<code>chr22.phased.leg</code>这两个文件是从<code>chr22.haps.vcf</code>中得到的，它们便是Imputation分析中的reference panel。</p>
-<hr>
-<p>欢迎通过我的公众号（解螺旋的矿工），更及时了解更多信息</p>
-<p><img src="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png" alt="解螺旋的矿工"></p>
+        <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://upload-images.jianshu.io/upload_images/2248079-4b82b4651e287410?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>这应该是首次正式地介绍这个公众号，我想通过这篇文章让大家能够更好地了解<strong>『解螺旋的矿工』</strong>。 </p>
+<p>其实，我在2015年就注册了这个公众号，当时名字叫：<strong>泛基因（fungenomics）——还有一个同名小网站</strong>。从时间上来讲应该说注册得还算早，但惭愧的是毫无敏感度，对“媒体”的力量一无所知，自己自然也不重视，再加上平时事情很多，几乎没有更新文章。直到2017年8月份才决定要写好这个公众号（原因下文会说），并在随后不久改成了现在的名字。</p>
+<p>这期间我想了很久，<strong>『解螺旋的矿工』这个公众号要写些什么？定位是啥？</strong>是帮助读者们解决各种各样的生物信息和基因组学问题吗？是要让大家觉得只要来看我的文章，所有问题就能够迎刃而解，做一个哆啦A梦的大口袋吗？还是让读者每次来都有一种茅塞顿开之感，让读者有收获感呢？</p>
+<p><strong>我决定选择后者，因为前者的承诺，我实现不了。</strong>可能你今天来了，读了一篇文章，发现能够解决你的问题，觉得很棒，很兴奋，但是<strong>这种情况并不确定</strong>。也许明天你带着另外的问题来了，结果翻遍所有的文章，却发现不行，搞不定，你就会很失望，就会离开，因为我不能给你带来确定性。反之，如果我选择后者，<strong>保证你来了就会有所收获，保证你能够看到别人难以写出来的生物信息和基因组学文章，</strong>那这个我能做到，这样确定性就会大很多**。</p>
+<p>另外，你会发现这里分享的<strong>内容基本都是以组学和生物信息技术为主的</strong>，不会有各种业内八卦，或者为了浏览量而跟风写作的热点报道，或者所谓的行业爆点，只会有我的观点。<strong>目前主要是NGS，接下来还会有GWAS和群体遗传学</strong>，这是我所擅长的领域，在这个过程中我也会分享自己在应用各类技术（包括机器学习、云计算）处理基因组学数据过程中的思路和体会，除了这些之外，<strong>你就很难看到其它的内容了</strong>。</p>
+<p>虽然，我只在业余时间写文章，更新的频率也不高——一周很少超过2篇，然而每一篇我都<strong>坚持品质至上</strong>。<strong>务必真诚，务必提供价值，是我在输出内容过程中的行为准则。</strong></p>
+<p>毕竟，这里是我自由分享经验和观点的地方，文章的读者首先是自己，需要先过自己的关。<strong>好在我不用刻意为谁做营销，也不必哗众取宠，我尊重自己的时间更尊重每一位读者朋友的时间</strong>。我把自己的经验和知识分享出来，就是希望你在读完之余，**觉得时间花得值，能够有所启发，对你的学习和工作能够有所帮助。当然这非常不容易，可以说这个要求是在倒逼我自己进一步成长。</p>
+<p><strong>在这里要感谢每一位关注和支持我的读者，感谢你们的耐心和包容</strong>。古人说，“<strong>文章千古事，得失寸心知</strong>”，我也看过很多生信类的文章，不少写的实在是很差劲，从很大程度上来说我决定要写好这个公众号也是因为受了那些内容的刺激，心中不愤——我有更好的！<strong>对于知识，对于技术，对于文字，我还是有我自己的敬畏和坚持。</strong></p>
+<p>所幸，这些付出逐渐有了回报，得到了越来越多的认可！下面的这些溢美之词是读者朋友们的信任（后台较多实在无法一一贴出），它们不断激励我精益求精地写好每一篇文章，回答好每一个问题，认真分享好基因组学知识和技术。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2248079-803cb672f8a3f6d7?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2248079-e937833a1d97b98c?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2248079-691d6554ea85b800?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2248079-3da652e0af93600b?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这是在公众号的后台"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2248079-501f6376828bb76a?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="这是在知识星球上"></p>
+<p>最后，分享一段我很喜欢的话，来自@韩建：</p>
+<blockquote>
+<p><strong>我佩服那些干着的人，蔑视那些只说不干的人</strong>。不实干就没有发言权；也只有实干者才有犯错和改错的特权。是实干还是虚干？你可以去看结果，也可以去看人品。在开口评论他人以前，最好看看自己都干了什么。评论自己的权利可以从书本里面得到，评论别人的权利要靠实干的血汗换得。而许多真正实干一辈子的人都已经没有精力去评论他人了，因为干了一辈子的人都会犯很多的错误，于是对他人在干中出现的错误就有了更多的理解。</p>
+</blockquote>
+<p><strong>推荐阅读</strong></p>
+<ul>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798425&amp;idx=1&amp;sn=ae355ed362848578e5c853413f23dfd7&amp;chksm=83c1d505b4b65c13124c9acd210356c4364ec9f5498bbd16fa4475be29811213abb64ea9720f&amp;scene=21#wechat_redirect" target="_blank" rel="external">GATK4.0和全基因组数据分析实践（上）</a></p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798425&amp;idx=1&amp;sn=ae355ed362848578e5c853413f23dfd7&amp;chksm=83c1d505b4b65c13124c9acd210356c4364ec9f5498bbd16fa4475be29811213abb64ea9720f&amp;scene=21#wechat_redirect" target="_blank" rel="external"></a><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798455&amp;idx=1&amp;sn=67a7407980a57ce138948eb46992b603&amp;chksm=83c1d52bb4b65c3dde31df94e9686654bf616166c7311b531213ebf0010f67a32ce827e677b1&amp;scene=21#wechat_redirect" target="_blank" rel="external">GATK4.0和全基因组数据分析实践（下）</a></p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798366&amp;idx=1&amp;sn=b545fcea7f82839fa87e9d9e472d1e72&amp;chksm=83c1d4c2b4b65dd4843250c307969ada96c4039f4f528c034620d25b78d8beba2f9cf924bb8a&amp;scene=21#wechat_redirect" target="_blank" rel="external">该如何自学入门生物信息学</a></p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798366&amp;idx=1&amp;sn=b545fcea7f82839fa87e9d9e472d1e72&amp;chksm=83c1d4c2b4b65dd4843250c307969ada96c4039f4f528c034620d25b78d8beba2f9cf924bb8a&amp;scene=21#wechat_redirect" target="_blank" rel="external"></a><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798296&amp;idx=1&amp;sn=790d0141eec792b25083c63e87fee14c&amp;chksm=83c1d484b4b65d921fd0f17b24e22e17ba76b7e1ca338712298af8bd7532025367d9f47cf630&amp;scene=21#wechat_redirect" target="_blank" rel="external">从零开始完整学习全基因组测序数据分析：第4节 构建WGS主流程</a></p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798281&amp;idx=1&amp;sn=c3448e0e656a38808d0000ac8337e25d&amp;chksm=83c1d495b4b65d835132b133ecba01fea4ce64274b0ddc3e541b4b130cf541478b30c6d65593&amp;scene=21#wechat_redirect" target="_blank" rel="external">从零开始完整学习全基因组测序数据分析：第3节 数据质控</a></p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798204&amp;idx=1&amp;sn=4eae4f89523373e0edd9fff2b0a641b1&amp;chksm=83c1d420b4b65d36c54320cc69c8530b95166541343bae446d28f4256491ab91d004c10e9cc9&amp;scene=21#wechat_redirect" target="_blank" rel="external">从零开始完整学习全基因组测序数据分析：第1节 测序技术</a></p>
+</li>
+</ul>
+<p>这是我的知识星球：解螺旋技术交流圈，是一个与读者朋友们的私人朋友圈，是付费的，虽然欢迎你的加入，但不支持退费因此加入前还请思量好，这是<a href="https://t.zsxq.com/jiq3Z3B" target="_blank" rel="external">邀请链接</a>，可以微信扫描。</p>
+<p>我擅长人方向的基因组学和生物信息学，算起来在这一块已有接近9年前沿而完整的学习和工作经。这个交流圈也是知识星球上第一个真正与基因组学和生物信息学强相关的圈子，目标是共同营造高质量的组学知识圈和人脉圈，让圈子里的人都能够受益。在这里你可以结识到全国优秀的基因组学和生物信息学专家，同时可以分享你的经验、见解和思考，有问题也可以向我提问或者向圈里的星友们提问。</p>
+<p>知识星球邀请链接：<a href="https://t.zsxq.com/jiq3Z3B" target="_blank" rel="external">「解螺旋技术交流圈」</a></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/2248079-6d491605e36a9e02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 
       
     </div>
@@ -440,12 +476,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/shapeit2/" rel="tag"># shapeit2</a>
-          
-        </div>
-      
 
       
         
@@ -455,8 +485,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/02/02/2016-02-02-How-to-create-manhattan-and-qq-plot-for-GWAS-study-in-Python.html" rel="next" title="如何使用Python绘制GWAS分析中的曼哈顿图和QQ图">
-                <i class="fa fa-chevron-left"></i> 如何使用Python绘制GWAS分析中的曼哈顿图和QQ图
+              <a href="/2018/03/23/2018-03-23-WGS-Best-Practics-2.html" rel="next" title="GATK4.0和全基因组数据分析实践（下）">
+                <i class="fa fa-chevron-left"></i> GATK4.0和全基因组数据分析实践（下）
               </a>
             
           </div>
@@ -464,10 +494,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/02/2017-01-02-cancer-genomics-review.html" rel="prev" title="癌症基因组学研究全程回顾">
-                癌症基因组学研究全程回顾 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -521,17 +547,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -622,22 +639,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步，将vcf转化为bed-bim-fam"><span class="nav-number">1.</span> <span class="nav-text">第一步，将vcf转化为bed/bim/fam</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步，过滤genotype高missing-rate和孟德尔错误的位点"><span class="nav-number">2.</span> <span class="nav-text">第二步，过滤genotype高missing rate和孟德尔错误的位点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三步，phasing"><span class="nav-number">3.</span> <span class="nav-text">第三步，phasing</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -775,9 +776,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://huangshujia.me/2016/03/15/2016-03-15-how-to-phase-the-human-genome-by-shapeit2.html';
-          this.page.identifier = '2016/03/15/2016-03-15-how-to-phase-the-human-genome-by-shapeit2.html';
-          this.page.title = '如何使用Shapeit2对人类基因组数据进行phasing';
+          this.page.url = 'http://huangshujia.me/2018/03/30/2018-03-30-I-am-helixminer.html';
+          this.page.identifier = '2018/03/30/2018-03-30-I-am-helixminer.html';
+          this.page.title = '我是解螺旋的矿工，我热爱生命科学';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://huangshujia.disqus.com/embed.js';
