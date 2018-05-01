@@ -97,19 +97,19 @@
 <meta property="og:site_name" content="解螺旋的矿工">
 <meta property="og:description" content="什么是Phasing？Phasing，或者说Genotype Phasing，它的中文名有很多：基因定相、基因分型、单倍体分型、单倍体构建等在不同的语境下都有人说过。但不管如何，所谓Phasing就是要把一个二倍体（甚至是多倍体）基因组上的等位基因（或者杂合位点），按照其亲本正确地定位到父亲或者母亲的染色体上，最终使得所有来自同一个亲本的等位基因都能够排列在同一条染色体里面。 现在流行的NGS">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2248079-5073aeebe5bacb6f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-1eeb73bc34819ac9.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-4eb8e876b8ebeecd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-9e6d64eac5979e79.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-6dfd9a616798b469.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-5aa962472a435eaa.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-4fd114cf6ca7acb1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-8022c19e3c41bf90.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-05-01T03:13:58.000Z">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/phasing_cover.jpg">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/phasing_1.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/phasing_2.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/phasing_3.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/你这是在逗我吗.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/phasing_4.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/phasing_5.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png">
+<meta property="og:updated_time" content="2018-05-01T03:22:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="人类基因组的Phasing原理是什么？">
 <meta name="twitter:description" content="什么是Phasing？Phasing，或者说Genotype Phasing，它的中文名有很多：基因定相、基因分型、单倍体分型、单倍体构建等在不同的语境下都有人说过。但不管如何，所谓Phasing就是要把一个二倍体（甚至是多倍体）基因组上的等位基因（或者杂合位点），按照其亲本正确地定位到父亲或者母亲的染色体上，最终使得所有来自同一个亲本的等位基因都能够排列在同一条染色体里面。 现在流行的NGS">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2248079-5073aeebe5bacb6f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/phasing_cover.jpg">
 
 
 
@@ -412,10 +412,10 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><p><img src="https://upload-images.jianshu.io/upload_images/2248079-5073aeebe5bacb6f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "></p>
+        <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://blog-fungenomics-com.qiniudn.com/phasing_cover.jpg" alt=" "></p>
 <h2 id="什么是Phasing？"><a href="#什么是Phasing？" class="headerlink" title="什么是Phasing？"></a>什么是Phasing？</h2><p>Phasing，或者说Genotype Phasing，它的中文名有很多：基因定相、基因分型、单倍体分型、单倍体构建等在不同的语境下都有人说过。但不管如何，所谓Phasing就是要把一个二倍体（甚至是多倍体）基因组上的等位基因（或者杂合位点），按照其亲本正确地定位到父亲或者母亲的染色体上，最终使得所有来自同一个亲本的等位基因都能够排列在同一条染色体里面。</p>
 <p>现在流行的NGS测序技术，都是把序列打乱混在一起测序的，测完之后，我们是无法直接区分这些序列中哪一个是父源，哪一个是母源的。我们通常都只是检测出基因组上有哪些变异，以及这些变异的碱基组成（纯合、杂合），也就是平时所说的基因型（Genotype）。只有经过Phasing，才能够实现这个区分（图1）。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2248079-1eeb73bc34819ac9.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图1"></p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/phasing_1.png" alt="图1"></p>
 <p align="center"><a>图1. 变异位点经过Phasing和不经过Phasing的示意图。右上图代表通常的Genotype，右下图代表Phasing之后的情况，实现了亲本的区分。</a></p> 
 
 <h2 id="为什么要Phasing"><a href="#为什么要Phasing" class="headerlink" title="为什么要Phasing"></a>为什么要Phasing</h2><p><strong>因为Phasing很重要。</strong>Phasing的重要性可以分为两个方面。一方面, Phasing与遗传变异的功能诠释密切相关。这体现在遗传咨询师或者科学家需了解基因突变的相位后, 才能更好地判断基因突变是否会产生临床表型。比如在一个基因上发生多个Loss of function variants(LOF)，<strong>通常当这些变异出于不同的单倍型时(这称为trans-configuration)，即两个拷贝的姐妹基因都发生了变异, 才会导致基因表达计量(Gene expression dosage)的错误且产生危害。而当它们出于同一个单倍型时(这称为cis-configuration)，因为还有一个正常拷贝的基因（作为备胎）, 基因表达很可能不会发生改变也不会产生危害。</strong></p>
@@ -430,18 +430,18 @@
 <h2 id="Phasing说起来容易，做起来却很难"><a href="#Phasing说起来容易，做起来却很难" class="headerlink" title="Phasing说起来容易，做起来却很难"></a>Phasing说起来容易，做起来却很难</h2><p>虽然Phasing理解起来并不难，但实现起来却不容易，即使在理论上也是如此。这需要相关的统计学和计算机算法技术，求解的过程往往还是一个NP问题。目前通常采用马尔科夫链蒙特卡洛算法来完成，因此，Phasing算法本身基本都是计算密集型的，做起来也比较耗时间，有时即使是在超算集群中也得跑很长时间。</p>
 <h2 id="Phasing的方法有哪些"><a href="#Phasing的方法有哪些" class="headerlink" title="Phasing的方法有哪些"></a>Phasing的方法有哪些</h2><p>Phasing的方法总结起来主要有三个：<strong>家系分型(Related individuals Phasing)、群体LD分型(LD Phasing)和物理分型(Physical Phasing)</strong>。下面我就来逐一展开对其方法进行说明。</p>
 <p><strong>目前，基因定相最准确的方法是利用家系数据来实现。</strong>具体来说，就是除了被研究的这个个体之外，同时对其父亲和母亲的基因组进行测序。有了这三个人的数据之后，就可以很容易地区分出这个样本的两个单倍体。为了便于理解，我打个比方，比如我们知道他/她的基因组某一个位置上的基因型是AB，而父亲的基因型是AA，母亲的基因型是BB，那么我们就可以清楚地知道他/她这个基因上的A是来自于父亲染色体，而B则是属于母亲染色体的，更多的具体情况可以参看下面这个示意图。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2248079-4eb8e876b8ebeecd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图2. 家系数据实现对子/女基因组的Phasing示意图"></p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/phasing_2.png" alt="图2. 家系数据实现对子/女基因组的Phasing示意图"></p>
 <p align="center"><a>图2. 家系数据实现对子/女基因组的Phasing示意图</a></p> 
 
 <p>这个方法的一大优点就是定相（Phasing）的过程 <strong>非常直接、简单</strong>，不需要进行复杂的统计学计算，就可以准确地实现长距离的定相，并且还能够知道每一个基因型的亲本来源到底是什么，比如在上面的例子中，我们可以知道A和B分别属于父本和母本（如上图）。<strong>这个亲本来源的问题对于研究或者治疗许多复杂疾病的意义是十分重大的，</strong>比如最近发表在《Science》上的一个研究中发现，影响小孩发生孤独症（也称自闭症）的基因突变中父亲的影响更大，除此之外还有很多母源或者父源性的疾病（这里面其实还涉及到Transmitted和Non-Transmitted Chromosome的问题），这些类型的结果如果没有家系的数据是无法得出的。</p>
 <p>对于这个方法来说，家系越庞大它的Phasing效果会越好。万一很不幸我们没能凑齐一家三口（Trio样本）仅有双样本的情况，也不用灰心，虽然效果会差一些，<strong>但还是会比没有任何族谱信息的数据要好。</strong></p>
 <p>家系Phasing的这个方法虽有很多难以比拟的好处，但也有一些比较明显的缺点。比如，我们为了对这个人进行定相分析，就不得不多测另外两个人的基因组。这一方面大大增加了原有的成本；另一方面则是有些人由于各种各样的原因已经难以获取其双亲的样本数据了；另外，<strong>这个方法其实也无法完成对该个体所有变异的完全定相，</strong>比如当碰到父、母和子/女都是杂合突变的位点时，就无法区分了。这样的位点虽然在基因组上不是最主要的，但是也大约占到了总变异位点数的13%左右，或者说有大约五分之一的杂合突变位点（注意只是占所有杂合的比例）是这种不可Phasing的状态，详细的分类情况可以参考下表：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2248079-9e6d64eac5979e79.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="表1. 能够被Phasing和不能够被Phasing的SNPs位点分类"></p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/phasing_3.png" alt="表1. 能够被Phasing和不能够被Phasing的SNPs位点分类"></p>
 <p align="center"><a>表1. 能够被Phasing和不能够被Phasing的SNPs位点分类</a></p> 
 
 <p><strong>LD Phasing是另外一个非常常用的基因定相方法，</strong>它是利用群体中大量无血缘关系的个体，依据基本的连锁不平衡(Linkage disequilibrium，LD)遗传原理和相关数学模型，推断群体中每个个体的单倍体的方法，因此它也是计算量最大的一个。</p>
 <p>我们知道人这个物种在减数分裂产生生殖细胞的过程中姐妹染色单体会发生重组，这个重组的发生率每代大约是10^-8，虽然很低，但是随着一代接一代不断地繁衍下去，经过足够长的时间之后（比如说 <strong>无穷！无穷！无穷！</strong>）。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2248079-6dfd9a616798b469.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="你这是在逗我吗"></p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/你这是在逗我吗.png" alt="你这是在逗我吗"></p>
 <p>那么从理论上来讲，来自同一祖先的两条染色就会被均匀地重组一个遍。然而，遗憾的是我们现代人还是 <strong>Too Youg Too Simple！</strong>从最早的证据来看现代人的共同祖先大概起源于15万-19万年前（第三次走出非洲的时间），所以至今我们也不过才经历了6,000-7,600代而已。</p>
 <p>这么少的代数也就意味着染色体的重组其实还很有限，因此人类基因组中许多相邻的区域往往都是“黏”在一起遗传下去的，这也就是所谓的存在连锁不平衡的遗传现象，这些“黏”在一起的区块称为“连锁不平衡区块”（LD Block）。</p>
 <p>常见变异——那些在人群中频率占比达到5%以上的变异——所存在的连锁不平衡区块(LD Block，Tajima’s D &gt; 0.5)的长度大多集中在50Kbp－60Kbp。<strong>并且LD区块的长度在不同的人群中是不同的，</strong>比如，非洲人的LD区块就比欧洲人和亚洲人的更短。为什么呢？<strong>这是因为非洲人比欧洲人或者亚洲人都要更古老，他们的基因组相比于另外的两个人群发生了更多次数的重组，所以LD区块的长度就更短了。</strong></p>
@@ -455,11 +455,11 @@
 <p>长序列可以来自特殊建库，如长度约是40Kbp的Fosmid建库后的测序和组装，或者是华大测序仪的Long Fragment Read(LFR)测序技术，当然也可以是第三代测序的数据。</p>
 </blockquote>
 <p>这也是我（矿工）在华大基因深度负责的第一个研究课题（我的博士论文也是基于该课题）。当时这一块还比较空白，第三代测序技术也还不是很成熟，当时为了获得长序列，我们采用了基于Fosmid构建大长度克隆片段然后进行二代测序并组装的方法（如下图），成果发表在2015年的《Nature Biotechnology》上，我也是共同第一作者。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2248079-5aa962472a435eaa.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3. 基于Fosmid和二代测序技术相结合的de novo Phasing方法"></p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/phasing_4.png" alt="图3. 基于Fosmid和二代测序技术相结合的de novo Phasing方法"></p>
 <p align="center"><a>图3. 基于Fosmid和二代测序技术相结合的de novo Phasing方法</a></p> 
 
 <p>﻿由于我当时已经为课题中的一些细节写过两篇文章，因此这里就不再展开，感兴趣的话你也可以查看本文最后的推荐阅读，这里我只介绍物理定相的基本原理。总的来说，要把局部的小片段连成一个大片段，从而实现Phasing，这个过程要做的好就需要充分借助小片段上的杂合SNPs作为区分的标记。通过每个杂合位点上各个小片段中所含碱基的异同和彼此之间的重叠关系，我们可以把绝大部分的小片段分成两类，然后通过一系列的连接、二分图构建、二分图求解和重新组装等方法，最后就可以把小片段逐步连成大片段，从而构建出单倍体了，如下图（<em>请横着看</em>）。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2248079-4fd114cf6ca7acb1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图4.物理定相示意图"></p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/phasing_5.png" alt="图4.物理定相示意图"></p>
 <p align="center"><a>图4.物理定相示意图</a></p> 
 
 <p>物理定相的方法，往往要求每个片段中都能包含较多的杂合SNPs位点，但由于人类基因组中杂合SNPs位点之间的距离普遍在1.5Kbp左右——还是比较长的，因此测序片段本身就要足够长，这就需要使用包括三代测序技术在内的一些测序方法，因此它的成本会比较高。我目前所知道的在Physica Phasing方面做得比较好的机构中，除了我们自己当时的小组之外，还有德国的马克普朗克研究所（ Max Planck Institute）Margret教授团队和华大基因Brock Peters博士所在的研究组，他们建立了LFR的实验和信息方法。</p>
@@ -478,7 +478,7 @@
 </ul>
 <hr>
 <p>我的微信公众号：解螺旋的矿工 欢迎关注更及时了解更多信息。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2248079-8022c19e3c41bf90.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="解螺旋的矿工"></p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png" alt="解螺旋的矿工"></p>
 <p>这是我的知识星球：解螺旋技术交流圈，是一个与读者朋友们的私人朋友圈，欢迎你的加入。我有9年前沿而完整的生物信息学、NGS领域的工作经历，在该领域发有多篇Nature级别的科学文章。</p>
 <p>这是知识星球上第一个真正与基因组学和生物信息学强相关的圈子。我旨在营造一个高质量的组学知识圈和人脉圈，通过提问、彼此分享、交流经验、心得等，更好地学习生物信息学知识提升基因组数据分析和解读的能力。</p>
 <p>在这里你可以结识到全国优秀的基因组学和生物信息学专家，同时可以分享你的经验、见解和思考，有问题也可以向我提问或者向圈里的星友们提问。</p>
