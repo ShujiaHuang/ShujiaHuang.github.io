@@ -1,0 +1,1009 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="什么是Phasing？Phasing，或者说Genotype Phasing，它的中文名有很多：基因定相、基因分型、单倍体分型、单倍体构建等在不同的语境下都有人说过。但不管如何，所谓Phasing就是要把一个二倍体（甚至是多倍体）基因组上的等位基因（或者杂合位点），按照其亲本正确地定位到父亲或者母亲的染色体上，最终使得所有来自同一个亲本的等位基因都能够排列在同一条染色体里面。 现在流行的NGS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="人类基因组的Phasing原理是什么？">
+<meta property="og:url" content="http://huangshujia.me/2018/04/30/2018-04-30-What-Is-Phasing.html">
+<meta property="og:site_name" content="解螺旋的矿工">
+<meta property="og:description" content="什么是Phasing？Phasing，或者说Genotype Phasing，它的中文名有很多：基因定相、基因分型、单倍体分型、单倍体构建等在不同的语境下都有人说过。但不管如何，所谓Phasing就是要把一个二倍体（甚至是多倍体）基因组上的等位基因（或者杂合位点），按照其亲本正确地定位到父亲或者母亲的染色体上，最终使得所有来自同一个亲本的等位基因都能够排列在同一条染色体里面。 现在流行的NGS">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2248079-5073aeebe5bacb6f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-1eeb73bc34819ac9.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-4eb8e876b8ebeecd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-9e6d64eac5979e79.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-6dfd9a616798b469.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-5aa962472a435eaa.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-4fd114cf6ca7acb1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2248079-8022c19e3c41bf90.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-05-01T03:13:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="人类基因组的Phasing原理是什么？">
+<meta name="twitter:description" content="什么是Phasing？Phasing，或者说Genotype Phasing，它的中文名有很多：基因定相、基因分型、单倍体分型、单倍体构建等在不同的语境下都有人说过。但不管如何，所谓Phasing就是要把一个二倍体（甚至是多倍体）基因组上的等位基因（或者杂合位点），按照其亲本正确地定位到父亲或者母亲的染色体上，最终使得所有来自同一个亲本的等位基因都能够排列在同一条染色体里面。 现在流行的NGS">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2248079-5073aeebe5bacb6f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huangshujia.me/2018/04/30/2018-04-30-What-Is-Phasing.html"/>
+
+
+
+
+
+  <title>人类基因组的Phasing原理是什么？ | 解螺旋的矿工</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9091dc3354962cd0705c6a0c94b8a931";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">解螺旋的矿工</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2018/04/30/2018-04-30-What-Is-Phasing.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shujia Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解螺旋的矿工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">人类基因组的Phasing原理是什么？</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-30T00:00:00+08:00">
+                2018-04-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/" itemprop="url" rel="index">
+                    <span itemprop="name">生物信息</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/基因组学/" itemprop="url" rel="index">
+                    <span itemprop="name">基因组学</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/30/2018-04-30-What-Is-Phasing.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/30/2018-04-30-What-Is-Phasing.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/04/30/2018-04-30-What-Is-Phasing.html" class="leancloud_visitors" data-flag-title="人类基因组的Phasing原理是什么？">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/APlayer.min.js"> </script><p><img src="https://upload-images.jianshu.io/upload_images/2248079-5073aeebe5bacb6f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=" "></p>
+<h2 id="什么是Phasing？"><a href="#什么是Phasing？" class="headerlink" title="什么是Phasing？"></a>什么是Phasing？</h2><p>Phasing，或者说Genotype Phasing，它的中文名有很多：基因定相、基因分型、单倍体分型、单倍体构建等在不同的语境下都有人说过。但不管如何，所谓Phasing就是要把一个二倍体（甚至是多倍体）基因组上的等位基因（或者杂合位点），按照其亲本正确地定位到父亲或者母亲的染色体上，最终使得所有来自同一个亲本的等位基因都能够排列在同一条染色体里面。</p>
+<p>现在流行的NGS测序技术，都是把序列打乱混在一起测序的，测完之后，我们是无法直接区分这些序列中哪一个是父源，哪一个是母源的。我们通常都只是检测出基因组上有哪些变异，以及这些变异的碱基组成（纯合、杂合），也就是平时所说的基因型（Genotype）。只有经过Phasing，才能够实现这个区分（图1）。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2248079-1eeb73bc34819ac9.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图1"></p>
+<p align="center"><a>图1. 变异位点经过Phasing和不经过Phasing的示意图。右上图代表通常的Genotype，右下图代表Phasing之后的情况，实现了亲本的区分。</a></p> 
+
+<h2 id="为什么要Phasing"><a href="#为什么要Phasing" class="headerlink" title="为什么要Phasing"></a>为什么要Phasing</h2><p><strong>因为Phasing很重要。</strong>Phasing的重要性可以分为两个方面。一方面, Phasing与遗传变异的功能诠释密切相关。这体现在遗传咨询师或者科学家需了解基因突变的相位后, 才能更好地判断基因突变是否会产生临床表型。比如在一个基因上发生多个Loss of function variants(LOF)，<strong>通常当这些变异出于不同的单倍型时(这称为trans-configuration)，即两个拷贝的姐妹基因都发生了变异, 才会导致基因表达计量(Gene expression dosage)的错误且产生危害。而当它们出于同一个单倍型时(这称为cis-configuration)，因为还有一个正常拷贝的基因（作为备胎）, 基因表达很可能不会发生改变也不会产生危害。</strong></p>
+<p>另一方面, Phasing在遗传学研究中也有诸多应用，具体如下：</p>
+<ul>
+<li>第一、人群Phasing后形成的单倍型参考序列集(Reference panel)是基因型推断（Imputation）必须的数据材料。<strong>而基因型推断（Imputation）是基因型-表型关联分析研究中必不可少的环节。高质量的Reference Panel能提升关联分析的统计功效；</strong></li>
+<li>第二、除了Reference Panel的制造需要使用Phasing技术之外，对被研究的对象进行预先Phasing(Pre-phasing)也可以极大地提高基因型推断（Imputation）的准确性；</li>
+<li>第三、使用多个位点组成的Haplotype，而不是简单的单位点基因型, 可实现群体遗传历史的推断；</li>
+<li>第四、可通过Phased后的家系人群单倍型序列，估算染色体重组率、重组热点等重要遗传参数；</li>
+<li>第五、Phasing可用于探测频发突变、选择信号以及基因表达的顺势调控。</li>
+</ul>
+<h2 id="Phasing说起来容易，做起来却很难"><a href="#Phasing说起来容易，做起来却很难" class="headerlink" title="Phasing说起来容易，做起来却很难"></a>Phasing说起来容易，做起来却很难</h2><p>虽然Phasing理解起来并不难，但实现起来却不容易，即使在理论上也是如此。这需要相关的统计学和计算机算法技术，求解的过程往往还是一个NP问题。目前通常采用马尔科夫链蒙特卡洛算法来完成，因此，Phasing算法本身基本都是计算密集型的，做起来也比较耗时间，有时即使是在超算集群中也得跑很长时间。</p>
+<h2 id="Phasing的方法有哪些"><a href="#Phasing的方法有哪些" class="headerlink" title="Phasing的方法有哪些"></a>Phasing的方法有哪些</h2><p>Phasing的方法总结起来主要有三个：<strong>家系分型(Related individuals Phasing)、群体LD分型(LD Phasing)和物理分型(Physical Phasing)</strong>。下面我就来逐一展开对其方法进行说明。</p>
+<p><strong>目前，基因定相最准确的方法是利用家系数据来实现。</strong>具体来说，就是除了被研究的这个个体之外，同时对其父亲和母亲的基因组进行测序。有了这三个人的数据之后，就可以很容易地区分出这个样本的两个单倍体。为了便于理解，我打个比方，比如我们知道他/她的基因组某一个位置上的基因型是AB，而父亲的基因型是AA，母亲的基因型是BB，那么我们就可以清楚地知道他/她这个基因上的A是来自于父亲染色体，而B则是属于母亲染色体的，更多的具体情况可以参看下面这个示意图。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2248079-4eb8e876b8ebeecd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图2. 家系数据实现对子/女基因组的Phasing示意图"></p>
+<p align="center"><a>图2. 家系数据实现对子/女基因组的Phasing示意图</a></p> 
+
+<p>这个方法的一大优点就是定相（Phasing）的过程 <strong>非常直接、简单</strong>，不需要进行复杂的统计学计算，就可以准确地实现长距离的定相，并且还能够知道每一个基因型的亲本来源到底是什么，比如在上面的例子中，我们可以知道A和B分别属于父本和母本（如上图）。<strong>这个亲本来源的问题对于研究或者治疗许多复杂疾病的意义是十分重大的，</strong>比如最近发表在《Science》上的一个研究中发现，影响小孩发生孤独症（也称自闭症）的基因突变中父亲的影响更大，除此之外还有很多母源或者父源性的疾病（这里面其实还涉及到Transmitted和Non-Transmitted Chromosome的问题），这些类型的结果如果没有家系的数据是无法得出的。</p>
+<p>对于这个方法来说，家系越庞大它的Phasing效果会越好。万一很不幸我们没能凑齐一家三口（Trio样本）仅有双样本的情况，也不用灰心，虽然效果会差一些，<strong>但还是会比没有任何族谱信息的数据要好。</strong></p>
+<p>家系Phasing的这个方法虽有很多难以比拟的好处，但也有一些比较明显的缺点。比如，我们为了对这个人进行定相分析，就不得不多测另外两个人的基因组。这一方面大大增加了原有的成本；另一方面则是有些人由于各种各样的原因已经难以获取其双亲的样本数据了；另外，<strong>这个方法其实也无法完成对该个体所有变异的完全定相，</strong>比如当碰到父、母和子/女都是杂合突变的位点时，就无法区分了。这样的位点虽然在基因组上不是最主要的，但是也大约占到了总变异位点数的13%左右，或者说有大约五分之一的杂合突变位点（注意只是占所有杂合的比例）是这种不可Phasing的状态，详细的分类情况可以参考下表：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2248079-9e6d64eac5979e79.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="表1. 能够被Phasing和不能够被Phasing的SNPs位点分类"></p>
+<p align="center"><a>表1. 能够被Phasing和不能够被Phasing的SNPs位点分类</a></p> 
+
+<p><strong>LD Phasing是另外一个非常常用的基因定相方法，</strong>它是利用群体中大量无血缘关系的个体，依据基本的连锁不平衡(Linkage disequilibrium，LD)遗传原理和相关数学模型，推断群体中每个个体的单倍体的方法，因此它也是计算量最大的一个。</p>
+<p>我们知道人这个物种在减数分裂产生生殖细胞的过程中姐妹染色单体会发生重组，这个重组的发生率每代大约是10^-8，虽然很低，但是随着一代接一代不断地繁衍下去，经过足够长的时间之后（比如说 <strong>无穷！无穷！无穷！</strong>）。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2248079-6dfd9a616798b469.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="你这是在逗我吗"></p>
+<p>那么从理论上来讲，来自同一祖先的两条染色就会被均匀地重组一个遍。然而，遗憾的是我们现代人还是 <strong>Too Youg Too Simple！</strong>从最早的证据来看现代人的共同祖先大概起源于15万-19万年前（第三次走出非洲的时间），所以至今我们也不过才经历了6,000-7,600代而已。</p>
+<p>这么少的代数也就意味着染色体的重组其实还很有限，因此人类基因组中许多相邻的区域往往都是“黏”在一起遗传下去的，这也就是所谓的存在连锁不平衡的遗传现象，这些“黏”在一起的区块称为“连锁不平衡区块”（LD Block）。</p>
+<p>常见变异——那些在人群中频率占比达到5%以上的变异——所存在的连锁不平衡区块(LD Block，Tajima’s D &gt; 0.5)的长度大多集中在50Kbp－60Kbp。<strong>并且LD区块的长度在不同的人群中是不同的，</strong>比如，非洲人的LD区块就比欧洲人和亚洲人的更短。为什么呢？<strong>这是因为非洲人比欧洲人或者亚洲人都要更古老，他们的基因组相比于另外的两个人群发生了更多次数的重组，所以LD区块的长度就更短了。</strong></p>
+<p><strong>LD区块的存在就意味着我们可以通过构建相关的数学模型，来把这样的连锁关系求解出来。</strong>在开展大规模的基因组研究计划时（如Hapmap、国际千人基因组、Haplotype reference consortium以及各国家的国家基因组计划），通过构建基于隐马尔可夫模型（HMM）等的Phasing算法就可以依据测序数据或者芯片数据，反推出每个个体最有可能的单倍体，完成Phasing。</p>
+<p>目前，适合于以上两种Phasing方法（家系和LD Phasing）的最好工具是Beagle和Shapeit。这两个工具都同时包含了用于家系（Related individual Phasing）和LD Phasing的模块。并且都可以用于测序数据和芯片数据，但其中的差别在此不赘述。</p>
+<p>回过头来想想LD Phasing方法的缺点是什么？其实通过上面的介绍，我想大家或多或少也注意到了，由于这个方法需要依据群体的信息，那么 <strong>它所能够Phasing的精度就会受到群体的制约。</strong>通常来说它只能针对群体中常见的变异（如频率在5%以上的变异），在这方面它的效果确实非常棒，很多基因检测公司甚至会把这个作为公司产品的买点，<strong>但对于罕见突变和个体特有的变异就不行了</strong>。虽然随着人群基数的增大，它所能够Phasing的变异范围也会随着不断增加，比如从只能Phasing 5%以上频率的变异，增大到能够Phasing 1%以上频率的变异，但说到底它还是难以实现对一个个体单倍体的完全定相。</p>
+<p>那么，到底该怎么做才能实现完全定相呢？</p>
+<p>正所谓，求人不如求己。由于有了以上的种种限制，<strong>于是科学家们就研发了第三类方法：Physical Phasing——「物理定相（或叫物理分型）」。它不需要家系数据，也不借助LD关系，完全依赖自身的测序数据，就可以完成基因的定相。</strong></p>
+<p>我们都知道在第二代或者三代测序中，<strong>一条read、一对reads或者一个clone上的每一个碱基都必定来自同一个染色体（也就是同一个单倍体）</strong>。对于每一个这样的测序片段而言，它本身就是某一个单倍体的一个“局部”，因此现在的问题就变成了要如何把这些一个一个的小”局部“连成一个整体，接出完整的单倍体，<strong>从而实现定相，这就是Physical Phasing。</strong>而且如果测序序列足够长(比如三代测序数据)，深度足够深，那么它就能够实现个体的完全定相，而且有必要的话还可以同时把这两个单倍体的完整DNA序列组装出来，形成姐妹染色单体，这两个优点是另外两个方法难以比拟的。</p>
+<blockquote>
+<p>长序列可以来自特殊建库，如长度约是40Kbp的Fosmid建库后的测序和组装，或者是华大测序仪的Long Fragment Read(LFR)测序技术，当然也可以是第三代测序的数据。</p>
+</blockquote>
+<p>这也是我（矿工）在华大基因深度负责的第一个研究课题（我的博士论文也是基于该课题）。当时这一块还比较空白，第三代测序技术也还不是很成熟，当时为了获得长序列，我们采用了基于Fosmid构建大长度克隆片段然后进行二代测序并组装的方法（如下图），成果发表在2015年的《Nature Biotechnology》上，我也是共同第一作者。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2248079-5aa962472a435eaa.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图3. 基于Fosmid和二代测序技术相结合的de novo Phasing方法"></p>
+<p align="center"><a>图3. 基于Fosmid和二代测序技术相结合的de novo Phasing方法</a></p> 
+
+<p>﻿由于我当时已经为课题中的一些细节写过两篇文章，因此这里就不再展开，感兴趣的话你也可以查看本文最后的推荐阅读，这里我只介绍物理定相的基本原理。总的来说，要把局部的小片段连成一个大片段，从而实现Phasing，这个过程要做的好就需要充分借助小片段上的杂合SNPs作为区分的标记。通过每个杂合位点上各个小片段中所含碱基的异同和彼此之间的重叠关系，我们可以把绝大部分的小片段分成两类，然后通过一系列的连接、二分图构建、二分图求解和重新组装等方法，最后就可以把小片段逐步连成大片段，从而构建出单倍体了，如下图（<em>请横着看</em>）。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2248079-4fd114cf6ca7acb1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图4.物理定相示意图"></p>
+<p align="center"><a>图4.物理定相示意图</a></p> 
+
+<p>物理定相的方法，往往要求每个片段中都能包含较多的杂合SNPs位点，但由于人类基因组中杂合SNPs位点之间的距离普遍在1.5Kbp左右——还是比较长的，因此测序片段本身就要足够长，这就需要使用包括三代测序技术在内的一些测序方法，因此它的成本会比较高。我目前所知道的在Physica Phasing方面做得比较好的机构中，除了我们自己当时的小组之外，还有德国的马克普朗克研究所（ Max Planck Institute）Margret教授团队和华大基因Brock Peters博士所在的研究组，他们建立了LFR的实验和信息方法。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>关于Phasing原理的介绍到此就告一段落了，这里在介绍LD Phasing和物理定相的时候没有从数学原理方面去展开，希望可以看起来比较通俗易懂，并且所有的Phasing算法都只对二倍体基因组比较有效，多倍体更加困难。在实际的项目中，我们还是需要根据样本的特点、测序策略和结果预期，有针对性地选择其中的一种或者多种进行组合，从而达到最有效的Phasing效果，评价Phasing效果好坏的指标有两个：</p>
+<ul>
+<li>第一，能够被Phasing的变异位点越多越好；</li>
+<li>第二，正确被Phasing的位点数占比越高越好。</li>
+</ul>
+<hr>
+<h2 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h2><ul>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=205070927&amp;idx=1&amp;sn=d8f2f979351afe79c4ca7d0de9bfaa9f&amp;scene=21#wechat_redirect" target="_blank" rel="external">华大基因组装迄今最完整人类单倍体水平基因组的重要技术细节（上）</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=205221924&amp;idx=1&amp;sn=e3696f7b86911b86929c2e3f1fe70697&amp;scene=21#wechat_redirect" target="_blank" rel="external">华大基因组装迄今最完整人类单倍体水平基因组的重要技术细节（下）</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798425&amp;idx=1&amp;sn=ae355ed362848578e5c853413f23dfd7&amp;chksm=83c1d505b4b65c13124c9acd210356c4364ec9f5498bbd16fa4475be29811213abb64ea9720f&amp;scene=21#wechat_redirect" target="_blank" rel="external">GATK4.0和全基因组数据分析实践（上）</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798455&amp;idx=1&amp;sn=67a7407980a57ce138948eb46992b603&amp;chksm=83c1d52bb4b65c3dde31df94e9686654bf616166c7311b531213ebf0010f67a32ce827e677b1&amp;scene=21#wechat_redirect" target="_blank" rel="external">GATK4.0和全基因组数据分析实践（下）</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798366&amp;idx=1&amp;sn=b545fcea7f82839fa87e9d9e472d1e72&amp;chksm=83c1d4c2b4b65dd4843250c307969ada96c4039f4f528c034620d25b78d8beba2f9cf924bb8a&amp;scene=21#wechat_redirect" target="_blank" rel="external">该如何自学入门生物信息学</a></li>
+</ul>
+<hr>
+<p>我的微信公众号：解螺旋的矿工 欢迎关注更及时了解更多信息。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2248079-8022c19e3c41bf90.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="解螺旋的矿工"></p>
+<p>这是我的知识星球：解螺旋技术交流圈，是一个与读者朋友们的私人朋友圈，欢迎你的加入。我有9年前沿而完整的生物信息学、NGS领域的工作经历，在该领域发有多篇Nature级别的科学文章。</p>
+<p>这是知识星球上第一个真正与基因组学和生物信息学强相关的圈子。我旨在营造一个高质量的组学知识圈和人脉圈，通过提问、彼此分享、交流经验、心得等，更好地学习生物信息学知识提升基因组数据分析和解读的能力。</p>
+<p>在这里你可以结识到全国优秀的基因组学和生物信息学专家，同时可以分享你的经验、见解和思考，有问题也可以向我提问或者向圈里的星友们提问。</p>
+<p>知识星球邀请链接：<a href="https://wx.zsxq.com/mweb/views/joingroup/join_group.html?group_id=518881585444&amp;secret=vcdvs4rdpst7stq4wcvqmlwvogc0ssbn&amp;user_id=28821152428221" target="_blank" rel="external">「解螺旋技术交流圈」</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/30/2018-03-30-I-am-helixminer.html" rel="next" title="我是解螺旋的矿工，我热爱生命科学">
+                <i class="fa fa-chevron-left"></i> 我是解螺旋的矿工，我热爱生命科学
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Shujia Huang" />
+          <p class="site-author-name" itemprop="name">Shujia Huang</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ShujiaHuang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.weibo.com/huangshujia2011" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yellowtree" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Phasing？"><span class="nav-number">1.</span> <span class="nav-text">什么是Phasing？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要Phasing"><span class="nav-number">2.</span> <span class="nav-text">为什么要Phasing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Phasing说起来容易，做起来却很难"><span class="nav-number">3.</span> <span class="nav-text">Phasing说起来容易，做起来却很难</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Phasing的方法有哪些"><span class="nav-number">4.</span> <span class="nav-text">Phasing的方法有哪些</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐阅读"><span class="nav-number">6.</span> <span class="nav-text">推荐阅读</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shujia Huang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://huangshujia.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://huangshujia.me/2018/04/30/2018-04-30-What-Is-Phasing.html';
+          this.page.identifier = '2018/04/30/2018-04-30-What-Is-Phasing.html';
+          this.page.title = '人类基因组的Phasing原理是什么？';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://huangshujia.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("PG9NA27zW2WuxmCMvOMlxzua-gzGzoHsz", "VMwO1UNTnT8FgGg411rzjALa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
