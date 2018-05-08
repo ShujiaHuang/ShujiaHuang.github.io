@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="GATK," />
 
 
 
@@ -90,13 +90,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="解螺旋的矿工">
-<meta property="og:url" content="http://huangshujia.me/archives/2015/index.html">
+<meta name="description" content="关于近交系数是什么的定义，除了英文资料，中文上也给出了清晰的定义，这里引用一下：  近交系数（inbreeding coefficient）是指根据近亲交配的世代数，将基因的纯化程度用百分数来表示即为近交系数，也指个体由于近交而造成异质基因减少时，同质基因或纯合子所占的百分比也叫近交系数，普遍以F或f来表示。  GATK近交系数的计算程序在github上可以找到：AS_InbreedingCo">
+<meta name="keywords" content="GATK">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GATK中如何计算Inbreeding coefficient（近交系数）">
+<meta property="og:url" content="http://huangshujia.me/2017/05/28/2017-05-28-how-to-calculate-inbreading-coefficient-in-GATK.html">
 <meta property="og:site_name" content="解螺旋的矿工">
+<meta property="og:description" content="关于近交系数是什么的定义，除了英文资料，中文上也给出了清晰的定义，这里引用一下：  近交系数（inbreeding coefficient）是指根据近亲交配的世代数，将基因的纯化程度用百分数来表示即为近交系数，也指个体由于近交而造成异质基因减少时，同质基因或纯合子所占的百分比也叫近交系数，普遍以F或f来表示。  GATK近交系数的计算程序在github上可以找到：AS_InbreedingCo">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/ic_cover.jpg">
+<meta property="og:updated_time" content="2017-05-30T14:10:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="解螺旋的矿工">
+<meta name="twitter:title" content="GATK中如何计算Inbreeding coefficient（近交系数）">
+<meta name="twitter:description" content="关于近交系数是什么的定义，除了英文资料，中文上也给出了清晰的定义，这里引用一下：  近交系数（inbreeding coefficient）是指根据近亲交配的世代数，将基因的纯化程度用百分数来表示即为近交系数，也指个体由于近交而造成异质基因减少时，同质基因或纯合子所占的百分比也叫近交系数，普遍以F或f来表示。  GATK近交系数的计算程序在github上可以找到：AS_InbreedingCo">
+<meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/ic_cover.jpg">
 
 
 
@@ -124,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://huangshujia.me/archives/2015/"/>
+  <link rel="canonical" href="http://huangshujia.me/2017/05/28/2017-05-28-how-to-calculate-inbreading-coefficient-in-GATK.html"/>
 
 
 
 
 
-  <title>归档 | 解螺旋的矿工</title>
+  <title>GATK中如何计算Inbreeding coefficient（近交系数） | 解螺旋的矿工</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -166,7 +173,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -270,402 +277,204 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-    <span class="archive-page-counter">
-      
-      
-       
-      
-      OK! 目前共计 41 篇日志。 继续努力。
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2017/05/28/2017-05-28-how-to-calculate-inbreading-coefficient-in-GATK.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shujia Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解螺旋的矿工">
     </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">GATK中如何计算Inbreeding coefficient（近交系数）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-28T19:30:16+08:00">
+                2017-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/" itemprop="url" rel="index">
+                    <span itemprop="name">生物信息</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/28/2017-05-28-how-to-calculate-inbreading-coefficient-in-GATK.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/05/28/2017-05-28-how-to-calculate-inbreading-coefficient-in-GATK.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/05/28/2017-05-28-how-to-calculate-inbreading-coefficient-in-GATK.html" class="leancloud_visitors" data-flag-title="GATK中如何计算Inbreeding coefficient（近交系数）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
 
       
       
-      
 
+      
+        <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://blog-fungenomics-com.qiniudn.com/ic_cover.jpg" alt="cover"></p>
+<p>关于近交系数是什么的定义，除了英文资料，中文上也给出了清晰的定义，这里引用一下：</p>
+<blockquote>
+<p>近交系数（inbreeding coefficient）是指根据近亲交配的世代数，将基因的纯化程度用百分数来表示即为近交系数，也指个体由于近交而造成异质基因减少时，同质基因或纯合子所占的百分比也叫近交系数，普遍以F或f来表示。</p>
+</blockquote>
+<p>GATK近交系数的计算程序在github上可以找到：<a href="https://github.com/broadgsa/gatk-protected/blob/f185a75e1c49fb4c039511e61254da0509833ee9/protected/gatk-tools-protected/src/main/java/org/broadinstitute/gatk/tools/walkers/annotator/AS_InbreedingCoeff.java" target="_blank" rel="external">AS_InbreedingCoeff.java</a></p>
+<p>代码不短，但计算很简单，我主要说展示一下这个计算的核心部分并在代码中做些注释，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">double</span> <span class="title">calculateIC</span><span class="params">(<span class="keyword">final</span> VariantContext vc, <span class="keyword">final</span> Allele altAllele)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> AN = vc.getCalledChrCount();</div><div class="line">    <span class="keyword">final</span> <span class="keyword">double</span> altAF;</div><div class="line"></div><div class="line">    <span class="keyword">final</span> <span class="keyword">double</span> hetCount = heterozygosityUtils.getHetCount(vc, altAllele);</div><div class="line"></div><div class="line">    <span class="keyword">final</span> <span class="keyword">double</span> F;</div><div class="line">    <span class="comment">//shortcut to get a value closer to the non-alleleSpecific value for bialleleics</span></div><div class="line">    <span class="keyword">if</span> (vc.isBiallelic()) &#123;</div><div class="line">        <span class="keyword">double</span> refAC = heterozygosityUtils.getAlleleCount(vc, vc.getReference());</div><div class="line">        <span class="keyword">double</span> altAC = heterozygosityUtils.getAlleleCount(vc, altAllele);</div><div class="line">        <span class="keyword">double</span> refAF = refAC/(altAC+refAC);</div><div class="line">        altAF = <span class="number">1</span> - refAF;</div><div class="line">        F = <span class="number">1.0</span> - (hetCount / (<span class="number">2.0</span> * refAF * altAF * (<span class="keyword">double</span>) heterozygosityUtils.getSampleCount())); <span class="comment">// inbreeding coefficient</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">//compare number of hets for this allele (and any other second allele) with the expectation based on AFs</span></div><div class="line">        <span class="comment">//derive the altAF from the likelihoods to account for any accumulation of fractional counts from non-primary likelihoods,</span></div><div class="line">        <span class="comment">//e.g. for a GQ10 variant, the probability of the call will be ~0.9 and the second best call will be ~0.1 so adding up those 0.1s for het counts can dramatically change the AF compared with integer counts</span></div><div class="line">        altAF = heterozygosityUtils.getAlleleCount(vc, altAllele)/ (<span class="keyword">double</span>) AN;</div><div class="line"></div><div class="line">        <span class="comment">// 计算inbreeding coefficient</span></div><div class="line">        F = <span class="number">1.0</span> - (hetCount / (<span class="number">2.0</span> * (<span class="number">1</span> - altAF) * altAF * (<span class="keyword">double</span>) heterozygosityUtils.getSampleCount())); <span class="comment">// heterozygosityUtils.getSampleCount() 获取总样本数 </span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> F;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>总的来说，是利用哈迪温伯格定律来计算的。 1.0 - (hetCount / (2.0 <em> (1 - altAF) </em> altAF(double)N ，N是人数。这个值给出的是期望的杂合变异的个数。所以参数F说的就是”实际的hetCount”除以”期望的hetCount”再与1.0取差。当F值越接近0，就意味着实际的hetCount与理论的hetCount越接近。</p>
+
+      
+    </div>
+
+    <div>
       
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2015">2015</h2>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GATK/" rel="tag"># GATK</a>
+          
         </div>
       
+
+      
+        
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/02/2017-01-02-cancer-genomics-review.html" rel="next" title="癌症基因组学研究全程回顾">
+                <i class="fa fa-chevron-left"></i> 癌症基因组学研究全程回顾
+              </a>
+            
+          </div>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          <span class="post-nav-divider"></span>
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/12/20/2015-12-20-Develop-a-genome-data-RESTful-API-server-by-flask-1.html" itemprop="url">
-              
-                <span itemprop="name">基于Flask开发基因组数据web服务的RESTful API（1）</span>
-              
-            </a>
-        
-      </h2>
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/30/2017-05-30-Predicting-effects-of-noncoding-variants-with-deep-learning-based-sequence-model.html" rel="prev" title="基于深度学习的序列模型预测非编码区变异的功能效应">
+                基于深度学习的序列模型预测非编码区变异的功能效应 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-12-20T00:00:00+08:00"
-              content="2015-12-20" >
-          12-20
-        </time>
-      </div>
-
-    </header>
+      
+      
+    </footer>
   </article>
 
 
 
-    
-
+    <div class="post-spread">
       
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/08/25/2015-08-25-why-fpkm-and-rpkm-are-wrong.html" itemprop="url">
-              
-                <span itemprop="name">为什么说FPKM/RPKM是错的</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-08-25T00:00:00+08:00"
-              content="2015-08-25" >
-          08-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/07/09/2015-07-09-The-best-manual-for-soapdenovo2.html" itemprop="url">
-              
-                <span itemprop="name">目前最好最完整的SOAPdenovo使用说明</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-07-09T00:00:00+08:00"
-              content="2015-07-09" >
-          07-09
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/05/22/2015-05-22-why-Kmer-count-should-be-odd-number-in-assembly-algorithm.html" itemprop="url">
-              
-                <span itemprop="name">利用de Bruijn graph组装基因组的时候，Kmer为什么必须是奇数？</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-05-22T00:00:00+08:00"
-              content="2015-05-22" >
-          05-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/04/03/2015-04-03-How-Does-Python-call-Cpp-module.html" itemprop="url">
-              
-                <span itemprop="name">在Python中调用C++模块</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-04-03T00:00:00+08:00"
-              content="2015-04-03" >
-          04-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/03/22/2015-03-22-how-to-become-a-data-scientist.html" itemprop="url">
-              
-                <span itemprop="name">何不争当数据科学家？</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-03-22T00:00:00+08:00"
-              content="2015-03-22" >
-          03-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/02/01/2015-02-01-base-balance-and-barcode-selection.html" itemprop="url">
-              
-                <span itemprop="name">二代测序：碱基平衡性与barcode选择</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-02-01T00:00:00+08:00"
-              content="2015-02-01" >
-          02-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/01/22/2015-01-22-which-programming-language-should-I-learn-first.html" itemprop="url">
-              
-                <span itemprop="name">如何选择入门编程语言</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-01-22T00:00:00+08:00"
-              content="2015-01-22" >
-          01-22
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/01/14/2015-01-14-how-to-manage-the-project-data-2.html" itemprop="url">
-              
-                <span itemprop="name">如何布局并管理好项目目录（2/2）</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-01-14T00:00:00+08:00"
-              content="2015-01-14" >
-          01-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2015/01/13/2015-01-13-how-to-manage-the-project-data-1.html" itemprop="url">
-              
-                <span itemprop="name">如何布局并管理好项目目录（1/2）</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-01-13T00:00:00+08:00"
-              content="2015-01-13" >
-          01-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2015/page/2/">2</a><a class="extend next" rel="next" href="/archives/2015/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
-
+    </div>
+  </div>
 
 
           </div>
@@ -673,6 +482,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -897,11 +717,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
 
 
   
@@ -920,6 +738,18 @@
       <script id="dsq-count-scr" src="https://huangshujia.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://huangshujia.me/2017/05/28/2017-05-28-how-to-calculate-inbreading-coefficient-in-GATK.html';
+          this.page.identifier = '2017/05/28/2017-05-28-how-to-calculate-inbreading-coefficient-in-GATK.html';
+          this.page.title = 'GATK中如何计算Inbreeding coefficient（近交系数）';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://huangshujia.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   

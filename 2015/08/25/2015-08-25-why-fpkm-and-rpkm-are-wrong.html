@@ -1,0 +1,996 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RNA,RPKM,FPKM,TPM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="两周前，我接触了一个RNA-seq的项目，做完之后，我重新思考了FPKM和RPKM的计算，觉得它们很可能是不对的，后来查阅了一些文献终于验证了我的想法。现在我重新将这个过程记录了下来： FPKM和RPKM分别是什么RPKM是 Reads Per Kilobase Per Million的缩写，它的计算方程非常简单： $$RPKM = \frac{10 ^ 6 \times n_r}{L × N">
+<meta name="keywords" content="RNA,RPKM,FPKM,TPM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么说FPKM&#x2F;RPKM是错的">
+<meta property="og:url" content="http://huangshujia.me/2015/08/25/2015-08-25-why-fpkm-and-rpkm-are-wrong.html">
+<meta property="og:site_name" content="解螺旋的矿工">
+<meta property="og:description" content="两周前，我接触了一个RNA-seq的项目，做完之后，我重新思考了FPKM和RPKM的计算，觉得它们很可能是不对的，后来查阅了一些文献终于验证了我的想法。现在我重新将这个过程记录了下来： FPKM和RPKM分别是什么RPKM是 Reads Per Kilobase Per Million的缩写，它的计算方程非常简单： $$RPKM = \frac{10 ^ 6 \times n_r}{L × N">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/rna.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/rpkm1.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/rpkm2.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/rpkm3.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/rpkm4.png">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png">
+<meta property="og:updated_time" content="2018-01-21T13:41:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为什么说FPKM&#x2F;RPKM是错的">
+<meta name="twitter:description" content="两周前，我接触了一个RNA-seq的项目，做完之后，我重新思考了FPKM和RPKM的计算，觉得它们很可能是不对的，后来查阅了一些文献终于验证了我的想法。现在我重新将这个过程记录了下来： FPKM和RPKM分别是什么RPKM是 Reads Per Kilobase Per Million的缩写，它的计算方程非常简单： $$RPKM = \frac{10 ^ 6 \times n_r}{L × N">
+<meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/rna.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huangshujia.me/2015/08/25/2015-08-25-why-fpkm-and-rpkm-are-wrong.html"/>
+
+
+
+
+
+  <title>为什么说FPKM/RPKM是错的 | 解螺旋的矿工</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9091dc3354962cd0705c6a0c94b8a931";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">解螺旋的矿工</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2015/08/25/2015-08-25-why-fpkm-and-rpkm-are-wrong.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shujia Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解螺旋的矿工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">为什么说FPKM/RPKM是错的</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-25T00:00:00+08:00">
+                2015-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/" itemprop="url" rel="index">
+                    <span itemprop="name">生物信息</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/08/25/2015-08-25-why-fpkm-and-rpkm-are-wrong.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2015/08/25/2015-08-25-why-fpkm-and-rpkm-are-wrong.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2015/08/25/2015-08-25-why-fpkm-and-rpkm-are-wrong.html" class="leancloud_visitors" data-flag-title="为什么说FPKM/RPKM是错的">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://blog-fungenomics-com.qiniudn.com/rna.png" alt="cover"></p>
+<p>两周前，我接触了一个RNA-seq的项目，做完之后，我重新思考了FPKM和RPKM的计算，觉得它们很可能是不对的，后来查阅了一些文献终于验证了我的想法。现在我重新将这个过程记录了下来：</p>
+<h3 id="FPKM和RPKM分别是什么"><a href="#FPKM和RPKM分别是什么" class="headerlink" title="FPKM和RPKM分别是什么"></a>FPKM和RPKM分别是什么</h3><p>RPKM是 <strong>R</strong>eads <strong>P</strong>er <strong>K</strong>ilobase <strong>P</strong>er <strong>M</strong>illion的缩写，它的计算方程非常简单：</p>
+<p>$$RPKM = \frac{10 ^ 6 \times n_r}{L × N}$$</p>
+<p>其中，$n_r$ 是比对至某一个基因的read数量；$L$是该基因的外显子长度之和除以1000，因此，要注意这里的$L$单位是kb，不是bp；$N$ 是 <strong>有效</strong>比对至基因组的总read数量。<br>FPKM是 <strong>F</strong>regments <strong>P</strong>er <strong>K</strong>ilobase <strong>P</strong>er Million的缩写，它的计算与RPKM极为类似，如下:</p>
+<p>$$FPKM =  \frac{10 ^ 6 \times n_f}{L \times N}$$</p>
+<p>其中，$n_f$是比对至目标基因的fregment数量。FPKM与RPKM唯一的区别是：F代表fragments，R代表reads。如果是<a href="http://seqanswers.com/forums/showthread.php?t=503" target="_blank" rel="external">Pair-end测序</a>，每个fragments会由这两个成对的reads构成，因此FPKM只计算两个reads能比对到同一个转录本的fragments数量；而RPKM计算的是可以比对到转录本的reads数量（不管Pair-end的两个reads是否能比对到同一个转录本上）。如果是single-end测序，那么FPKM和RPKM计算的结果将是一致的。</p>
+<p>以上是这两个量的计算方式。这样计算的目是为了解决在计算RNA-seq转录本丰度时的两个bias：</p>
+<p>（1）相同表达丰度的转录本，往往会由于其基因长度上的差异，导致测序获得的Read（Fregment）数不同。总的来说，越长的转录本，测得的Read（Fregment）数越多，但这并不代表表达量就真的多。</p>
+<p>（2）由测序文库的不同大小而引来的差异。即同一个转录本，其测序深度越深，通过测序获得的Read（Fregment）数就越多。</p>
+<p>FPKM和RPKM通过同时除以L（转录本长度）和除以N（有效比对的Read（Fregment）总数）的办法，最终将不同样本（或者同个样本在不同条件下）的转录本丰度归一化到一个能够进行量化比较的标准上。</p>
+<p>上面的式子看起来似乎合情合理，<strong>但是它们却都做错了</strong>。</p>
+<h3 id="为什么FPKM-RPKM是错的"><a href="#为什么FPKM-RPKM是错的" class="headerlink" title="为什么FPKM/RPKM是错的"></a>为什么FPKM/RPKM是错的</h3><p>要回答这个问题，我们需要先撇开所有形式上的计算，重新思考这个问题——到底什么是RNA转录本的表达丰度？事实上，对于任何一个取得的样本，它上面任何一个基因的表达量（或者说丰度），都将已是一个客观存在的值，这个值是不管你改变了多少测序环境都不会变的。而且细胞中此刻总共有多少个基因在表达，实际上也已经是客观定好了的。一旦我们开始以这样一种“先知”的形式来理解的时候，有趣的事情就开始出现了。</p>
+<p>此时，我们可以假定，对于样本X，其中有一个基因G被转录了g次，同时样本X中所有基因的转录总次数假定是total，那么正确描述基因G转录丰度的值应该是：</p>
+<p>$$r_{g}=\frac{mRNA<em>g}{mRNA</em>{total}}$$</p>
+<p>没毛病！而且与此同时，样本X中其他基因转录丰度的计算也和以上式子类似，除了要把分子换为其他基因对应的转录次数之外，分母都一样。于是这个有趣的事情就是，所有基因转录本丰度的均值$r_{mean}$将是一个恒定不变的数，由以上定义这个数就是：</p>
+<p>$$r<em>{mean} = \frac{1}{g</em>{total}}\sum_{g}^{G}{r<em>g} = \frac{1}{g</em>{total}}\frac{\sum_{g}^{G}{mRNA<em>g}}{mRNA</em>{total}}$$</p>
+<p>而</p>
+<p>$$\sum_{g}^{G}{mRNA<em>g} = mRNA</em>{total}$$</p>
+<p>所以</p>
+<p>$$r<em>{mean} = \frac{1}{g</em>{total}}$$</p>
+<p>这个值是由基因的总数决定的，也就是说，对于同一个物种，不管它的样本是哪种组织（正常的或病变的等），也不管有多少个不同的样本，只要它们都拥有相同数量的基因，那么它们的$r_{mean}$都将是一致的。这是一个在进行比较分析的时候，非常有意义的恒等关系。</p>
+<p>但在实际的操作中，我们是难以直接计算这些r值的。好在只要能够保证模型的自洽性，我们是能通过自建一些统计量来对r值进行间接描述的，比如FPKM和RPKM。本质上它们的目的就是为了描述r。虽然如此，但我们也要注意，所有这些要用来描述转录本丰度的统计量，都应该能等价描述这一恒等关系。也就是说，不管我们使用了什么统计量，它所描述出来的转录本丰度应该且必须是真实丰度$r<em>g$的m倍（m必须是一个根据模型定出的不变值），它的均值也将是$r</em>{mean}$的m倍，至少这样才是得到有意义结果的前提！</p>
+<p>（那么）现在，我们回过头来看看FPKM和RPKM的计算式，就会发现它们根本做不到。</p>
+<p>举个例子来说明（以FPKM的计算为例），我们假定有两个来自同一个个体不同组织的样本X和Y，这个个体只有5个基因，分别为A、B、C、D和E，它们的长度分别如下：</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/rpkm1.png" alt="gene_length"></p>
+<p>由此，我们可以得到，样本X和Y的转录本的不变量，$r<em>{mean}$值都是$r</em>{mean} = \frac{1}{5} = 0.2$。如果FPKM或RPKM是一个合适的统计量的话，那么至少，样本X和Y的平均FPKM（或RPKM）值应该相等。</p>
+<p>我们以FPKM的计算的为例子，以下这个表格列出的分别是样本X和Y在这5个基因中比对上的fregment数和各自总的fregment数量：</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/rpkm2.png" alt="fregments"></p>
+<p>于是，按照以上公式我们可以得到样本X和Y在这5个基因上的FPKM值分别为：</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/rpkm3.png" alt="FPKM"></p>
+<p>接下来就可以计算FPKM的均值了。我们得到，样本X在这5个基因上的FPKM均值$FPKM<em>{mean} = 5,680$；而样本Y的FPKM均值却是$FPKM</em>{mean} = 161,840$!! 它们根本不同，而且差距相当大，<strong>那么究竟为什么会有如此之大的差异？</strong>难道这是我故意构造出来的例子所造成的吗？当然不是，<strong>这是由其数学计算上的缺陷所导致的</strong>。</p>
+<p>首先，我们可以把FPKM的计算式拆分成两个部分：（1）等价（其实严格来讲也没那么等价）描述某个基因转录本数量的统计量（$\frac{n_f}{L}$） 和（2）测序获得的总有效Fregment数量的百万分之一（$\frac{N}{10 ^ 6}$）；<strong>看</strong>，FPKM便是这两部分的商！分开来看它们貌似都有点道理，但是合起来的时候其实很没逻辑，尤其是第二部分$\frac{N}{10 ^ 6}$，本来式子的第一部分 （$\frac{n_f}{L}$）就已经是描述某个基因的转录本数量，那么正常来讲，第二部分就应该是描述样本总体的转录本数量（或至少是其等价描述）才能说得通，而且可以看得出FPKM(RPMK)是有此意的，因为这本身就是这一统计量的目的。然并卵，它失败了！$\frac{N}{10 ^ 6}$的大小其实是由RNA-seq的测序深度所决定的，并且是一个和总转录本数量无直接线性关系的统计量——N与总转录本数量之间的关系还受转录本的长度分布所决定，而这个分布往往在不同样本中是有差异的！比如，有些基因，虽然有效比对到它们身上的Fregment数目是相等的，但很明显，长度越长的基因，其被转录的次数就越少。也就是说，N必须将各个被转录的基因的长度考虑进去才能正确描述总体的转录本数！而FPKM（RPKM）显然没有做到这一点，这便是FPKM（RPKM）出错的内在原因。</p>
+<h3 id="那么应该是用什么样统计量才合适"><a href="#那么应该是用什么样统计量才合适" class="headerlink" title="那么应该是用什么样统计量才合适"></a>那么应该是用什么样统计量才合适</h3><p>其实，通过以上分析，我们已经可以确定一个更加合理的统计量来描述RNA转录本的丰度了。我意外地发现，这个统计量其实在2012年所发表的一篇关于讨论RPKM的文章（RPKM measure is inconsistent among samples. Wagner GP, Kin K, Lynch VJ. Theory Biosci. 2012.）中就已被提到过了，它被称之为TPM —— <strong>T</strong>ranscripts <strong>P</strong>er <strong>M</strong>illion，它的计算是：</p>
+<p>$$TPM = \frac{\frac{n_r \times read_l}{ g_l} \times {10}^{6}} {T} = \frac{n_r \times read_l \times {10} ^ {6} } {g_l \times T}$$</p>
+<p>$$T =\sum_{g=i}^{G}{ (\frac{n_r \times read_l}{g_l})_i }$$</p>
+<p>其中，$read_l$是比对至基因G的平均read长度，$g_l$ 是基因G的外显子长度之和（这里无需将其除以1000了）。在不考虑比对剪切的情况下，$read_l$这个值往往都是一个固定值（如100bp或者150bp等），因此我们也可以将$read_l$统一约掉，那么分子就会蜕变成RPKM计算式的第一部分，但把$read_l$留着会更合理。这样，整个统计量就很好理解了，分子是基因G的转录本数（等价描述），分母则为样本中总转录本的数量，两者的比值TPM——便是正确描述基因G的转录本丰度！并且，简单计算我们就可以知道TPM的均值是一个独立于样本之外的恒定值：</p>
+<p>$$TPM_{mean} = \frac{10^6}{N}$$</p>
+<p>这个值也刚好是$r_{mean}$的$10^6$倍，满足上述等价描述的关系。我们仍然通过上面的例子来进作说明，为简单起见我们只把fregment换为read，其他数字都一样，并且统一假设$read_l$都是一样的：</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/rpkm4.png" alt="TPM"></p>
+<p>接着，我们可以分别计算样本X和Y的TPM_mean,并且很明显它们都是$200000 = 10^6 / 5$. 而且，经过这样的标准化之后，X和Y就处于同样的一个标准上了，此刻，彼此之间的比较分析才是真正有意义的。</p>
+<h3 id="既然FPKM-RPKM是错的，那为什么大家直到现在都还在用，而且还真找到了（能被实验所验证）有价值的结果呢？"><a href="#既然FPKM-RPKM是错的，那为什么大家直到现在都还在用，而且还真找到了（能被实验所验证）有价值的结果呢？" class="headerlink" title="既然FPKM/RPKM是错的，那为什么大家直到现在都还在用，而且还真找到了（能被实验所验证）有价值的结果呢？"></a>既然FPKM/RPKM是错的，那为什么大家直到现在都还在用，而且还真找到了（能被实验所验证）有价值的结果呢？</h3><p>关于对于这个问题，我也思考过。而且我们都知道2008那篇关于RPKM的文章更是用实验结果证明了，RPKM是一个合适的统计量，符合qPCR的验证结果。但归根到底，我觉得眼见未必为实，很多实验其实是表象的，我们更应该从其本质意义和原理上去考虑。FPKM/RPKM之所以看起来会是一个合适的值，我想主要原因有二：</p>
+<p><strong>其一，它们和TPM之间存在一定的正比关系</strong>。这可通过它们各自的数学计算方程式看出来（以RPKM的计算为例）：</p>
+<p>$$RPKM = \frac{T \times 10^3}{ N \times read_l } \times TPM$$</p>
+<p>而且在同一个样本内部由于T，N和$read_l$实际上都是定值，因此同个样本内的RPKM和TPM是可以恒等转换的。然而在样本与样本之间就不行，因为不同样本T和N是不同的（假定测序长度$read_l$都一样），这就导致它们之间的转换因子大小不一样！</p>
+<p>如以上例子，对于样本X，TPM转换到RPKM的转换因子为：0.0284，但在样本Y中，它的转换因子却是：0.8092。而由于这个基础标准的改变，导致其原本所要描述的“转录本丰度”变得不可比较。然，这其实不是最根本的原因，更本质的原因是，这个转换会对本来已经正确标准化了的结果——TPM，再次做了一次无意义的不等变换，最终导致了结果不可解释。如何理解呢，后文会有补充，这里先简单说一下：这个数学转换式子仅是告诉了我们这样子来计算是可行的，但是在RNA-seq的实际应用场景中，它其实是无生物（或物理）意义的；</p>
+<p><strong>其二，实验验证的精度是有限的，常用的qPCR也只能给出定性的比较结果，而且实验验证也未必总能成功</strong>。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>现在回过头来总结一下。事实上，FPKM/RPKM最大的问题就在于其无意义性。我们所要表达出来的任何统计量，它的变化都应该要能对应到物理或生物过程中的变化，如果做不到这一点，那么这个统计量往往都是无意义的，用它得到的结果就算看起来符合预期也只不过是数值上的巧合，本质上是不可解释的。<strong>FPKM/RPKM的分母($N/10^6$)并不具有任何形式的生物意义，它所能表达出来的这个量，只能代表测序深度的变化，而无法作为表达生物过程的量，比如无法代表（等价代表）样本中转录本的总量</strong>。</p>
+<p>一个统计量该如何计算，说到底都只是一个“术”的问题，而我们应该尽可能在接近其本质意义的地方去确定。</p>
+<p>FPKM/RPKM和TPM存在一定的正比关系，因此我们在使用FPKM/RPK时，有些时候确实也能获得可以被实验所验证的“好”结果，但其实它是一个橡皮筋，它的单位刻度是会随着样本的不同而改变的。到头来，样本之间的差异比较实际上也只是在不同的标准下进行的，这样的比较就算得到了所谓的“好”结果，那又有什么意义，根本就是个错误的东东。想想就是由于这种统计量，我们一定已经获得了许多的假阳性结果，同时也肯定错过了许多本来真正有意义的差异，真是弯路走尽也不知，而且还浪费了大堆的心情和时间。</p>
+<p>这篇文章：A comprehensive evaluation of normalization methods for Illumina high-throughput RNA sequencing data analysis. Briefings in Bioinformatics.10.1093/bib/bbs046. 对7种主要的RNA-seq标准化方法（但不包含本文提到的TPM）做了一个详细的比较，它用实际结果进行比较（不同于本文所用的数学方式）也得出了RPKM/FPKM这些统计量应该被摒弃的结论，因为它所描述出来的结果是最不合理的，其实所有类似于RPKM/FPKM的统计量在描述转录本丰度的时候都应该被摒弃。</p>
+<hr>
+<p>欢迎通过我的公众号（解螺旋的矿工），更及时了解更多信息</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png" alt="解螺旋的矿工"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RNA/" rel="tag"># RNA</a>
+          
+            <a href="/tags/RPKM/" rel="tag"># RPKM</a>
+          
+            <a href="/tags/FPKM/" rel="tag"># FPKM</a>
+          
+            <a href="/tags/TPM/" rel="tag"># TPM</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/09/2015-07-09-The-best-manual-for-soapdenovo2.html" rel="next" title="目前最好最完整的SOAPdenovo使用说明">
+                <i class="fa fa-chevron-left"></i> 目前最好最完整的SOAPdenovo使用说明
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/20/2015-12-20-Develop-a-genome-data-RESTful-API-server-by-flask-1.html" rel="prev" title="基于Flask开发基因组数据web服务的RESTful API（1）">
+                基于Flask开发基因组数据web服务的RESTful API（1） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Shujia Huang" />
+          <p class="site-author-name" itemprop="name">Shujia Huang</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">48</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ShujiaHuang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.weibo.com/huangshujia2011" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yellowtree" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#FPKM和RPKM分别是什么"><span class="nav-number">1.</span> <span class="nav-text">FPKM和RPKM分别是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么FPKM-RPKM是错的"><span class="nav-number">2.</span> <span class="nav-text">为什么FPKM/RPKM是错的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#那么应该是用什么样统计量才合适"><span class="nav-number">3.</span> <span class="nav-text">那么应该是用什么样统计量才合适</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#既然FPKM-RPKM是错的，那为什么大家直到现在都还在用，而且还真找到了（能被实验所验证）有价值的结果呢？"><span class="nav-number">4.</span> <span class="nav-text">既然FPKM/RPKM是错的，那为什么大家直到现在都还在用，而且还真找到了（能被实验所验证）有价值的结果呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shujia Huang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://huangshujia.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://huangshujia.me/2015/08/25/2015-08-25-why-fpkm-and-rpkm-are-wrong.html';
+          this.page.identifier = '2015/08/25/2015-08-25-why-fpkm-and-rpkm-are-wrong.html';
+          this.page.title = '为什么说FPKM/RPKM是错的';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://huangshujia.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("PG9NA27zW2WuxmCMvOMlxzua-gzGzoHsz", "VMwO1UNTnT8FgGg411rzjALa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
