@@ -1,0 +1,972 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="shapeit2," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="在上一篇文章中，分享了有关基因组Phasing的原理，一共有三种，分别是：家系关系分型(Related individuals Phasing)、群体LD分型(LD Phasing)和物理分型(Physical Phasing)。目前用的比较多的就是基于群体LD的分型，也是我们接触比较多的Phasing分析（另外两种都对数据有一些额外的要求），同时也有比较好用的软件工具，比如很有代表性的Sha">
+<meta name="keywords" content="shapeit2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何使用Shapeit2对人类基因组数据进行phasing">
+<meta property="og:url" content="http://huangshujia.me/2018/06/10/How-To-Phase-Human-genome-by-shapeit2.html">
+<meta property="og:site_name" content="解螺旋的矿工">
+<meta property="og:description" content="在上一篇文章中，分享了有关基因组Phasing的原理，一共有三种，分别是：家系关系分型(Related individuals Phasing)、群体LD分型(LD Phasing)和物理分型(Physical Phasing)。目前用的比较多的就是基于群体LD的分型，也是我们接触比较多的Phasing分析（另外两种都对数据有一些额外的要求），同时也有比较好用的软件工具，比如很有代表性的Sha">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/Van_Gogh_-_Starry_Night.jpg">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/shapeit2.jpg">
+<meta property="og:updated_time" content="2018-06-17T16:44:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何使用Shapeit2对人类基因组数据进行phasing">
+<meta name="twitter:description" content="在上一篇文章中，分享了有关基因组Phasing的原理，一共有三种，分别是：家系关系分型(Related individuals Phasing)、群体LD分型(LD Phasing)和物理分型(Physical Phasing)。目前用的比较多的就是基于群体LD的分型，也是我们接触比较多的Phasing分析（另外两种都对数据有一些额外的要求），同时也有比较好用的软件工具，比如很有代表性的Sha">
+<meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/Van_Gogh_-_Starry_Night.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://huangshujia.me/2018/06/10/How-To-Phase-Human-genome-by-shapeit2.html"/>
+
+
+
+
+
+  <title>如何使用Shapeit2对人类基因组数据进行phasing | 解螺旋的矿工</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9091dc3354962cd0705c6a0c94b8a931";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">解螺旋的矿工</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2018/06/10/How-To-Phase-Human-genome-by-shapeit2.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shujia Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="解螺旋的矿工">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何使用Shapeit2对人类基因组数据进行phasing</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-10T00:00:00+02:00">
+                2018-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/phasing/" itemprop="url" rel="index">
+                    <span itemprop="name">phasing</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/06/10/How-To-Phase-Human-genome-by-shapeit2.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/06/10/How-To-Phase-Human-genome-by-shapeit2.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/06/10/How-To-Phase-Human-genome-by-shapeit2.html" class="leancloud_visitors" data-flag-title="如何使用Shapeit2对人类基因组数据进行phasing">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://blog-fungenomics-com.qiniudn.com/Van_Gogh_-_Starry_Night.jpg" alt=""></p>
+<p>在上一篇文章中，分享了有关<a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798506&amp;idx=1&amp;sn=773a7db5dfd002c53fead86625266af5&amp;chksm=83c1d576b4b65c6057f93a00d62ea41364ccdf53429b1820442f5855a104dde68f4325376722&amp;scene=21#wechat_redirect" target="_blank" rel="external">基因组Phasing的原理</a>，一共有三种，分别是：家系关系分型(Related individuals Phasing)、群体LD分型(LD Phasing)和物理分型(Physical Phasing)。目前用的比较多的就是基于群体LD的分型，也是我们接触比较多的Phasing分析（另外两种都对数据有一些额外的要求），同时也有比较好用的软件工具，比如很有代表性的Shapeit、beagle和STITCH。在这篇文章里，主要来介绍如何用Shapeit实现基因组的Phasing，另外两个如果有必要的话以后再来补充。</p>
+<p>Shapeit是一个专门用于推断基因组单体型（Phasing）的软件，它和beagle一样是当前用得最多的两个基于群体LD进行单倍型推断的软件，使用场景和算法彼此间大同小异。它目前的最新版是Shapeit3，但是常用的还是Shapeit2，也是在千人基因组项目中主要应用的版本。而Shapeit3主要是针对超大规模人群，一般是量级在几万人规模的基因组会更加合适，都是牛津大学的团队开发的，这个版本3可以说是为他们国家的GenomicsEngland计划定制的，这是一个要测10万英国人基因组的大型项目——也是目前世界上推得最快的国家级基因组计划。</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/shapeit2.jpg" alt=""></p>
+<p>由于主要是说实操，所以这篇文章的内容比较简单，有关Phasing的原理和意义都在<a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798506&amp;idx=1&amp;sn=773a7db5dfd002c53fead86625266af5&amp;chksm=83c1d576b4b65c6057f93a00d62ea41364ccdf53429b1820442f5855a104dde68f4325376722&amp;scene=21#wechat_redirect" target="_blank" rel="external">上一篇文章</a>里仔细讲过了，所以本文篇幅也不长，旨在用具体的例子演示如何使用好这个工具完成基因组数据的Phasing，并构造出Reference panel的过程。</p>
+<h2 id="首先，准备文件"><a href="#首先，准备文件" class="headerlink" title="首先，准备文件"></a>首先，准备文件</h2><p>整个Phasing过程我们需要4个文件：变异数据集（VCF 格式）、样本信息文件(sample.ped)、genetic map和参考序列（fasta格式）。</p>
+<p>关于genetic map文件，需要单独拿出来做些说明。这个文件所记录的是基因组中各个位点的重组率和彼此间物理距离的关系，它是一份比较固定的数据文件。目前通用的版本来自于2005年HapMap——人类单体型计划的成果，可以在NCBI上下载，虽然版本的年代比较久远了，但是目前也没有更好的单倍体成果能够去代替它。它是Shapeit2 完成Phasing最重要的一个文件。目前NCBI上<a href="ftp://ftp.ncbi.nlm.nih.gov/hapmap/recombination/2011-01_phaseII_B37/genetic_map_HapMapII_GRCh37.tar.gz" target="_blank" rel="external">下载的genetic map对应的参考序列版本是b37(即hg19)</a>。如果我们的参考序列版本高于hg19，比如现在最新的GRCh38，那么只能进行liftover，把位点坐标转化到最新的参考序列上。</p>
+<p>新版本的参考序列会修正旧版本参考序列中的一些问题，包括补齐某些区域的序列或者调整某些区域中序列的顺序。liftover是通过两个不同版本的参考序列进行长序列比对后，获得两个版本间坐标上的映射关系，然后进行坐标转换。既然是通过这种方式获得的，就难免存在一些错误，因此liftover之后，需要对它进行一些过滤处理。主要是在genetic map中那些位点顺序发生交叉的位点，是liftover的错误所导致的，要去掉。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">position COMBINED_rate(cM/Mb) Genetic_Map(cM) 35326 0.251801 0.000000</div><div class="line">35411 0.482009 0.000021</div><div class="line">40483 0.598191 0.002466</div><div class="line">40852 0.599253 0.002687</div><div class="line">41421 0.592293 0.003028</div><div class="line">41892 0.591345 0.003307</div><div class="line">42920 0.622736 0.003915</div><div class="line">43259 0.778280 0.004126</div><div class="line">44167 1.380848 0.004833</div></pre></td></tr></table></figure>
+<p>以上，是genetic map文件中所看到的内容例子。格式上比较清晰，第一列是位点距离，也就是位点坐标之间的物理距离；第二列是重组率（通过大规模家系数据测量得到）；第三列就是Genetic map的数值，每一个位点都有一个值，计算公式是前一个位点的Genetic Map + physical_distance × recombination_rate。</p>
+<p>应该注意到的是，liftover之后，原来genetic map中两个位点之间的重组率（recombination rate）依然是不变的。这其实也很好理解，参考序列之所以需要升级，是因为旧版本的结果并非是百分百符合真实情形的，随着技术的进步，我们会不断去升级逼近真实的序列情况。但重组率是根据大规模家系数据的重组情况来计算的，它是真实情况反映出来的现象，因此即便参考序列版本改变了，它的值也不需要改变。但对于两个位点之间的物理距离（physical distance）来说就不同了，liftover之后，这个距离是有可能发生改变的。</p>
+<p>另外一个重要的数据是：样本信息文件，一般称为PED文件，格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">1009  1009-01  0  0  1</div><div class="line">1009  1009-02  0  0  2</div><div class="line">1009  1009-06  1009-01  1009-02  2</div><div class="line">1030  1030-01  0  0  1</div><div class="line">1030  1030-02  0  0  2</div><div class="line">1030  1030-06  1030-01  1030-02  1</div></pre></td></tr></table></figure>
+<p>第一列是家系编号，每一个家系有一个唯一编号，可以我们自己人为设置；<br>第二列是该样本的编号，如果该样本是家系中的小孩，那么需要分别在第三列和第四列中，给出他/她的父亲样本编号和母亲样本编号，而如果该样本是家系数据中的父母，则只需要用0填充即可，如上例子；<br>第五列是性别信息，一般用1和2分别代表Male和Female；</p>
+<p>变异数据（VCF）和参考序列文件就不必多说了。准备好以上文件之后接下来就是主要的流程步骤了。</p>
+<h2 id="第一步，将vcf转化为bed-bim-fam"><a href="#第一步，将vcf转化为bed-bim-fam" class="headerlink" title="第一步，将vcf转化为bed/bim/fam"></a>第一步，将vcf转化为bed/bim/fam</h2><p>bed/bim/fam是Shapeit2完成Phasing所需的三个谱系文件格式。我们需要首先把VCF转为这三个文件，做这一个转换有多个选择，可以用plink，也可以用GATK3（它也有相关模块能够完成这个转换）。我这里就直接用plink来进行转换了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">plink=/com/extra/testing/bin/plink time  <span class="variable">$plink</span> \</div><div class="line">  --vcf chr22.vcf \</div><div class="line">  --vcf-half-call missing \</div><div class="line">  --keep-allele-order \</div><div class="line">  --a1-allele chr22.vcf 4 3 <span class="string">'#'</span> \</div><div class="line">  --vcf-idspace-to _ \</div><div class="line">  --allow-extra-chr 0 \</div><div class="line">  --split-x b38 no-fail \</div><div class="line">  --make-bed \</div><div class="line">  --noweb \</div><div class="line">  --out chr22 &amp;&amp; <span class="built_in">echo</span>  <span class="string">"** done **"</span> &amp;&amp; sed  <span class="string">'s/^chr//g'</span> chr22.bim &gt; t.bim &amp;&amp; mv -f t.bim chr22.bim</div></pre></td></tr></table></figure>
+<p>可以看到，我在最后多加了一小步：将原来输出的.bim文件中第一列的chr22换成了22。之所以要费这个小周折，是因为接下来用plink质控的时候，它有点傻，竟然不认识以chr开头的染色体ID！如果没有这个小操作，会碰到<code>ERROR: Problem reading BIM file, line 1</code>的报错，从而导致流程中断。</p>
+<h2 id="第二步，把基因型丢失率（genotype-missing-rate）较高的位点和含有孟德尔错误的位点过滤掉"><a href="#第二步，把基因型丢失率（genotype-missing-rate）较高的位点和含有孟德尔错误的位点过滤掉" class="headerlink" title="第二步，把基因型丢失率（genotype missing rate）较高的位点和含有孟德尔错误的位点过滤掉"></a>第二步，把基因型丢失率（genotype missing rate）较高的位点和含有孟德尔错误的位点过滤掉</h2><p>基因型丢失率或者孟德尔错误过高的位点，它们的结果可能只是技术噪音(如复杂区域的比对错误，测序PCR导致覆盖偏向)而已，这样会导致基因型推断出错。把这些有问题的位点放入模型，就会导致Phasing的错误率的增高。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">plink=/com/extra/testing/bin/plink time  <span class="variable">$plink</span> \</div><div class="line">   --noweb \</div><div class="line">   --bfile chr22 \</div><div class="line">   --keep-allele-order \</div><div class="line">   --me 1 1 \</div><div class="line">   --<span class="built_in">set</span>-me-missing \</div><div class="line">   --make-bed \</div><div class="line">   --out chr22.nomendel &amp;&amp;  <span class="built_in">echo</span>  <span class="string">"** nomendel done **"</span> &amp;&amp; \</div><div class="line">time <span class="variable">$plink</span> \</div><div class="line">   --noweb \</div><div class="line">   --bfile chr22.nomendel \</div><div class="line">   --keep-allele-order \</div><div class="line">   --geno 0.05 \</div><div class="line">   --make-bed \</div><div class="line">   --out chr22.nomendel.filter &amp;&amp; <span class="built_in">echo</span> <span class="string">"** fileter done **"</span></div></pre></td></tr></table></figure>
+<h2 id="第三步，Phasing"><a href="#第三步，Phasing" class="headerlink" title="第三步，Phasing"></a>第三步，Phasing</h2><p>最后阶段了，这里分成两小步来完成：phasing和输出格式转换：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># phasing  time shapeit2 \</span></div><div class="line"> --duohmm \</div><div class="line"> -W 5 \</div><div class="line"> --input-bed chr22.nomendel.filter.bed chr22.nomendel.filter.bim chr22.nomendel.filter.fam \</div><div class="line"> --input-map genetic_map.chr22.txt \</div><div class="line"> -O hapData \</div><div class="line"> --thread 1 &amp;&amp;  <span class="built_in">echo</span>  <span class="string">"** panel  done **"</span></div><div class="line"></div><div class="line"><span class="comment"># 格式转换</span></div><div class="line">time shapeit2 -convert \</div><div class="line"> --input-haps hapData \</div><div class="line"> --output-vcf chr22.haps.vcf \</div><div class="line"> --output-ref chr22.phased.hap chr22.phased.leg chr22.phased.sam &amp;&amp; <span class="built_in">echo</span> <span class="string">"** all done **"</span></div></pre></td></tr></table></figure>
+<p>大家可能也注意到了，在以上输出的结果中，我设置了两个：–output-vcf和–output-ref。chr22.haps.vcf是Phasing之后的结果，它是一个群体级别的全基因组单体型集合，可以作为我们常说的Reference panel。不过用于Imputation的Reference panel除了这个VCF格式之外，还可以有其它格式，比如这里–output-ref的三个输出文件，也是常用的Reference panel文件。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>其实从讲Phasing原理的那一刻开始，我的GWAS系列文章就已经在悄悄开始了，接下来当然还有Imputation相关的内容，这两块都只是整个GWAS系列的铺垫。做过GWAS的同学都应该知道，Phasing和Imputation是一定少不了的。</p>
+<h2 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h2><p>感谢解螺旋的羊在本文写作中的技术讨论和问题解释。</p>
+<hr>
+<h2 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h2><ul>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798506&amp;idx=1&amp;sn=773a7db5dfd002c53fead86625266af5&amp;chksm=83c1d576b4b65c6057f93a00d62ea41364ccdf53429b1820442f5855a104dde68f4325376722&amp;scene=21#wechat_redirect" target="_blank" rel="external">人类基因组的Phasing原理是什么？</a></p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798425&amp;idx=1&amp;sn=ae355ed362848578e5c853413f23dfd7&amp;chksm=83c1d505b4b65c13124c9acd210356c4364ec9f5498bbd16fa4475be29811213abb64ea9720f&amp;scene=21#wechat_redirect" target="_blank" rel="external">GATK4.0和全基因组数据分析实践（上）</a></p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798455&amp;idx=1&amp;sn=67a7407980a57ce138948eb46992b603&amp;chksm=83c1d52bb4b65c3dde31df94e9686654bf616166c7311b531213ebf0010f67a32ce827e677b1&amp;scene=21#wechat_redirect" target="_blank" rel="external">GATK4.0和全基因组数据分析实践（下）</a></p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798366&amp;idx=1&amp;sn=b545fcea7f82839fa87e9d9e472d1e72&amp;chksm=83c1d4c2b4b65dd4843250c307969ada96c4039f4f528c034620d25b78d8beba2f9cf924bb8a&amp;scene=21#wechat_redirect" target="_blank" rel="external">该如何自学入门生物信息学</a></p>
+</li>
+</ul>
+<p>这是知识星球：解螺旋技术交流圈，是一个我与读者朋友们的私人朋友圈，欢迎你的加入。我有9年前沿而完整的生物信息学、NGS领域的工作经历，在该领域发有多篇Nature级别的科学文章。</p>
+<p>这是知识星球上第一个真正与基因组学和生物信息学强相关的圈子。我旨在营造一个高质量的组学知识圈和人脉圈，通过提问、彼此分享、交流经验、心得等，彼此更好地学习生信知识，提升基因组数据分析和解读的能力。</p>
+<p>在这里你可以结识到全国优秀的基因组学和生物信息学专家，同时可以分享你的经验、见解和思考，有问题也可以向我提问和圈里的星友们提问。</p>
+<p>知识星球邀请链接：<a href="https://link.jianshu.com/?t=https%3A%2F%2Fwx.zsxq.com%2Fmweb%2Fviews%2Fjoingroup%2Fjoin_group.html%3Fgroup_id%3D518881585444%26secret%3Dvcdvs4rdpst7stq4wcvqmlwvogc0ssbn%26user_id%3D28821152428221" target="_blank" rel="external">「解螺旋技术交流圈」</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/shapeit2/" rel="tag"># shapeit2</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/26/2018-05-26-How-Does-Sequencing-Duplicates-happen.html" rel="next" title="RNA-Seq是否可以替代WES完成外显子的变异检测?二代测序的四种Read重复是如何产生的? |《解螺旋技术交流圈》精华第2期">
+                <i class="fa fa-chevron-left"></i> RNA-Seq是否可以替代WES完成外显子的变异检测?二代测序的四种Read重复是如何产生的? |《解螺旋技术交流圈》精华第2期
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/17/2018-06-17-Which-Is-More-Important-Sample-Size-Or-Sequencing-Depth.html" rel="prev" title="样本量重要，还是测序深度重要? 生物信息工程师可以分为多少种类型? |《解螺旋技术交流圈》精华第3期">
+                样本量重要，还是测序深度重要? 生物信息工程师可以分为多少种类型? |《解螺旋技术交流圈》精华第3期 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Shujia Huang" />
+          <p class="site-author-name" itemprop="name">Shujia Huang</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ShujiaHuang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.weibo.com/huangshujia2011" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/yellowtree" target="_blank" title="Zhihu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#首先，准备文件"><span class="nav-number">1.</span> <span class="nav-text">首先，准备文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步，将vcf转化为bed-bim-fam"><span class="nav-number">2.</span> <span class="nav-text">第一步，将vcf转化为bed/bim/fam</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二步，把基因型丢失率（genotype-missing-rate）较高的位点和含有孟德尔错误的位点过滤掉"><span class="nav-number">3.</span> <span class="nav-text">第二步，把基因型丢失率（genotype missing rate）较高的位点和含有孟德尔错误的位点过滤掉</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三步，Phasing"><span class="nav-number">4.</span> <span class="nav-text">第三步，Phasing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#致谢"><span class="nav-number">6.</span> <span class="nav-text">致谢</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐阅读"><span class="nav-number">7.</span> <span class="nav-text">推荐阅读</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shujia Huang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://huangshujia.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://huangshujia.me/2018/06/10/How-To-Phase-Human-genome-by-shapeit2.html';
+          this.page.identifier = '2018/06/10/How-To-Phase-Human-genome-by-shapeit2.html';
+          this.page.title = '如何使用Shapeit2对人类基因组数据进行phasing';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://huangshujia.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("PG9NA27zW2WuxmCMvOMlxzua-gzGzoHsz", "VMwO1UNTnT8FgGg411rzjALa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
