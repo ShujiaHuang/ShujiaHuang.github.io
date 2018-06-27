@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="项目管理," />
+  <meta name="keywords" content="BAM," />
 
 
 
@@ -90,21 +90,21 @@
 
 
 
-<meta name="description" content="…书接上回…  不同类型的项目会有适合其特点的目录布局，很难说会有一个真正的标准，我这里特指的是基因组（或相关的）项目目录布局问题。 基因组项目目录结构的科学管理是一个非常重要的问题。如果不科学，东西一多更是成了灾难，很多时候你想找的东西并不是丢了，而是根本找不到了！有时更糟的是就算找到了，也会忘了是怎么来的，最后连自己都会怀疑它是不是真的就是正确的那一份！只得一轮又一轮地冥思苦想寻找着若隐若现">
-<meta name="keywords" content="项目管理">
+<meta name="description" content="uBAM就是非比对的BAM文件，fastq可以通过picard这个工具将其转为这个格式。 它有不少优于fastq格式的地方，比如：同一个read的数据都在同一行；拓展性强，可以添加丰富的metadata；方便维护，同一个样本的测序数据甚至可以只通过一份uBAM来存储就行了等。 从我第一次知道uBAM的时候算起，已经过去4+年了。我也曾非常看好它，认为它必是以后存储下机数据的标准。然而时隔多年，">
+<meta name="keywords" content="BAM">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何布局并管理好项目目录（2&#x2F;2）">
-<meta property="og:url" content="http://huangshujia.me/2015/01/14/2015-01-14-how-to-manage-the-project-data-2.html">
+<meta property="og:title" content="为什么uBAM迟迟无法流行起来">
+<meta property="og:url" content="http://huangshujia.me/2018/06/09/2018-06-09-Why-uBam-is-still-not-popular.html">
 <meta property="og:site_name" content="解螺旋的矿工">
-<meta property="og:description" content="…书接上回…  不同类型的项目会有适合其特点的目录布局，很难说会有一个真正的标准，我这里特指的是基因组（或相关的）项目目录布局问题。 基因组项目目录结构的科学管理是一个非常重要的问题。如果不科学，东西一多更是成了灾难，很多时候你想找的东西并不是丢了，而是根本找不到了！有时更糟的是就算找到了，也会忘了是怎么来的，最后连自己都会怀疑它是不是真的就是正确的那一份！只得一轮又一轮地冥思苦想寻找着若隐若现">
+<meta property="og:description" content="uBAM就是非比对的BAM文件，fastq可以通过picard这个工具将其转为这个格式。 它有不少优于fastq格式的地方，比如：同一个read的数据都在同一行；拓展性强，可以添加丰富的metadata；方便维护，同一个样本的测序数据甚至可以只通过一份uBAM来存储就行了等。 从我第一次知道uBAM的时候算起，已经过去4+年了。我也曾非常看好它，认为它必是以后存储下机数据的标准。然而时隔多年，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/st.post.2015-01-13-Fig1-1.png">
-<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/32015-01-13-Fig2.png">
-<meta property="og:updated_time" content="2017-05-14T17:41:48.000Z">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/bam-ex.jpg">
+<meta property="og:image" content="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png">
+<meta property="og:updated_time" content="2018-06-27T15:36:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何布局并管理好项目目录（2&#x2F;2）">
-<meta name="twitter:description" content="…书接上回…  不同类型的项目会有适合其特点的目录布局，很难说会有一个真正的标准，我这里特指的是基因组（或相关的）项目目录布局问题。 基因组项目目录结构的科学管理是一个非常重要的问题。如果不科学，东西一多更是成了灾难，很多时候你想找的东西并不是丢了，而是根本找不到了！有时更糟的是就算找到了，也会忘了是怎么来的，最后连自己都会怀疑它是不是真的就是正确的那一份！只得一轮又一轮地冥思苦想寻找着若隐若现">
-<meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/st.post.2015-01-13-Fig1-1.png">
+<meta name="twitter:title" content="为什么uBAM迟迟无法流行起来">
+<meta name="twitter:description" content="uBAM就是非比对的BAM文件，fastq可以通过picard这个工具将其转为这个格式。 它有不少优于fastq格式的地方，比如：同一个read的数据都在同一行；拓展性强，可以添加丰富的metadata；方便维护，同一个样本的测序数据甚至可以只通过一份uBAM来存储就行了等。 从我第一次知道uBAM的时候算起，已经过去4+年了。我也曾非常看好它，认为它必是以后存储下机数据的标准。然而时隔多年，">
+<meta name="twitter:image" content="http://blog-fungenomics-com.qiniudn.com/bam-ex.jpg">
 
 
 
@@ -132,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://huangshujia.me/2015/01/14/2015-01-14-how-to-manage-the-project-data-2.html"/>
+  <link rel="canonical" href="http://huangshujia.me/2018/06/09/2018-06-09-Why-uBam-is-still-not-popular.html"/>
 
 
 
 
 
-  <title>如何布局并管理好项目目录（2/2） | 解螺旋的矿工</title>
+  <title>为什么uBAM迟迟无法流行起来 | 解螺旋的矿工</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -288,7 +288,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2015/01/14/2015-01-14-how-to-manage-the-project-data-2.html">
+    <link itemprop="mainEntityOfPage" href="http://huangshujia.me/2018/06/09/2018-06-09-Why-uBam-is-still-not-popular.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shujia Huang">
@@ -305,7 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">如何布局并管理好项目目录（2/2）</h1>
+          <h1 class="post-title" itemprop="name headline">为什么uBAM迟迟无法流行起来</h1>
         
 
         <div class="post-meta">
@@ -317,8 +317,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-01-14T00:00:00+08:00">
-                2015-01-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-09T00:00:00+08:00">
+                2018-06-09
               </time>
             
 
@@ -340,8 +340,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/规范和标准/" itemprop="url" rel="index">
-                    <span itemprop="name">规范和标准</span>
+                  <a href="/categories/生物信息/" itemprop="url" rel="index">
+                    <span itemprop="name">生物信息</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/生物信息/基因组学/" itemprop="url" rel="index">
+                    <span itemprop="name">基因组学</span>
                   </a>
                 </span>
 
@@ -358,9 +369,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2015/01/14/2015-01-14-how-to-manage-the-project-data-2.html#comments" itemprop="discussionUrl">
+                <a href="/2018/06/09/2018-06-09-Why-uBam-is-still-not-popular.html#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2015/01/14/2015-01-14-how-to-manage-the-project-data-2.html" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/06/09/2018-06-09-Why-uBam-is-still-not-popular.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -368,7 +379,7 @@
 
           
           
-             <span id="/2015/01/14/2015-01-14-how-to-manage-the-project-data-2.html" class="leancloud_visitors" data-flag-title="如何布局并管理好项目目录（2/2）">
+             <span id="/2018/06/09/2018-06-09-Why-uBam-is-still-not-popular.html" class="leancloud_visitors" data-flag-title="为什么uBAM迟迟无法流行起来">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -396,21 +407,49 @@
       
 
       
-        <script src="/assets/js/APlayer.min.js"> </script><p>…<a href="">书接上回</a>…</p>
-<p><img src="http://blog-fungenomics-com.qiniudn.com/st.post.2015-01-13-Fig1-1.png" alt="Figure"></p>
-<p>不同类型的项目会有适合其特点的目录布局，很难说会有一个真正的标准，我这里特指的是基因组（或相关的）项目目录布局问题。</p>
-<p>基因组项目目录结构的科学管理是一个非常重要的问题。如果不科学，东西一多更是成了灾难，很多时候你想找的东西并不是丢了，而是根本找不到了！有时更糟的是就算找到了，也会忘了是怎么来的，最后连自己都会怀疑它是不是真的就是正确的那一份！只得一轮又一轮地冥思苦想寻找着若隐若现的线索，甚至有时即使打算重做都不知道该怎么下手，效率真是极低，简直就是在浪费生命！这样下去根本没得玩，直到昨天我才意识到实际上要用程序设计的思想来管理每个项目的目录！还是<a href="http://blog.revolutionanalytics.com/2010/10/a-workflow-for-r.html" target="_blank" rel="external">A workflow for R</a>这篇博文给我的灵感，它提出了一些规则：</p>
+        <script src="/assets/js/APlayer.min.js"> </script><p><img src="http://blog-fungenomics-com.qiniudn.com/bam-ex.jpg" alt=""></p>
+<p><strong>uBAM就是非比对的BAM文件，</strong>fastq可以通过picard这个工具将其转为这个格式。</p>
+<p>它有不少优于fastq格式的地方，比如：同一个read的数据都在同一行；拓展性强，可以添加丰富的metadata；方便维护，同一个样本的测序数据甚至可以只通过一份uBAM来存储就行了等。</p>
+<p>从我第一次知道uBAM的时候算起，已经过去4+年了。我也曾非常看好它，认为它必是以后存储下机数据的标准。<strong>然而时隔多年，很奇怪，uBAM这么好（GATK也都一直支持着这个格式），为什么还是迟迟不见它流行起来呢？</strong></p>
+<p>目前，使用uBAM格式的单位据我所知也仅仅只是一些比较大型的研究机构，比如美国的Broad Institute和英国的Sanger会采用它来存储下机数据。</p>
+<p>这段时间思考下来觉得可能有以下几个原因，与诸位共享：</p>
+<ol>
+<li><p><strong>BAM是“笨重”的</strong>，它并不是文本文件，你无法直接通过文本工具打开它查看具体内容。只能通过第三方工具或者专门的SAM/BAM程序包（或者API）来实现对它的操作。这对许多不熟悉这一处理方式的研究者来说，会带来很多麻烦。这等于是直接提高了操作这个文件的门槛，从这一点看使用体验确实远不如fastq；</p>
+</li>
+<li><p><strong>主流工具还不完全支持</strong>，除了samtools和与它相关的少量工具，并没有太多其他的工具直接支持在命令行操作BAM；</p>
+</li>
+<li><p><strong>BAM文件的空间占比并不比压缩了的fastq小很多</strong>，优势有限；</p>
+</li>
+<li><p>底层IO效率方面，实际上也是文本格式的fastq（或者gzip压缩的fastq）要高于BAM。</p>
+</li>
+</ol>
+<p>从uBAM的这个现象，或许也侧面折射出了一些关于产品设计（或者方案设计）的问题。关于这个问题，我看到了三个地方，欢迎大家拍砖：</p>
+<p>第一、体验。一个产品或者方案要流行起来，除了解决需求之外，对 <strong>使用体验的关注度要高于技术的先进性和产品本身的完备性；</strong></p>
+<p>第二、先发优势。时间一旦落后了（比如fastq早于uBAM很多年），用户习惯的更改需要有完备的技术解决工具来支持，降低切换成本，甚至实现无痛切换，从而最大程度的保留新产品的优势；</p>
+<p>第三、看似简单的事物越是难以被取缔。fastq格式是一个存储测序数据极为简单、简明的数据格式，它只包含所有必须包含的内容，而且目标明确，就是序列ID、测序数据和质量值，它们都是必不可缺的信息，再多无用，似乎已是极致。</p>
+<hr>
+<p>推荐阅读</p>
 <ul>
-<li><strong>透明</strong>（Transparency）：目录布局清晰明朗，逻辑清楚，整个结构一看就能明白。    </li>
-<li><strong>易维护</strong>（Maintainability）：容易实行项目的修改和相关（如文件名、目录变换）调整。           </li>
-<li><strong>模块化</strong>（Modularity）：任务之间都应该尽可能保持其独立性，每一个就只干好自己的事，不干涉其他任务，避免牵一发而动全身的情况发生，要有一一对应的关系，这样即便是需要修改也将会非常方便。     </li>
-<li><strong>可移植</strong>（Portability）：项目可以很容易地移植到其他的平台或者系统中。     </li>
-<li><strong>易复现</strong>（Reproducibility）：不论经过多久，都要能轻易重现原来的结果。     </li>
-<li><strong>秒懂</strong> (Efficiency)：无需多想就能明白项目执行过程中的相关细节，比如所要解决的每个问题是如何处理的和所用的工具是什么等等。</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798261&amp;idx=1&amp;sn=48d277f96ac65ed66f2e5d06f11b5f14&amp;chksm=83c1d469b4b65d7fb634059356252989b03a3e3e34e6dfe12b88ada6d8a52ab9b569f088c839&amp;scene=21#wechat_redirect" target="_blank" rel="external">从零开始完整学习全基因组测序数据分析：第2节 FASTA和FASTQ</a></p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798425&amp;idx=1&amp;sn=ae355ed362848578e5c853413f23dfd7&amp;chksm=83c1d505b4b65c13124c9acd210356c4364ec9f5498bbd16fa4475be29811213abb64ea9720f&amp;scene=21#wechat_redirect" target="_blank" rel="external">GATK4.0和全基因组数据分析实践（上）</a></p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798455&amp;idx=1&amp;sn=67a7407980a57ce138948eb46992b603&amp;chksm=83c1d52bb4b65c3dde31df94e9686654bf616166c7311b531213ebf0010f67a32ce827e677b1&amp;scene=21#wechat_redirect" target="_blank" rel="external">GATK4.0和全基因组数据分析实践（下）</a></p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798476&amp;idx=1&amp;sn=52cd7f2d86d77410d538ab9edbec8df7&amp;chksm=83c1d550b4b65c468425dfc367c23c4da80ebfe7060df2bd314354a3b4690c9425640153ba51&amp;scene=21#wechat_redirect" target="_blank" rel="external">我是解螺旋的矿工，我热爱生命科学</a></p>
+</li>
+<li><p><a href="http://mp.weixin.qq.com/s?__biz=MzAxOTUxOTM0Nw==&amp;mid=2649798366&amp;idx=1&amp;sn=b545fcea7f82839fa87e9d9e472d1e72&amp;chksm=83c1d4c2b4b65dd4843250c307969ada96c4039f4f528c034620d25b78d8beba2f9cf924bb8a&amp;scene=21#wechat_redirect" target="_blank" rel="external">该如何自学入门生物信息学</a></p>
+</li>
 </ul>
-<p>这几点完全说出了项目布局和目录管理所应达到的目的和状态，值得铭记于心多拿来参考参考。只是仅有理论，还是太过不着边际了点，有必要弄个例子来看看具体应该怎么做。</p>
-<p>有那么一段时间以来，我的数据目录布局是这样的：<br><img src="http://blog-fungenomics-com.qiniudn.com/32015-01-13-Fig2.png" alt="Figure1"><br>虽然可以保持每次被调用的文件名字都是“sample.mat”弊病其实也是明显的，时间一久，真的很难想得起到底是哪个对哪个，每次都需要重新回忆。<br>后来我看到了<a href="http://software-carpentry.org/v4/data/mgmt.html" target="_blank" rel="external">这篇文章</a>，顿时觉得，</p>
-<p>所以分享出来，不过我不会严格地按原文去翻译。</p>
+<hr>
+<p>我的微信公众号：解螺旋的矿工 欢迎关注更及时了解更多信息。</p>
+<p><img src="http://blog-fungenomics-com.qiniudn.com/helixminer_wechat_qr.png" alt="解螺旋的矿工"></p>
+<hr>
+<p>这是知识星球：『解螺旋技术交流圈』，是一个我与读者朋友们的私人朋友圈。我有9年前沿而完整的生物信息学、NGS领域的工作经历，在该领域发有多篇Nature级别的科学文章，我也希望借助这个知识星球把自己的一些微薄经验分享给更多对组学感兴趣的伙伴们。</p>
+<p>自从星球正式运行以来，已经过去了6个月，星球的成员也已经超过220人了。所分享的主题超过了500个，回答的问题超过了140个，精华70个。我在知识星球上留下的文字估计也已经超过10万字，加上大家的就更多了，相信接下来星球的内容一定还会不断丰富。另外，上周获得了知识星球官方评选的“最优质星球”优秀奖。</p>
+<p>这是知识星球上 <strong>第一个真正与基因组学和生物信息学强相关的圈子。</strong>我希望能够借此营造一个高质量的组学知识圈和人脉圈，通过提问、彼此分享、交流经验、心得等，彼此更好地学习生信知识，提升基因组数据分析和解读的能力。</p>
+<p>在这里你可以结识到全国优秀的基因组学和生物信息学专家，同时可以分享你的经验、见解和思考，有问题也可以向我提问和圈里的星友们提问。</p>
+<p>知识星球邀请链接：<a href="https://wx.zsxq.com/mweb/views/joingroup/join_group.html?group_id=518881585444&amp;secret=vcdvs4rdpst7stq4wcvqmlwvogc0ssbn&amp;user_id=28821152428221" target="_blank" rel="external">「解螺旋技术交流圈」</a></p>
 
       
     </div>
@@ -440,7 +479,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/项目管理/" rel="tag"># 项目管理</a>
+            <a href="/tags/BAM/" rel="tag"># BAM</a>
           
         </div>
       
@@ -453,8 +492,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/01/13/2015-01-13-how-to-manage-the-project-data-1.html" rel="next" title="如何布局并管理好项目目录（1/2）">
-                <i class="fa fa-chevron-left"></i> 如何布局并管理好项目目录（1/2）
+              <a href="/2018/05/26/2018-05-26-How-Does-Sequencing-Duplicates-happen.html" rel="next" title="RNA-Seq是否可以替代WES完成外显子的变异检测?二代测序的四种Read重复是如何产生的? |《解螺旋技术交流圈》精华第2期">
+                <i class="fa fa-chevron-left"></i> RNA-Seq是否可以替代WES完成外显子的变异检测?二代测序的四种Read重复是如何产生的? |《解螺旋技术交流圈》精华第2期
               </a>
             
           </div>
@@ -463,8 +502,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/01/22/2015-01-22-which-programming-language-should-I-learn-first.html" rel="prev" title="如何选择入门编程语言">
-                如何选择入门编程语言 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/06/10/2018-06-10-How-To-Phase-Human-genome-by-shapeit2.html" rel="prev" title="如何使用Shapeit2对人类基因组数据进行phasing">
+                如何使用Shapeit2对人类基因组数据进行phasing <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -748,9 +787,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://huangshujia.me/2015/01/14/2015-01-14-how-to-manage-the-project-data-2.html';
-          this.page.identifier = '2015/01/14/2015-01-14-how-to-manage-the-project-data-2.html';
-          this.page.title = '如何布局并管理好项目目录（2/2）';
+          this.page.url = 'http://huangshujia.me/2018/06/09/2018-06-09-Why-uBam-is-still-not-popular.html';
+          this.page.identifier = '2018/06/09/2018-06-09-Why-uBam-is-still-not-popular.html';
+          this.page.title = '为什么uBAM迟迟无法流行起来';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://huangshujia.disqus.com/embed.js';
